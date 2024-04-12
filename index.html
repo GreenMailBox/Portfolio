@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <!--
-	Hyperspace by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+    Hyperspace by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
 <head>
@@ -22,7 +22,7 @@
                     <li><a href="#intro">Welcome</a></li>
                     <li><a href="#two">About me</a></li>
                     <li><a href="#one">Projects</a></li>
-			
+                    <li><a href="#contact">Contact</a></li> <!-- Added contact link -->
                 </ul>
             </nav>
         </div>
@@ -53,150 +53,146 @@
             </div>
         </section>
 
+        <!-- Projects Section -->
+        <section id="one" class="wrapper style2 spotlights">
+            
+            <!-- Project 1 -->
+            <section>
+                <a href="#" class="image"><img src="images/pic02.jpg" alt="" data-position="top center" /></a>
+                <div class="content">
+                    <div class="inner">
+                        <h2>IOT temperature/humidity controlled fans</h2>
+                        <p>An IoT project presented to optimize the perfect time to turn off/on fans based on Temperature databases, Temperature and humidity sensor, and other features such as white noise.</p>
+                        <ul class="actions">
+                            <li><a href="IOT.html" class="button">Learn more</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Project 2 -->
+            <section>
+                <a href="#" class="image"><img src="images/pic05.jpg" alt="" data-position="25% 25%" /></a>
+                <div class="content">
+                    <div class="inner">
+                        <h2>DNS: A broad perspective, paper, and presentation</h2>
+                        <p>Created and presented a 10-page paper discussing the overall concept of DNS, exploring the different versions of cyber attacks and prevention methods available.</p>
+                        <ul class="actions">
+                            <li><a href="DNS.html" class="button">Learn more</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Project 3 -->
+            <section>
+                <a href="#" class="image"><img src="images/pic04.jpg" alt="" data-position="25% 25%" /></a>
+                <div class="content">
+                    <div class="inner">
+                        <h2>Proxy Server Group Project and presentation</h2>
+                        <p>As a team, we configured a 10-page document documenting steps required for the implementation/configuration of a proxy server for a business.</p>
+                        <ul class="actions">
+                            <li><a href="Proxy.html" class="button">Learn more</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Blog Section -->
+            <section>
+                <a href="#" class="image"><img src="images/blog.jpg" alt="" data-position="25% 25%" /></a>
+                <div class="content">
+                    <div class="inner">
+                        <h2>My Blog</h2>
+                        <p>Explore my thoughts, tutorials, and updates on various topics in my blog.</p>
+                        <ul class="actions">
+                            <li><a href="blog.html" class="button">Visit Blog</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </section> <!-- End of Projects Section -->
+        
+        <!-- Contact Me Section -->
+        <section id="contact" class="wrapper style1 fade-up">
+            <div class="inner">
+                <!-- Section Title -->
+                <h2>Contact Me</h2>
+                <!-- Split layout for contact form and contact information -->
+                <div class="split style1">
+                    <!-- Contact Form Section -->
+                    <section>
+                        <!-- Contact Form -->
+                        <form action="mailto:your@email.com" method="post" enctype="text/plain">
+                            <!-- Input fields for name, email, and message -->
+                            <div class="fields">
+                                <div class="field half">
+                                    <label for="name">Name</label>
+                                    <input type="text" name="name" id="name" placeholder="Your Name" required>
+                                </div>
+                                <div class="field half">
+                                    <label for="email">Email</label>
+                                    <input type="email" name="email" id="email" placeholder="Your Email" required>
+                                </div>
+                                <div class="field">
+                                    <label for="message">Message</label>
+                                    <textarea name="message" id="message" rows="6" placeholder="Your Message" required></textarea>
+                                </div>
+                            </div>
+                            <!-- Submit button for sending the message -->
+                            <ul class="actions">
+                                <li><input type="submit" value="Send Message" class="primary"></li>
+                            </ul>
+                        </form>
+                    </section>
+                    <!-- Contact Information Section -->
+                    <section>
+                        <!-- Contact Information List -->
+                        <ul class="contact">
+                            <!-- Email -->
+                            <li>
+                                <h3>Email</h3>
+                                <a href="mailto:your@email.com">your@email.com</a>
+                            </li>
+                            <!-- Phone Number -->
+                            <li>
+                                <h3>Phone</h3>
+                                <span>+1 (123) 456-7890</span>
+                            </li>
+                            <!-- Social Media Links -->
+                            <li>
+                                <h3>Social</h3>
+                                <!-- Icons for GitHub and LinkedIn -->
+                                <ul class="icons">
+                                    <!-- Replace "#" with your actual social media links -->
+                                    <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+                                    <li><a href="#" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                </div> <!-- End of split style1 -->
+            </div> <!-- End of inner -->
+        </section> <!-- End of Contact Me Section -->
+
+        <!-- Footer -->
+        <footer id="footer" class="wrapper style1-alt">
+            <div class="inner">
+                <ul class="menu">
+                    <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+        </footer>
     </div> <!-- End of #wrapper -->
 
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrollex.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
 </body>
-</html>
-    <!-- Projects Section -->
-<section id="one" class="wrapper style2 spotlights">
-    
-    <!-- Project 1 -->
-    <section>
-        <a href="#" class="image"><img src="images/pic02.jpg" alt="" data-position="top center" /></a>
-        <div class="content">
-            <div class="inner">
-                <h2>IOT temperature/humidity controlled fans</h2>
-                <p>An IoT project presented to optimize the perfect time to turn off/on fans based on Temperature databases, Temperature and humidity sensor, and other features such as white noise.</p>
-                <ul class="actions">
-                    <li><a href="IOT.html" class="button">Learn more</a></li>
-                </ul>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Project 2 -->
-    <section>
-        <a href="#" class="image"><img src="images/pic05.jpg" alt="" data-position="25% 25%" /></a>
-        <div class="content">
-            <div class="inner">
-                <h2>DNS: A broad perspective, paper, and presentation</h2>
-                <p>Created and presented a 10-page paper discussing the overall concept of DNS, exploring the different versions of cyber attacks and prevention methods available.</p>
-                <ul class="actions">
-                    <li><a href="DNS.html" class="button">Learn more</a></li>
-                </ul>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Project 3 -->
-    <section>
-        <a href="#" class="image"><img src="images/pic04.jpg" alt="" data-position="25% 25%" /></a>
-        <div class="content">
-            <div class="inner">
-                <h2>Proxy Server Group Project and presentation</h2>
-                <p>As a team, we configured a 10-page document documenting steps required for the implementation/configuration of a proxy server for a business.</p>
-                <ul class="actions">
-                    <li><a href="Proxy.html" class="button">Learn more</a></li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- Blog Section -->
-    <section>
-        <a href="#" class="image"><img src="images/blog.jpg" alt="" data-position="25% 25%" /></a>
-        <div class="content">
-            <div class="inner">
-                <h2>My Blog</h2>
-                <p>Explore my thoughts, tutorials, and updates on various topics in my blog.</p>
-                <ul class="actions">
-                    <li><a href="blog.html" class="button">Visit Blog</a></li>
-                </ul>
-            </div>
-        </div>
-    </section>
-</section>
-
-			
-
-	<!-- Contact Me -->
-<!-- Contact Me Section -->
-<section id="contact" class="wrapper style1 fade-up">
-    <div class="inner">
-        <!-- Section Title -->
-        <h2>Contact Me</h2>
-        <!-- Split layout for contact form and contact information -->
-        <div class="split style1">
-            <!-- Contact Form Section -->
-            <section>
-                <!-- Contact Form -->
-                <form action="mailto:your@email.com" method="post" enctype="text/plain">
-                    <!-- Input fields for name, email, and message -->
-                    <div class="fields">
-                        <div class="field half">
-                            <label for="name">Name</label>
-                            <input type="text" name="name" id="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="field half">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="field">
-                            <label for="message">Message</label>
-                            <textarea name="message" id="message" rows="6" placeholder="Your Message" required></textarea>
-                        </div>
-                    </div>
-                    <!-- Submit button for sending the message -->
-                    <ul class="actions">
-                        <li><input type="submit" value="Send Message" class="primary"></li>
-                    </ul>
-                </form>
-            </section>
-            <!-- Contact Information Section -->
-            <section>
-                <!-- Contact Information List -->
-                <ul class="contact">
-                    <!-- Email -->
-                    <li>
-                        <h3>Email</h3>
-                        <a href="mailto:your@email.com">your@email.com</a>
-                    </li>
-                    <!-- Phone Number -->
-                    <li>
-                        <h3>Phone</h3>
-                        <span>+1 (123) 456-7890</span>
-                    </li>
-                    <!-- Social Media Links -->
-                    <li>
-                        <h3>Social</h3>
-                        <!-- Icons for GitHub and LinkedIn -->
-                        <ul class="icons">
-                            <!-- Replace "#" with your actual social media links -->
-                            <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-                            <li><a href="#" class="icon brands fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
-                        </ul>
-                    </li>
-                </ul
-
-
-
-		<!-- Footer -->
-			<footer id="footer" class="wrapper style1-alt">
-				<div class="inner">
-					<ul class="menu">
-						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-					</ul>
-				</div>
-			</footer>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
-	</body>
 </html>
