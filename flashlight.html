@@ -54,30 +54,15 @@
 
         // Function to handle player movement
         function movePlayer(directionX, directionY) {
-            player.x += directionX * player.speed;
-            player.y += directionY * player.speed;
+            const newX = player.x + directionX * player.speed;
+            const newY = player.y + directionY * player.speed;
 
-            // Check if player moves out of the current tile
-            const currentTileX = Math.floor(player.x / tileSize);
-            const currentTileY = Math.floor(player.y / tileSize);
-
-            if (!tiles[currentTileX]) {
-                tiles[currentTileX] = [];
+            // Check if new position is within the boundaries of the canvas
+            if (newX >= player.radius && newX <= canvas.width - player.radius &&
+                newY >= player.radius && newY <= canvas.height - player.radius) {
+                player.x = newX;
+                player.y = newY;
             }
-            if (!tiles[currentTileX][currentTileY]) {
-                generateTile(currentTileX, currentTileY);
-            }
-        }
-
-        // Function to generate a new tile
-        function generateTile(tileX, tileY) {
-            tiles[tileX][tileY] = true; // Mark tile as generated
-
-            // Generate terrain or obstacles for the tile (e.g., walls, trees, etc.)
-            // You can customize this function to create different types of terrain
-            // For simplicity, we'll just fill the tile with a solid color
-            ctx.fillStyle = '#666';
-            ctx.fillRect(tileX * tileSize, tileY * tileSize, tileSize, tileSize);
         }
 
         // Function to update flashlight direction based on mouse position
@@ -100,8 +85,11 @@
             // Clear the canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw flashlight beam
-            drawFlashlightBeam();
+            // Draw flashlight beam only if it's within a certain angle range in front of the player
+            const angleDiff = Math.abs(flashlight.angle - Math.atan2(canvas.height / 2 - player.y, canvas.width / 2 - player.x));
+            if (angleDiff < Math.PI / 2) {
+                drawFlashlightBeam();
+            }
 
             // Draw player
             ctx.beginPath();
@@ -137,7 +125,10 @@
 
         // Event listener for mouse movement
         canvas.addEventListener('mousemove', function(event) {
-            updateFlashlightDirection(event.clientX, event.clientY);
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = event.clientX - rect.left;
+            const mouseY = event.clientY - rect.top;
+            updateFlashlightDirection(mouseX, mouseY);
         });
 
         // Start the game loop
