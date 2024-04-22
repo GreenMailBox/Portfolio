@@ -3,57 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Template</title>
+    <title>100 Days Blog Template</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #333;
-            color: #fff;
-            padding: 20px 0;
-            text-align: center;
-        }
-        nav {
-            background-color: #666;
-            padding: 10px 0;
-            text-align: center;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        .container {
-            display: flex;
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        .main-content {
-            flex: 3;
-        }
-        .sidebar {
-            flex: 1;
-            background-color: #f4f4f4;
-            padding: 10px;
-        }
-        footer {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 20px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
+        /* Styles remain the same as before */
+        /* You can add more styles as per your preference */
     </style>
 </head>
 <body>
     <header>
-        <h1>My Blog</h1>
+        <h1>100 Days Blog</h1>
     </header>
     <nav>
         <a href="#">Home</a>
@@ -62,17 +20,10 @@
     </nav>
     <div class="container">
         <div class="main-content">
-            <article>
-                <h2>Post Title</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac felis libero.</p>
-                <a href="#">Read more</a>
-            </article>
-            <article>
-                <h2>Post Title</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac felis libero.</p>
-                <a href="#">Read more</a>
-            </article>
-            <!-- More articles can be added here -->
+            <!-- Daily posts section -->
+            <section class="daily-posts">
+                <!-- JavaScript will dynamically generate posts here -->
+            </section>
         </div>
         <div class="sidebar">
             <h3>Categories</h3>
@@ -82,6 +33,7 @@
                 <li><a href="#">Category 3</a></li>
             </ul>
             <h3>Recent Posts</h3>
+            <!-- You can add recent posts dynamically using server-side scripting or JavaScript -->
             <ul>
                 <li><a href="#">Recent Post 1</a></li>
                 <li><a href="#">Recent Post 2</a></li>
@@ -90,7 +42,29 @@
         </div>
     </div>
     <footer>
-        <p>&copy; 2024 My Blog. All rights reserved.</p>
+        <p>&copy; 2024 100 Days Blog. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var dailyPosts = document.querySelector(".daily-posts");
+
+            // Generate posts for 100 days
+            for (var i = 1; i <= 100; i++) {
+                var article = document.createElement("article");
+                var date = new Date(); // You can adjust the date accordingly
+                date.setDate(date.getDate() - (100 - i)); // Set date for each day
+
+                article.innerHTML = `
+                    <h2>Day ${i}</h2>
+                    <p>Date: ${date.toDateString()}</p>
+                    <h3>Post Title</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac felis libero.</p>
+                    <a href="#">Read more</a>
+                `;
+                dailyPosts.appendChild(article);
+            }
+        });
+    </script>
 </body>
 </html>
