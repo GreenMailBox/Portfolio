@@ -5,33 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100 Days Blog Template</title>
     <style>
-        /* Modern styles with purple background and additional enhancements */
+        /* Professional styles with refined typography and polished color scheme */
         body {
-            font-family: Arial, sans-serif;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #6a0dad; /* Purple background */
-            color: #fff; /* White text color */
+            background-color: #f9f9f9; /* Light gray background */
+            color: #333; /* Dark text color */
         }
         header {
             background-color: #451f72; /* Dark purple header background */
             padding: 20px;
             text-align: center;
+            color: #fff; /* White text color */
         }
         nav {
-            background-color: #451f72; /* Dark purple navigation background */
+            background-color: #6a0dad; /* Purple navigation background */
             padding: 10px 0;
             text-align: center;
         }
         nav a {
             color: #fff;
             text-decoration: none;
-            margin: 0 10px;
+            margin: 0 20px;
+            font-size: 16px;
             transition: color 0.3s ease; /* Smooth color transition on hover */
         }
         nav a:hover {
-            color: #ffdb58; /* Change color on hover */
+            color: #ffdb58; /* Yellow hover color */
         }
         .container {
             display: flex;
@@ -47,10 +49,13 @@
             background-color: #451f72; /* Dark purple sidebar background */
             padding: 20px;
             border-radius: 10px; /* Rounded corners */
+            color: #fff; /* White text color */
         }
         .sidebar h3 {
             color: #ffdb58; /* Yellow heading color */
             margin-top: 0; /* Remove default margin */
+            font-size: 20px;
+            margin-bottom: 10px;
         }
         .sidebar ul {
             padding: 0;
@@ -65,15 +70,13 @@
             transition: color 0.3s ease; /* Smooth color transition on hover */
         }
         .sidebar ul li a:hover {
-            color: #ffdb58; /* Change color on hover */
+            color: #ffdb58; /* Yellow hover color */
         }
         footer {
             background-color: #451f72; /* Dark purple footer background */
             text-align: center;
             padding: 20px 0;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
+            color: #fff; /* White text color */
         }
         article {
             background-color: #fff; /* White background for posts */
@@ -88,7 +91,7 @@
         }
         p {
             margin-bottom: 20px;
-            line-height: 1.8; /* Slightly increased line height for readability */
+            line-height: 1.6; /* Slightly increased line height for readability */
         }
         article a {
             color: #6a0dad; /* Purple link color */
@@ -96,7 +99,21 @@
             transition: color 0.3s ease; /* Smooth color transition on hover */
         }
         article a:hover {
-            color: #ffdb58; /* Change color on hover */
+            color: #ffdb58; /* Yellow hover color */
+        }
+        .toggle-sidebar {
+            background-color: #6a0dad; /* Purple button background */
+            color: #fff; /* White button text color */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Smooth background color transition on hover */
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .toggle-sidebar:hover {
+            background-color: #451f72; /* Dark purple hover color */
         }
     </style>
 </head>
@@ -116,7 +133,7 @@
                 <!-- JavaScript will dynamically generate posts here -->
             </section>
         </div>
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
             <h3>Categories</h3>
             <ul>
                 <li><a href="#">Category 1</a></li>
@@ -132,11 +149,17 @@
             </ul>
         </div>
     </div>
+    <button class="toggle-sidebar" onclick="toggleSidebar()">Toggle Sidebar</button>
     <footer>
         <p>&copy; 2024 100 Days Blog. All rights reserved.</p>
     </footer>
 
     <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+        }
+
         document.addEventListener("DOMContentLoaded", function() {
             var dailyPosts = document.querySelector(".daily-posts");
 
