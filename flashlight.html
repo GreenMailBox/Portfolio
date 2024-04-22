@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashlight Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+            border: 5px solid #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <audio id="bgAudio" src="background.mp3" loop autoplay></audio>
+    <audio id="scareAudio" src="scare.mp3"></audio>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Define player properties
+        const player = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            speed: 5,
+            radius: 20
+        };
+
+        // Define flashlight properties
+        const flashlight = {
+            x: player.x,
+            y: player.y,
+            radius: 300,
+            angle: Math.PI / 4,
+            intensity: 0.8 // Intensity of the flashlight beam (0.0 to 1.0)
+        };
+
+        // Define tile properties
+        const tileSize = 100;
+        let tiles = [];
+
+        // Function to handle player movement
+        function movePlayer(directionX, directionY) {
+            player.x += directionX * player.speed;
+            player.y += directionY * player.speed;
+
+            // Check if player moves out of the current tile
+            const currentTileX = Math.floor(player.x / tileSize);
+            const currentTileY = Math.floor(player.y / tileSize);
+
+            if (!tiles[currentTileX]) {
+                tiles[currentTileX] = [];
+            }
+            if (!tiles[currentTileX][currentTileY]) {
+                generateTile(currentTileX, currentTileY);
+            }
+        }
+
+        // Function to generate a new tile
+        function generateTile(tileX, tileY) {
+            tiles[tileX][tileY] = true; // Mark tile as generated
+
+            // Generate terrain or obstacles for the tile (e.g., walls, trees, etc.)
+            // You can customize this function to create different types of terrain
+            // For simplicity, we'll just fill the tile with a solid color
+            ctx.fillStyle = '#666';
+            ctx.fillRect(tileX * tileSize, tileY * tileSize, tileSize, tileSize);
+        }
+
+        // Function to update flashlight direction based on mouse position
+        function updateFlashlightDirection(mouseX, mouseY) {
+            flashlight.angle = Math.atan2(mouseY - player.y, mouseX - player.x);
+        }
+
+        // Function to draw flashlight beam
+        function drawFlashlightBeam() {
+            const gradient = ctx.createRadialGradient(player.x, player.y, 0, player.x, player.y, flashlight.radius);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, ' + flashlight.intensity + ')');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Function to draw player and flashlight
+        function draw() {
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw flashlight beam
+            drawFlashlightBeam();
+
+            // Draw player
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        // Main game loop
+        function gameLoop() {
+            draw(); // Draw game objects
+            requestAnimationFrame(gameLoop); // Request next frame
+        }
+
+        // Event listeners for player movement with arrow keys
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case 'ArrowUp':
+                    movePlayer(0, -1);
+                    break;
+                case 'ArrowDown':
+                    movePlayer(0, 1);
+                    break;
+                case 'ArrowLeft':
+                    movePlayer(-1, 0);
+                    break;
+                case 'ArrowRight':
+                    movePlayer(1, 0);
+                    break;
+            }
+        });
+
+        // Event listener for mouse movement
+        canvas.addEventListener('mousemove', function(event) {
+            updateFlashlightDirection(event.clientX, event.clientY);
+        });
+
+        // Start the game loop
+        gameLoop();
+    </script>
+</body>
+</html>
