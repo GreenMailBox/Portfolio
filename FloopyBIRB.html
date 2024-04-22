@@ -1,1 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bird-like Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+            background-color: #4ec0ca;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="600"></canvas>
 
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        let bird = {
+            x: 50,
+            y: canvas.height / 2,
+            radius: 20,
+            velocityY: 0,
+            gravity: 0.5,
+            jumpStrength: -8
+        };
+
+        let obstacles = [];
+        let score = 0;
+        let gameover = false;
+
+        function draw() {
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw bird
+            ctx.beginPath();
+            ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#f7f742';
+            ctx.fill();
+            ctx.closePath();
+
+            // Draw obstacles
+            for (let i = 0; i < obstacles.length; i++) {
+                ctx.fillStyle = '#7a7a7a';
+                ctx.fillRect(obstacles[i].x, 0, obstacles[i].width, obstacles[i].topHeight);
+                ctx.fillRect(obstacles[i].x, obstacles[i].bottomY, obstacles[i].width, obstacles[i].bottomHeight);
+            }
+
+            // Draw score
+            ctx.fillStyle = '#000';
+            ctx.font = '30px Arial';
+            ctx.fillText(`Score: ${score}`, 10, 30);
+
+            if (gameover) {
+                ctx.fillStyle = '#000';
+                ctx.font = '50px Arial';
+                ctx.fillText('Game Over', 100, canvas.height / 2);
+            }
+        }
+
+        function update() {
+            if (!gameover) {
+                bird.velocityY += bird.gravity;
+                bird.y += bird.velocityY;
+
+                // Check collision with top and bottom walls
+                if (bird.y - bird.radius <= 0 || bird.y + bird.radius >= canvas.height) {
+                    gameOver();
+                }
+
+                // Check collision with obstacles
+                for (let i = 0; i < obstacles.length; i++) {
+                    if (bird.x + bird.radius >= obstacles[i].x && bird.x - bird.radius <= obstacles[i].x + obstacles[i].width) {
+                        if (bird.y - bird.radius <= obstacles[i].topHeight || bird.y + bird.radius >= obstacles[i].bottomY) {
+                            gameOver();
+                        }
+                    }
+                }
+
+                // Move obstacles
+                for (let i = 0; i < obstacles.length; i++) {
+                    obstacles[i].x -= 3;
+
+                    // Remove obstacles that are out of screen
+                    if (obstacles[i].x + obstacles[i].width <= 0) {
+                        obstacles.splice(i, 1);
+                        score++;
+                    }
+                }
+
+                // Add new obstacle every 100 frames
+                if (frame % 100 === 0) {
+                    let obstacle = {
+                        x: canvas.width,
+                        topHeight: Math.random() * (canvas.height / 2),
+                        bottomHeight: Math.random() * (canvas.height / 2),
+                        bottomY: canvas.height / 2 + 100
+                    };
+                    obstacles.push(obstacle);
+                }
+            }
+        }
+
+        function gameOver() {
+            gameover = true;
+        }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.code === 'Space') {
+                if (!gameover) {
+                    bird.velocityY = bird.jumpStrength;
+                } else {
+                    resetGame();
+                }
+            }
+        });
+
+        document.addEventListener('click', function () {
+            if (!gameover) {
+                bird.velocityY = bird.jumpStrength;
+            } else {
+                resetGame();
+            }
+        });
+
+        function resetGame() {
+            bird = {
+                x: 50,
+                y: canvas.height / 2,
+                radius: 20,
+                velocityY: 0,
+                gravity: 0.5,
+                jumpStrength: -8
+            };
+            obstacles = [];
+            score = 0;
+            gameover = false;
+        }
+
+        let frame = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            frame++;
+            update();
+            draw();
+        }
+
+        animate();
+    </script>
+</body>
+</html>
