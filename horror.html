@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horror Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        canvas {
+            display: block;
+            margin: auto;
+            border: 5px solid #fff;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <audio id="bgAudio" src="background.mp3" loop autoplay></audio>
+    <audio id="scareAudio" src="scare.mp3"></audio>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Define player properties
+        const player = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            speed: 5,
+            radius: 20
+        };
+
+        // Define jump scare properties
+        const jumpScare = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            visible: false
+        };
+
+        // Function to handle player movement
+        function movePlayer(directionX, directionY) {
+            player.x += directionX * player.speed;
+            player.y += directionY * player.speed;
+        }
+
+        // Function to check for collisions between player and jump scare
+        function checkCollisions() {
+            const dx = player.x - jumpScare.x;
+            const dy = player.y - jumpScare.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < player.radius + jumpScare.radius) {
+                jumpScare.visible = true;
+                document.getElementById('scareAudio').play(); // Play jump scare sound
+            }
+        }
+
+        // Function to update game state
+        function update() {
+            // Check for player input and move player accordingly
+            document.addEventListener('keydown', function(event) {
+                switch(event.key) {
+                    case 'ArrowUp':
+                        movePlayer(0, -1);
+                        break;
+                    case 'ArrowDown':
+                        movePlayer(0, 1);
+                        break;
+                    case 'ArrowLeft':
+                        movePlayer(-1, 0);
+                        break;
+                    case 'ArrowRight':
+                        movePlayer(1, 0);
+                        break;
+                }
+            });
+
+            // Check for collisions between player and jump scare
+            checkCollisions();
+        }
+
+        // Function to draw game objects
+        function draw() {
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw player
+            ctx.beginPath();
+            ctx.arc(player.x, player.y, player.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            ctx.closePath();
+
+            // Draw jump scare if visible
+            if (jumpScare.visible) {
+                ctx.beginPath();
+                ctx.arc(jumpScare.x, jumpScare.y, jumpScare.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#ff0000';
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+
+        // Main game loop
+        function gameLoop() {
+            update(); // Update game state
+            draw(); // Draw game objects
+            requestAnimationFrame(gameLoop); // Request next frame
+        }
+
+        // Start the game loop
+        gameLoop();
+    </script>
+</body>
+</html>
