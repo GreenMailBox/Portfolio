@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fun Maze Game</title>
+    <title>Scary Maze Game</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #222;
+            background-color: #000;
             color: #fff;
             font-family: Arial, sans-serif;
             text-align: center;
@@ -18,7 +18,6 @@
             display: block;
             margin: auto;
             border: 5px solid #fff;
-            background-color: #111;
         }
         #info {
             position: absolute;
@@ -30,9 +29,11 @@
 <body>
     <div id="info">
         <p>Time: <span id="time">0</span> seconds</p>
-        <p>Score: <span id="score">0</span></p>
     </div>
     <canvas id="canvas" width="400" height="400"></canvas>
+
+    <audio id="bgAudio" src="background.mp3" loop autoplay></audio>
+    <audio id="scareAudio" src="scare.mp3"></audio>
 
     <script>
         const canvas = document.getElementById('canvas');
@@ -57,7 +58,6 @@
         let playerY = tileSize / 2;
         let goalX = (maze[0].length - 1) * tileSize - tileSize / 2;
         let goalY = (maze.length - 1) * tileSize - tileSize / 2;
-        let score = 0;
         let startTime;
 
         function draw() {
@@ -81,9 +81,6 @@
             // Draw player
             ctx.fillStyle = '#ff0000';
             ctx.fillRect(playerX - playerSize / 2, playerY - playerSize / 2, playerSize, playerSize);
-
-            // Update score
-            document.getElementById('score').textContent = score;
         }
 
         function movePlayer(dx, dy) {
@@ -97,24 +94,22 @@
                 playerX = newX;
                 playerY = newY;
                 checkGoal();
+            } else {
+                // Play scare sound if the player hits a wall
+                document.getElementById('scareAudio').play();
             }
         }
 
         function checkGoal() {
             if (playerX === goalX && playerY === goalY) {
-                score++;
-                resetPlayer();
+                endGame();
             }
         }
 
-        function resetPlayer() {
-            playerX = tileSize / 2;
-            playerY = tileSize / 2;
-        }
-
-        function updateTime() {
-            const currentTime = Math.floor((Date.now() - startTime) / 1000);
-            document.getElementById('time').textContent = currentTime;
+        function endGame() {
+            const endTime = Math.floor((Date.now() - startTime) / 1000);
+            alert(`Congratulations! You escaped the maze in ${endTime} seconds.`);
+            window.location.reload(); // Reload the page to play again
         }
 
         document.addEventListener('keydown', function(event) {
@@ -135,23 +130,12 @@
             draw();
         });
 
-        // Handle touch events for mobile devices
-        document.addEventListener('touchstart', function(event) {
-            const rect = canvas.getBoundingClientRect();
-            const touchX = event.touches[0].clientX - rect.left;
-            const touchY = event.touches[0].clientY - rect.top;
-            const dx = touchX - playerX;
-            const dy = touchY - playerY;
-            if (Math.abs(dx) > Math.abs(dy)) {
-                movePlayer(dx > 0 ? 5 : -5, 0);
-            } else {
-                movePlayer(0, dy > 0 ? 5 : -5);
-            }
-            draw();
-        });
+        startTime = Date.now(); // Start time when the game starts
+        setInterval(() => {
+            const currentTime = Math.floor((Date.now() - startTime) / 1000);
+            document.getElementById('time').textContent = currentTime;
+        }, 1000); // Update time every second
 
-        startTime = Date.now();
-        setInterval(updateTime, 1000); // Update time every second
         draw(); // Initial drawing
     </script>
 </body>
