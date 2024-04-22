@@ -23,6 +23,9 @@
 <body>
     <canvas id="canvas" width="400" height="600"></canvas>
 
+    <!-- Audio file for the scream -->
+    <audio id="scream" src="scream.mp3"></audio>
+
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -105,6 +108,11 @@
                     if (obstacles[i].x + obstacles[i].width <= 0) {
                         obstacles.splice(i, 1);
                         score++;
+
+                        // Play jumpscare scream if score reaches 20
+                        if (score === 20) {
+                            document.getElementById('scream').play();
+                        }
                     }
                 }
 
@@ -138,6 +146,15 @@
         });
 
         document.addEventListener('click', function () {
+            if (!gameover) {
+                bird.velocityY = bird.jumpStrength;
+            } else {
+                resetGame();
+            }
+        });
+
+        // Handle touch events for mobile devices
+        document.addEventListener('touchstart', function () {
             if (!gameover) {
                 bird.velocityY = bird.jumpStrength;
             } else {
