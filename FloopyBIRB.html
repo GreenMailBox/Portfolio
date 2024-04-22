@@ -10,6 +10,7 @@
             padding: 0;
             overflow: hidden;
             background-color: #1a1a1a;
+            transition: background-color 0.3s; /* Smooth transition for background color change */
         }
         canvas {
             display: block;
@@ -63,6 +64,12 @@
             ctx.fillText(`Score: ${score}`, 10, 30);
 
             if (gameover) {
+                // Flash the screen with a sudden change in background color
+                document.body.style.backgroundColor = '#ff0000'; // Red color for jumpscare
+                setTimeout(() => {
+                    document.body.style.backgroundColor = '#1a1a1a'; // Restore original background color
+                }, 100); // Flash duration: 100 milliseconds
+
                 ctx.fillStyle = '#fff'; // White color for game over text
                 ctx.font = '50px Arial';
                 ctx.fillText('Game Over', 100, canvas.height / 2);
@@ -103,10 +110,12 @@
                 if (frame % 100 === 0) {
                     let obstacle = {
                         x: canvas.width,
-                        topHeight: Math.random() * (canvas.height / 2),
-                        bottomHeight: Math.random() * (canvas.height / 2),
-                        bottomY: canvas.height / 2 + 100
+                        width: 50,
+                        gap: 150,
+                        topHeight: Math.random() * (canvas.height - 200), // Random height for top obstacle
                     };
+                    obstacle.bottomHeight = canvas.height - obstacle.topHeight - obstacle.gap; // Calculate height for bottom obstacle
+                    obstacle.bottomY = canvas.height - obstacle.bottomHeight; // Calculate Y position for bottom obstacle
                     obstacles.push(obstacle);
                 }
             }
