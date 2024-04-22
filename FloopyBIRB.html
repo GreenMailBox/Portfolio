@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scary Flappy Bird-like Game</title>
+    <title>Spooky Flappy Bird-like Game</title>
     <style>
         body {
             margin: 0;
@@ -40,6 +40,9 @@
         let score = 0;
         let gameover = false;
 
+        let skeletonImg = new Image();
+        skeletonImg.src = 'skeleton.png'; // Image source for spooky skeleton
+
         function draw() {
             // Clear the canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -53,9 +56,8 @@
 
             // Draw obstacles
             for (let i = 0; i < obstacles.length; i++) {
-                ctx.fillStyle = '#8b0000'; // Dark red color for scary obstacles
-                ctx.fillRect(obstacles[i].x, 0, obstacles[i].width, obstacles[i].topHeight);
-                ctx.fillRect(obstacles[i].x, obstacles[i].bottomY, obstacles[i].width, obstacles[i].bottomHeight);
+                ctx.drawImage(skeletonImg, obstacles[i].x, 0, obstacles[i].width, obstacles[i].topHeight);
+                ctx.drawImage(skeletonImg, obstacles[i].x, obstacles[i].bottomY, obstacles[i].width, obstacles[i].bottomHeight);
             }
 
             // Draw score
