@@ -3,17 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flappy Bird-like Game</title>
+    <title>Scary Flappy Bird-like Game</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             overflow: hidden;
+            background-color: #1a1a1a;
         }
         canvas {
             display: block;
             margin: auto;
-            background-color: #4ec0ca;
+            background-color: #000;
+            border: 5px solid #2a2a2a;
         }
     </style>
 </head>
@@ -44,24 +46,24 @@
             // Draw bird
             ctx.beginPath();
             ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#f7f742';
+            ctx.fillStyle = '#8b0000'; // Dark red color for a scary bird
             ctx.fill();
             ctx.closePath();
 
             // Draw obstacles
             for (let i = 0; i < obstacles.length; i++) {
-                ctx.fillStyle = '#7a7a7a';
+                ctx.fillStyle = '#8b0000'; // Dark red color for scary obstacles
                 ctx.fillRect(obstacles[i].x, 0, obstacles[i].width, obstacles[i].topHeight);
                 ctx.fillRect(obstacles[i].x, obstacles[i].bottomY, obstacles[i].width, obstacles[i].bottomHeight);
             }
 
             // Draw score
-            ctx.fillStyle = '#000';
+            ctx.fillStyle = '#fff'; // White color for score
             ctx.font = '30px Arial';
             ctx.fillText(`Score: ${score}`, 10, 30);
 
             if (gameover) {
-                ctx.fillStyle = '#000';
+                ctx.fillStyle = '#fff'; // White color for game over text
                 ctx.font = '50px Arial';
                 ctx.fillText('Game Over', 100, canvas.height / 2);
             }
