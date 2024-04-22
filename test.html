@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100 Days Blog Template</title>
     <style>
-        /* Modern styles with purple background */
+        /* Modern styles with purple background and additional enhancements */
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -28,6 +28,10 @@
             color: #fff;
             text-decoration: none;
             margin: 0 10px;
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+        }
+        nav a:hover {
+            color: #ffdb58; /* Change color on hover */
         }
         .container {
             display: flex;
@@ -41,7 +45,27 @@
         .sidebar {
             flex: 1;
             background-color: #451f72; /* Dark purple sidebar background */
-            padding: 10px;
+            padding: 20px;
+            border-radius: 10px; /* Rounded corners */
+        }
+        .sidebar h3 {
+            color: #ffdb58; /* Yellow heading color */
+            margin-top: 0; /* Remove default margin */
+        }
+        .sidebar ul {
+            padding: 0;
+            list-style-type: none; /* Remove default list styles */
+        }
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+        }
+        .sidebar ul li a:hover {
+            color: #ffdb58; /* Change color on hover */
         }
         footer {
             background-color: #451f72; /* Dark purple footer background */
@@ -60,10 +84,19 @@
         }
         h2, h3 {
             color: #451f72; /* Purple headings */
+            margin-top: 0; /* Remove default margin */
         }
         p {
             margin-bottom: 20px;
             line-height: 1.8; /* Slightly increased line height for readability */
+        }
+        article a {
+            color: #6a0dad; /* Purple link color */
+            text-decoration: none;
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+        }
+        article a:hover {
+            color: #ffdb58; /* Change color on hover */
         }
     </style>
 </head>
