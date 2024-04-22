@@ -13,6 +13,7 @@
             padding: 0;
             background-color: #f9f9f9; /* Light gray background */
             color: #333; /* Dark text color */
+            overflow-x: hidden; /* Hide horizontal scrollbar */
         }
         header {
             background-color: #451f72; /* Dark purple header background */
@@ -40,6 +41,7 @@
             max-width: 1200px;
             margin: 20px auto;
             padding: 0 20px;
+            position: relative; /* Position for border elements */
         }
         .main-content {
             flex: 3;
@@ -50,6 +52,27 @@
             padding: 20px;
             border-radius: 10px; /* Rounded corners */
             color: #fff; /* White text color */
+            position: relative; /* Position for border elements */
+        }
+        .sidebar:before,
+        .sidebar:after,
+        .container:before,
+        .container:after {
+            content: '';
+            position: absolute;
+            background-color: #6a0dad; /* Purple border color */
+            width: 10px;
+            top: 0;
+            bottom: 0;
+            z-index: -1; /* Behind other elements */
+        }
+        .sidebar:before,
+        .container:before {
+            left: -10px; /* Left border */
+        }
+        .sidebar:after,
+        .container:after {
+            right: -10px; /* Right border */
         }
         .sidebar h3 {
             color: #ffdb58; /* Yellow heading color */
@@ -162,17 +185,18 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             var dailyPosts = document.querySelector(".daily-posts");
+            var today = new Date();
 
-            // Generate posts for 100 days
-            for (var i = 1; i <= 100; i++) {
+            // Generate posts for 100 days from today
+            for (var i = 0; i < 100; i++) {
                 var article = document.createElement("article");
-                var date = new Date(); // You can adjust the date accordingly
-                date.setDate(date.getDate() - (100 - i)); // Set date for each day
+                var date = new Date(today);
+                date.setDate(date.getDate() + i); // Set date for each day
 
                 article.innerHTML = `
-                    <h2>Day ${i}</h2>
+                    <h2>Day ${i + 1}</h2>
                     <p>Date: ${date.toDateString()}</p>
-                    <h3><a href="post${i}.html">Post Title</a></h3>
+                    <h3><a href="post${i + 1}.html">Post Title</a></h3>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac felis libero.</p>
                 `;
                 dailyPosts.appendChild(article);
