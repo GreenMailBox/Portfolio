@@ -44,13 +44,8 @@
             x: player.x,
             y: player.y,
             radius: 300,
-            angle: Math.PI / 4,
             intensity: 0.8 // Intensity of the flashlight beam (0.0 to 1.0)
         };
-
-        // Define tile properties
-        const tileSize = 100;
-        let tiles = [];
 
         // Function to handle player movement
         function movePlayer(directionX, directionY) {
@@ -72,12 +67,15 @@
 
         // Function to draw flashlight beam
         function drawFlashlightBeam() {
-            const gradient = ctx.createRadialGradient(player.x, player.y, 0, player.x, player.y, flashlight.radius);
-            gradient.addColorStop(0, 'rgba(255, 255, 255, ' + flashlight.intensity + ')');
-            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-            
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            const angleDiff = Math.abs(Math.atan2(canvas.height / 2 - player.y, canvas.width / 2 - player.x) - flashlight.angle);
+            if (angleDiff < Math.PI / 4) {
+                const gradient = ctx.createRadialGradient(player.x, player.y, 0, player.x, player.y, flashlight.radius);
+                gradient.addColorStop(0, 'rgba(255, 255, 255, ' + flashlight.intensity + ')');
+                gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
         }
 
         // Function to draw player and flashlight
@@ -85,11 +83,8 @@
             // Clear the canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw flashlight beam only if it's within a certain angle range in front of the player
-            const angleDiff = Math.abs(flashlight.angle - Math.atan2(canvas.height / 2 - player.y, canvas.width / 2 - player.x));
-            if (angleDiff < Math.PI / 2) {
-                drawFlashlightBeam();
-            }
+            // Draw flashlight beam
+            drawFlashlightBeam();
 
             // Draw player
             ctx.beginPath();
