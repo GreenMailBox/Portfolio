@@ -38,27 +38,26 @@
             color: #ffdb58; /* Yellow hover color */
         }
         .container {
-            display: flex;
             max-width: 1200px;
             margin: 20px auto;
             padding: 0 20px;
             position: relative; /* Position for border elements */
+            display: flex;
+            flex-direction: column;
         }
         .main-content {
-            flex: 3;
+            flex: 1;
         }
         .sidebar {
-            flex: 1;
             background-color: #451f72; /* Dark purple sidebar background */
             padding: 20px;
             border-radius: 10px; /* Rounded corners */
             color: #fff; /* White text color */
             position: relative; /* Position for border elements */
+            margin-top: 20px;
         }
         .sidebar:before,
-        .sidebar:after,
-        .container:before,
-        .container:after {
+        .sidebar:after {
             content: '';
             position: absolute;
             background-color: #6a0dad; /* Purple border color */
@@ -67,12 +66,10 @@
             bottom: 0;
             z-index: -1; /* Behind other elements */
         }
-        .sidebar:before,
-        .container:before {
+        .sidebar:before {
             left: -10px; /* Left border */
         }
-        .sidebar:after,
-        .container:after {
+        .sidebar:after {
             right: -10px; /* Right border */
         }
         .sidebar h3 {
@@ -139,6 +136,28 @@
         .toggle-sidebar:hover {
             background-color: #451f72; /* Dark purple hover color */
         }
+        @media only screen and (min-width: 768px) {
+            /* Styles for tablets and desktops */
+            .container {
+                flex-direction: row;
+            }
+            .main-content {
+                flex: 3;
+                margin-right: 20px;
+            }
+            .sidebar {
+                flex: 1;
+                margin-top: 0;
+            }
+        }
+        /* Additional styles for enhanced interactivity */
+        .post-preview {
+            cursor: pointer;
+            transition: transform 0.3s ease; /* Smooth transformation on hover */
+        }
+        .post-preview:hover {
+            transform: scale(1.05); /* Scale up on hover */
+        }
     </style>
 </head>
 <body>
@@ -197,8 +216,8 @@
                 article.innerHTML = `
                     <h2>Day ${i + 1}</h2>
                     <p>Date: ${date.toDateString()}</p>
-                    <h3><a href="post${i + 1}.html">Post Title</a></h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac felis libero.</p>
+                    <h3 class="post-preview"><a href="post${i + 1}.html">Post Title</a></h3>
+                    <p class="post-preview">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac felis libero.</p>
                 `;
                 dailyPosts.appendChild(article);
             }
