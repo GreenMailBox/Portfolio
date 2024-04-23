@@ -230,24 +230,23 @@
                     .then(html => {
                         var parser = new DOMParser();
                         var doc = parser.parseFromString(html, 'text/html');
-                        var projectTitleElement = doc.querySelector('#project-title');
-                        var projectDescriptionElement = doc.querySelector('#project-description');
+                        var projectTitleElement = doc.querySelector('title');
+                        var projectSummaryElement = doc.querySelector('#summary');
 
-                        if (projectTitleElement && projectDescriptionElement) {
+                        if (projectTitleElement && projectSummaryElement) {
                             var projectTitle = projectTitleElement.innerText;
-                            var projectDescription = projectDescriptionElement.innerText;
+                            var projectSummary = projectSummaryElement.innerText;
 
                             var article = document.createElement("article");
                             article.innerHTML = `
-                                <h2>Project ${projectIndex}</h2>
-                                <h3 class="project-preview"><a href="project${projectIndex}.html">${projectTitle}</a></h3>
-                                <p class="project-preview">${projectDescription}</p>
+                                <h2>${projectTitle}</h2>
+                                <p>${projectSummary}</p>
                             `;
                             dailyProjects.appendChild(article);
                             projectIndex++;
                             generateProjects(); // Continue generating projects recursively
                         } else {
-                            console.error(`Project ${projectIndex} title or description not found`);
+                            console.error(`Project ${projectIndex} title or summary not found`);
                         }
                     })
                     .catch(error => {
