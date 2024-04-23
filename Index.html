@@ -221,25 +221,37 @@
                 date.setDate(date.getDate() + i); // Set date for each day
 
                 // Fetch project title and description from the respective project page
-                fetch(`project${i + 1}.html`)
+                fetchProject(i, date, dailyProjects);
+            }
+        });
+
+        function fetchProject(projectIndex, date, container) {
+            fetch(`project${projectIndex + 1}.html`)
                 .then(response => response.text())
                 .then(html => {
                     var parser = new DOMParser();
                     var doc = parser.parseFromString(html, 'text/html');
-                    var projectTitle = doc.getElementById('project-title').innerText;
-                    var projectDescription = doc.getElementById('project-description').innerText;
+                    var projectTitleElement = doc.querySelector('#project-title');
+                    var projectDescriptionElement = doc.querySelector('#project-description');
 
-                    article.innerHTML = `
-                        <h2>Day ${i + 1}</h2>
-                        <p>Date: ${date.toDateString()}</p>
-                        <h3 class="project-preview"><a href="project${i + 1}.html">${projectTitle}</a></h3>
-                        <p class="project-preview">${projectDescription}</p>
-                    `;
-                    dailyProjects.appendChild(article);
+                    if (projectTitleElement && projectDescriptionElement) {
+                        var projectTitle = projectTitleElement.innerText;
+                        var projectDescription = projectDescriptionElement.innerText;
+
+                        var article = document.createElement("article");
+                        article.innerHTML = `
+                            <h2>Day ${projectIndex + 1}</h2>
+                            <p>Date: ${date.toDateString()}</p>
+                            <h3 class="project-preview"><a href="project${projectIndex + 1}.html">${projectTitle}</a></h3>
+                            <p class="project-preview">${projectDescription}</p>
+                        `;
+                        container.appendChild(article);
+                    } else {
+                        console.error(`Project ${projectIndex + 1} title or description not found`);
+                    }
                 })
                 .catch(error => console.error('Error fetching project:', error));
-            }
-        });
+        }
     </script>
 </body>
 </html>
