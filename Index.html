@@ -217,9 +217,16 @@
         document.addEventListener("DOMContentLoaded", function() {
             var dailyProjects = document.querySelector(".daily-projects");
             var projectIndex = 1;
+            var consecutiveErrors = 0;
+            var maxConsecutiveErrors = 3; // Maximum consecutive file not found errors allowed
 
             // Generate projects until no more files are found
             function generateProjects() {
+                if (consecutiveErrors >= maxConsecutiveErrors) {
+                    console.error(`Stopped generating projects due to ${maxConsecutiveErrors} consecutive file not found errors.`);
+                    return; // Stop generating projects
+                }
+
                 fetch(`project${projectIndex}.html`)
                     .then(response => {
                         if (!response.ok) {
@@ -244,6 +251,7 @@
                             `;
                             dailyProjects.appendChild(article);
                             projectIndex++;
+                            consecutiveErrors = 0; // Reset consecutive errors count
                             generateProjects(); // Continue generating projects recursively
                         } else {
                             var errorMessage = document.createElement("p");
@@ -251,6 +259,7 @@
                             errorMessage.textContent = `Project ${projectIndex} title or summary not found`;
                             dailyProjects.appendChild(errorMessage);
                             projectIndex++;
+                            consecutiveErrors++; // Increment consecutive errors count
                             generateProjects(); // Continue generating projects recursively
                         }
                     })
@@ -261,6 +270,7 @@
                         errorMessage.textContent = error.message;
                         dailyProjects.appendChild(errorMessage);
                         projectIndex++;
+                        consecutiveErrors++; // Increment consecutive errors count
                         generateProjects(); // Continue generating projects recursively
                     });
             }
