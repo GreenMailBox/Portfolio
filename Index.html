@@ -246,7 +246,12 @@
                             projectIndex++;
                             generateProjects(); // Continue generating projects recursively
                         } else {
-                            console.error(`Project ${projectIndex} title or summary not found`);
+                            var errorMessage = document.createElement("p");
+                            errorMessage.classList.add("error-message");
+                            errorMessage.textContent = `Project ${projectIndex} title or summary not found`;
+                            dailyProjects.appendChild(errorMessage);
+                            projectIndex++;
+                            generateProjects(); // Continue generating projects recursively
                         }
                     })
                     .catch(error => {
