@@ -171,37 +171,31 @@
     </nav>
     <div class="container">
         <div class="main-content">
-            <!-- Cybersecurity projects section -->
-            <section class="cybersecurity-projects">
-                <!-- JavaScript will dynamically generate cybersecurity projects here -->
-            </section>
-            <!-- Fun projects section -->
-            <section class="fun-projects">
-                <!-- JavaScript will dynamically generate fun projects here -->
-            </section>
-            <!-- Coding projects section -->
-            <section class="coding-projects">
-                <!-- JavaScript will dynamically generate coding projects here -->
+            <!-- Daily projects section -->
+            <section class="daily-projects">
+                <!-- JavaScript will dynamically generate projects here -->
             </section>
         </div>
         <div class="sidebar" id="sidebar">
-            <h3>Cybersecurity Projects</h3>
+            <h3>Categories</h3>
             <ul>
-                <li><a href="#">Project 1</a></li>
-                <li><a href="#">Project 2</a></li>
-                <li><a href="#">Project 3</a></li>
+                <li><a href="#">Category 1</a></li>
+                <li><a href="#">Category 2</a></li>
+                <li><a href="#">Category 3</a></li>
             </ul>
-            <h3>Fun Projects</h3>
+            <h3>Recent Projects</h3>
+            <!-- You can add recent projects dynamically using server-side scripting or JavaScript -->
             <ul>
-                <li><a href="#">Project 4</a></li>
-                <li><a href="#">Project 5</a></li>
-                <li><a href="#">Project 6</a></li>
+                <li><a href="#">Recent Project 1</a></li>
+                <li><a href="#">Recent Project 2</a></li>
+                <li><a href="#">Recent Project 3</a></li>
             </ul>
-            <h3>Coding Projects</h3>
+            <h3>Games</h3>
             <ul>
-                <li><a href="#">Project 7</a></li>
-                <li><a href="#">Project 8</a></li>
-                <li><a href="#">Project 9</a></li>
+                <li><a href="FloopyBIRB.html">FloopyBIRB</a></li>
+                <li><a href="maze.html">aMAZEing Game</a></li>
+                <li><a href="horror.html">horror</a></li>
+                <li><a href="flashlight.html">flashLight</a></li>
             </ul>
         </div>
     </div>
@@ -217,12 +211,10 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            var cybersecurityProjects = document.querySelector(".cybersecurity-projects");
-            var funProjects = document.querySelector(".fun-projects");
-            var codingProjects = document.querySelector(".coding-projects");
+            var dailyProjects = document.querySelector(".daily-projects");
             var today = new Date();
 
-            // Generate projects for each section for 100 days from today
+            // Generate projects for 100 days from today
             for (var i = 0; i < 100; i++) {
                 var article = document.createElement("article");
                 var date = new Date(today);
@@ -234,15 +226,7 @@
                     <h3 class="project-preview"><a href="project${i + 1}.html">Project Title</a></h3>
                     <p class="project-preview">Description of the project.</p>
                 `;
-                
-                // Assign projects to respective sections based on their category
-                if (i % 3 === 0) {
-                    cybersecurityProjects.appendChild(article);
-                } else if (i % 3 === 1) {
-                    funProjects.appendChild(article);
-                } else {
-                    codingProjects.appendChild(article);
-                }
+                dailyProjects.appendChild(article);
             }
         });
     </script>
