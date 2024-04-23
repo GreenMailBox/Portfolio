@@ -216,54 +216,53 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             var dailyProjects = document.querySelector(".daily-projects");
-            var today = new Date();
+            var projectIndex = 1;
 
-            // Generate projects for 100 days from today
-            for (var i = 0; i < 100; i++) {
-                var article = document.createElement("article");
-                var date = new Date(today);
-                date.setDate(date.getDate() + i); // Set date for each day
+            // Generate projects until no more files are found
+            function generateProjects() {
+                fetch(`project${projectIndex}.html`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`File not found: project${projectIndex}.html`);
+                        }
+                        return response.text();
+                    })
+                    .then(html => {
+                        var parser = new DOMParser();
+                        var doc = parser.parseFromString(html, 'text/html');
+                        var projectTitleElement = doc.querySelector('#project-title');
+                        var projectDescriptionElement = doc.querySelector('#project-description');
 
-                // Fetch project title and description from the respective project page
-                fetchProject(i, date, dailyProjects);
-            }
-        });
+                        if (projectTitleElement && projectDescriptionElement) {
+                            var projectTitle = projectTitleElement.innerText;
+                            var projectDescription = projectDescriptionElement.innerText;
 
-        function fetchProject(projectIndex, date, container) {
-            fetch(`project${projectIndex + 1}.html`)
-                .then(response => response.text())
-                .then(html => {
-                    var parser = new DOMParser();
-                    var doc = parser.parseFromString(html, 'text/html');
-                    var projectTitleElement = doc.querySelector('#project-title');
-                    var projectDescriptionElement = doc.querySelector('#project-description');
-
-                    if (projectTitleElement && projectDescriptionElement) {
-                        var projectTitle = projectTitleElement.innerText;
-                        var projectDescription = projectDescriptionElement.innerText;
-
-                        var article = document.createElement("article");
-                        article.innerHTML = `
-                            <h2>Day ${projectIndex + 1}</h2>
-                            <p>Date: ${date.toDateString()}</p>
-                            <h3 class="project-preview"><a href="project${projectIndex + 1}.html">${projectTitle}</a></h3>
-                            <p class="project-preview">${projectDescription}</p>
-                        `;
-                        container.appendChild(article);
-                    } else {
+                            var article = document.createElement("article");
+                            article.innerHTML = `
+                                <h2>Project ${projectIndex}</h2>
+                                <h3 class="project-preview"><a href="project${projectIndex}.html">${projectTitle}</a></h3>
+                                <p class="project-preview">${projectDescription}</p>
+                            `;
+                            dailyProjects.appendChild(article);
+                            projectIndex++;
+                            generateProjects(); // Continue generating projects recursively
+                        } else {
+                            console.error(`Project ${projectIndex} title or description not found`);
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error.message);
                         var errorMessage = document.createElement("p");
                         errorMessage.classList.add("error-message");
-                        errorMessage.textContent = `Error fetching project ${projectIndex + 1}: Title or description not found`;
-                        container.appendChild(errorMessage);
-                    }
-                })
-                .catch(error => {
-                    var errorMessage = document.createElement("p");
-                    errorMessage.classList.add("error-message");
-                    errorMessage.textContent = `Error fetching project ${projectIndex + 1}: ${error.message}`;
-                    container.appendChild(errorMessage);
-                });
-        }
+                        errorMessage.textContent = error.message;
+                        dailyProjects.appendChild(errorMessage);
+                        projectIndex++;
+                        generateProjects(); // Continue generating projects recursively
+                    });
+            }
+
+            generateProjects(); // Start generating projects
+        });
     </script>
 </body>
 </html>
