@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>100 Days Blog Template</title>
+    <title>100 Days Projects Template</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         /* Professional styles with refined typography and polished color scheme */
@@ -100,10 +100,10 @@
             color: #fff; /* White text color */
         }
         article {
-            background-color: #fff; /* White background for posts */
+            background-color: #fff; /* White background for projects */
             padding: 20px;
             margin-bottom: 20px;
-            border-radius: 10px; /* Rounded corners for posts */
+            border-radius: 10px; /* Rounded corners for projects */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
         }
         h2, h3 {
@@ -151,18 +151,18 @@
             }
         }
         /* Additional styles for enhanced interactivity */
-        .post-preview {
+        .project-preview {
             cursor: pointer;
             transition: transform 0.3s ease; /* Smooth transformation on hover */
         }
-        .post-preview:hover {
+        .project-preview:hover {
             transform: scale(1.05); /* Scale up on hover */
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>100 Days Blog</h1>
+        <h1>100 Days Projects</h1>
     </header>
     <nav>
         <a href="#">Home</a>
@@ -171,37 +171,43 @@
     </nav>
     <div class="container">
         <div class="main-content">
-            <!-- Daily posts section -->
-            <section class="daily-posts">
-                <!-- JavaScript will dynamically generate posts here -->
+            <!-- Cybersecurity projects section -->
+            <section class="cybersecurity-projects">
+                <!-- JavaScript will dynamically generate cybersecurity projects here -->
+            </section>
+            <!-- Fun projects section -->
+            <section class="fun-projects">
+                <!-- JavaScript will dynamically generate fun projects here -->
+            </section>
+            <!-- Coding projects section -->
+            <section class="coding-projects">
+                <!-- JavaScript will dynamically generate coding projects here -->
             </section>
         </div>
         <div class="sidebar" id="sidebar">
-            <h3>Categories</h3>
+            <h3>Cybersecurity Projects</h3>
             <ul>
-                <li><a href="#">Category 1</a></li>
-                <li><a href="#">Category 2</a></li>
-                <li><a href="#">Category 3</a></li>
+                <li><a href="#">Project 1</a></li>
+                <li><a href="#">Project 2</a></li>
+                <li><a href="#">Project 3</a></li>
             </ul>
-            <h3>Recent Posts</h3>
-            <!-- You can add recent posts dynamically using server-side scripting or JavaScript -->
+            <h3>Fun Projects</h3>
             <ul>
-                <li><a href="#">Recent Post 1</a></li>
-                <li><a href="#">Recent Post 2</a></li>
-                <li><a href="#">Recent Post 3</a></li>
+                <li><a href="#">Project 4</a></li>
+                <li><a href="#">Project 5</a></li>
+                <li><a href="#">Project 6</a></li>
             </ul>
-            <h3>Games</h3>
+            <h3>Coding Projects</h3>
             <ul>
-                <li><a href="FloopyBIRB.html">FloopyBIRB</a></li>
-                <li><a href="maze.html">aMAZEing Game</a></li>
-                <li><a href="horror.html">horror</a></li>
-                <li><a href="flashlight.html">flashLight</a></li>
+                <li><a href="#">Project 7</a></li>
+                <li><a href="#">Project 8</a></li>
+                <li><a href="#">Project 9</a></li>
             </ul>
         </div>
     </div>
     <button class="toggle-sidebar" onclick="toggleSidebar()">Toggle Sidebar</button>
     <footer>
-        <p>&copy; 2024 100 Days Blog. All rights reserved.</p>
+        <p>&copy; 2024 100 Days Projects. All rights reserved.</p>
     </footer>
 
     <script>
@@ -211,10 +217,12 @@
         }
 
         document.addEventListener("DOMContentLoaded", function() {
-            var dailyPosts = document.querySelector(".daily-posts");
+            var cybersecurityProjects = document.querySelector(".cybersecurity-projects");
+            var funProjects = document.querySelector(".fun-projects");
+            var codingProjects = document.querySelector(".coding-projects");
             var today = new Date();
 
-            // Generate posts for 100 days from today
+            // Generate projects for each section for 100 days from today
             for (var i = 0; i < 100; i++) {
                 var article = document.createElement("article");
                 var date = new Date(today);
@@ -223,10 +231,18 @@
                 article.innerHTML = `
                     <h2>Day ${i + 1}</h2>
                     <p>Date: ${date.toDateString()}</p>
-                    <h3 class="post-preview"><a href="post${i + 1}.html">Post Title</a></h3>
-                    <p class="post-preview">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac felis libero.</p>
+                    <h3 class="project-preview"><a href="project${i + 1}.html">Project Title</a></h3>
+                    <p class="project-preview">Description of the project.</p>
                 `;
-                dailyPosts.appendChild(article);
+                
+                // Assign projects to respective sections based on their category
+                if (i % 3 === 0) {
+                    cybersecurityProjects.appendChild(article);
+                } else if (i % 3 === 1) {
+                    funProjects.appendChild(article);
+                } else {
+                    codingProjects.appendChild(article);
+                }
             }
         });
     </script>
