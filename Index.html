@@ -220,13 +220,24 @@
                 var date = new Date(today);
                 date.setDate(date.getDate() + i); // Set date for each day
 
-                article.innerHTML = `
-                    <h2>Day ${i + 1}</h2>
-                    <p>Date: ${date.toDateString()}</p>
-                    <h3 class="project-preview"><a href="project${i + 1}.html">Project Title</a></h3>
-                    <p class="project-preview">Description of the project.</p>
-                `;
-                dailyProjects.appendChild(article);
+                // Fetch project title and description from the respective project page
+                fetch(`project${i + 1}.html`)
+                .then(response => response.text())
+                .then(html => {
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(html, 'text/html');
+                    var projectTitle = doc.getElementById('project-title').innerText;
+                    var projectDescription = doc.getElementById('project-description').innerText;
+
+                    article.innerHTML = `
+                        <h2>Day ${i + 1}</h2>
+                        <p>Date: ${date.toDateString()}</p>
+                        <h3 class="project-preview"><a href="project${i + 1}.html">${projectTitle}</a></h3>
+                        <p class="project-preview">${projectDescription}</p>
+                    `;
+                    dailyProjects.appendChild(article);
+                })
+                .catch(error => console.error('Error fetching project:', error));
             }
         });
     </script>
