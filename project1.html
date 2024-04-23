@@ -56,21 +56,168 @@
 </head>
 <body>
     <header>
-        <h1>Blog Post Title</h1>
+        <h1>Windows Event Viewer Log Manager</h1>
         <p>Date: April 22, 2024</p>
     </header>
     <main>
         <article>
-            <h2>Post Title</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac felis libero. Phasellus tincidunt nec arcu quis cursus. Vestibulum sit amet ante nec turpis fermentum tempus. Maecenas sit amet mi et quam vehicula consequat nec et ipsum. Donec pulvinar varius velit, eu rutrum arcu fringilla ac. Fusce id odio ac tortor tincidunt mollis eu a urna. Duis nec velit lectus. Proin at dui non felis efficitur feugiat in vel justo. Sed vel congue ex. Proin quis congue ex, non bibendum velit. Proin eget neque sit amet arcu pellentesque laoreet vel et elit. Nam ultrices eros id arcu consectetur, ac accumsan ipsum bibendum. Duis feugiat felis ut velit congue, et aliquet dolor tincidunt. Vestibulum vehicula elit sed velit laoreet, nec fringilla nisi varius. Nam vel mauris ac magna iaculis fermentum. Cras consectetur tortor eu massa posuere, sit amet tempor velit vulputate. Nulla nec lacus libero.</p>
-            <p>Etiam eu ligula augue. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Fusce rhoncus urna ut velit venenatis, id volutpat quam luctus. Morbi condimentum mi non fringilla feugiat. Aliquam erat volutpat. Vestibulum non consequat turpis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec interdum ex eget magna efficitur, vel convallis ante pharetra. Phasellus sollicitudin neque est, at ultricies arcu pharetra eu. Morbi quis justo at ipsum posuere laoreet. Etiam scelerisque justo vitae felis ultricies, ut malesuada ex interdum. Curabitur aliquet lectus risus, sit amet fermentum eros placerat eu. Sed nec pharetra ex. Proin in quam ipsum.</p>
-            <p>Quisque tincidunt lacus at metus suscipit, eget luctus metus elementum. Phasellus gravida purus eu dui tempus elementum. Integer ullamcorper enim nisi, nec tincidunt velit vulputate non. In interdum libero at ligula euismod, ut lobortis justo tristique. Curabitur euismod, nisi ut laoreet tristique, risus risus ullamcorper justo, eget dignissim libero massa ac urna. Proin dignissim justo vel mauris suscipit tincidunt. Nulla facilisi. Curabitur accumsan laoreet orci, eu feugiat eros aliquam vel. In semper gravida ex id consequat. Nulla non arcu fringilla, feugiat nisi et, auctor dolor. Vestibulum eu ligula dolor. Sed suscipit risus sit amet est malesuada, nec faucibus justo rhoncus. Integer pellentesque libero et libero rutrum, nec vestibulum mauris volutpat. Phasellus ut fringilla lacus, ut luctus sapien. Suspendisse sagittis urna eget nunc commodo convallis. Nulla vel eros id odio tempor interdum eget a nunc. Curabitur ut nisl ut turpis placerat mattis. Fusce a urna felis.</p>
+            <h2>Windows Event Viewer Log Manager</h2>
+           
+            <p></p>
             <!-- Code Box for Project -->
             <pre>
-// Your code goes here
-function myFunction() {
-    return "This is a code snippet.";
-}
+import csv
+import win32evtlog
+import os.path
+
+# Function to analyze Windows event logs
+def analyze_windows_event_logs(log_name, output_file, sort_by=None):
+    # Connect to the Windows Event Log
+    handle = win32evtlog.OpenEventLog(None, log_name)
+
+    # Set the starting record number to read from
+    flags = win32evtlog.EVENTLOG_BACKWARDS_READ | win32evtlog.EVENTLOG_SEQUENTIAL_READ
+    read_from_record = 0  # Set to 0 to read from the beginning
+
+    # Open a CSV file for writing
+    with open(output_file, 'w', newline='') as csvfile:
+        fieldnames = ['Event ID', 'Time Generated', 'Source Name', 'Message']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        # Write the header row
+        writer.writeheader()
+
+        # Read events from the event log
+        events = win32evtlog.ReadEventLog(handle, flags, read_from_record)
+
+        # Process each event
+        for event in events:
+            # Extract relevant information from the event
+            event_id = event.EventID
+            event_time = event.TimeGenerated.Format()
+            event_source = event.SourceName
+            event_message = event.StringInserts
+
+            # Write the event information to the CSV file
+            writer.writerow({'Event ID': event_id,
+                             'Time Generated': event_time,
+                             'Source Name': event_source,
+                             'Message': event_message})
+
+    # Close the event log handle
+    win32evtlog.CloseEventLog(handle)
+
+    # Sort the CSV file if specified
+    if sort_by:
+        sort_csv_file(output_file, sort_by)
+
+# Function to sort CSV file by a specific column
+def sort_csv_file(csv_file, sort_by):
+    # Read the CSV file into a list of dictionaries
+    rows = []
+    with open(csv_file, 'r', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            rows.append(row)
+
+    # Sort the rows by the specified column
+    sorted_rows = sorted(rows, key=lambda x: x.get(sort_by))
+
+    # Write the sorted rows back to the CSV file
+    with open(csv_file, 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=rows[0].keys())
+        writer.writeheader()
+        writer.writerows(sorted_rows)
+
+# Function to validate log name
+def validate_log_name(log_name):
+    valid_log_names = ['Application', 'System', 'Security']
+    if log_name not in valid_log_names:
+        raise ValueError(f"Invalid log name. Please enter one of the following: {', '.join(valid_log_names)}")
+    return log_name
+
+# Function to validate output file path
+def validate_output_file(output_file):
+    if not output_file.endswith('.csv'):
+        raise ValueError("Output file must be a CSV file with a .csv extension")
+    return output_file
+
+# Function to validate sort by column
+# Function to validate sort by column
+def validate_sort_by(sort_by):
+    valid_sort_columns = ['Event ID', 'Time Generated', 'Source Name', 'Message', '']
+    while True:
+        if sort_by == '':
+            return sort_by
+        elif sort_by not in valid_sort_columns:
+            print("Invalid column to sort by. Please enter one of the following: {}, or leave blank.".format(', '.join(valid_sort_columns)))
+            sort_by = input("Enter 'Event ID', 'Time Generated', 'Source Name', 'Message', or leave blank: ").strip()
+        else:
+            return sort_by.strip()
+
+# Function to validate file path
+def validate_file_path(file_path):
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"File not found: {file_path}")
+    return file_path
+
+# Function to prompt for mode selection
+def prompt_mode_selection():
+    while True:
+        mode = input("Select mode (1 for local computer, 2 for log file, or 'exit' to quit): ")
+        if mode in ['1', '2', 'exit']:
+            return mode
+        print("Invalid mode selected. Please enter '1', '2', or 'exit'.")
+
+# Function to prompt for log name or file path
+def prompt_log_information(mode):
+    if mode == '1':
+        while True:
+            log_name = input("Enter the name of the Windows Event Log to analyze (e.g., 'Security'): ")
+            try:
+                log_name = validate_log_name(log_name)
+                return log_name
+            except ValueError as e:
+                print(e)
+    elif mode == '2':
+        log_file_path = input("Enter the path to the log file to analyze: ")
+        log_file_path = validate_file_path(log_file_path)
+        return log_file_path
+
+# Function to prompt for additional analysis or exit
+def prompt_additional_analysis():
+    while True:
+        choice = input("Do you want to analyze another log? (yes/no): ").lower()
+        if choice in ['yes', 'no']:
+            return choice == 'yes'
+        print("Invalid choice. Please enter 'yes' or 'no'.")
+
+# Main loop
+while True:
+    mode = prompt_mode_selection()
+
+    if mode == 'exit':
+        break
+
+    log_info = prompt_log_information(mode)
+    
+    while True:
+        output_file = input("Enter the path to save the CSV file (e.g., 'event_logs.csv'): ")
+        try:
+            output_file = validate_output_file(output_file)
+            break
+        except ValueError as e:
+            print(e)
+
+    sort_by = input("Do you want to sort the CSV file by a specific column? (Enter 'Event ID', 'Time Generated', 'Source Name', 'Message', or leave blank): ").strip()
+    sort_by = validate_sort_by(sort_by)
+
+    if mode == '1':
+        analyze_windows_event_logs(log_info, output_file, sort_by)
+
+    if not prompt_additional_analysis():
+        break
+
             </pre>
         </article>
     </main>
