@@ -1,1 +1,229 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="title">Sample Project Title</title>
+    <style>
+        /* Modern styles with purple background */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; /* Light gray background */
+            color: #333; /* Dark text color */
+        }
+        header {
+            background-color: #6a0dad; /* Purple header background */
+            color: #fff; /* White text color */
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            background-color: #fff; /* White background for main content */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+        }
+        article {
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #6a0dad; /* Purple headings */
+        }
+        p {
+            margin-bottom: 20px;
+            line-height: 1.8; /* Slightly increased line height for readability */
+        }
+        footer {
+            background-color: #6a0dad; /* Purple footer background */
+            color: #fff; /* White text color */
+            text-align: center;
+            padding: 20px 0;
+        }
+        pre {
+            background-color: #f9f9f9; /* Light gray background for code box */
+            padding: 10px;
+            border-radius: 5px; /* Rounded corners */
+            overflow-x: auto; /* Enable horizontal scrolling */
+            font-size: 14px; /* Adjust font size */
+            line-height: 1.4; /* Adjust line height */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 id="title">Sample Project Title</h1>
+        <p>Date: April 23, 2024</p>
+    </header>
+    <main>
+        <article>
+            <h2 id="title">Sample Project Title</h2>
+            <p id="summary">This is a sample project summary. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum urna a risus varius, at eleifend est tempor. Nulla facilisi.</p>
+            <!-- Code Box for Project -->
+
+            <pre>
+import csv
+import win32evtlog
+import os.path
+
+# Function to analyze Windows event logs
+def analyze_windows_event_logs(log_name, output_file, sort_by=None):
+    # Connect to the Windows Event Log
+    handle = win32evtlog.OpenEventLog(None, log_name)
+
+    # Set the starting record number to read from
+    flags = win32evtlog.EVENTLOG_BACKWARDS_READ | win32evtlog.EVENTLOG_SEQUENTIAL_READ
+    read_from_record = 0  # Set to 0 to read from the beginning
+
+    # Open a CSV file for writing
+    with open(output_file, 'w', newline='') as csvfile:
+        fieldnames = ['Event ID', 'Time Generated', 'Source Name', 'Message']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        # Write the header row
+        writer.writeheader()
+
+        # Read events from the event log
+        events = win32evtlog.ReadEventLog(handle, flags, read_from_record)
+
+        # Process each event
+        for event in events:
+            # Extract relevant information from the event
+            event_id = event.EventID
+            event_time = event.TimeGenerated.Format()
+            event_source = event.SourceName
+            event_message = event.StringInserts
+
+            # Write the event information to the CSV file
+            writer.writerow({'Event ID': event_id,
+                             'Time Generated': event_time,
+                             'Source Name': event_source,
+                             'Message': event_message})
+
+    # Close the event log handle
+    win32evtlog.CloseEventLog(handle)
+
+    # Sort the CSV file if specified
+    if sort_by:
+        sort_csv_file(output_file, sort_by)
+
+# Function to sort CSV file by a specific column
+def sort_csv_file(csv_file, sort_by):
+    # Read the CSV file into a list of dictionaries
+    rows = []
+    with open(csv_file, 'r', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            rows.append(row)
+
+    # Sort the rows by the specified column
+    sorted_rows = sorted(rows, key=lambda x: x.get(sort_by))
+
+    # Write the sorted rows back to the CSV file
+    with open(csv_file, 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=rows[0].keys())
+        writer.writeheader()
+        writer.writerows(sorted_rows)
+
+# Function to validate log name
+def validate_log_name(log_name):
+    valid_log_names = ['Application', 'System', 'Security']
+    if log_name not in valid_log_names:
+        raise ValueError(f"Invalid log name. Please enter one of the following: {', '.join(valid_log_names)}")
+    return log_name
+
+# Function to validate output file path
+def validate_output_file(output_file):
+    if not output_file.endswith('.csv'):
+        raise ValueError("Output file must be a CSV file with a .csv extension")
+    return output_file
+
+# Function to validate sort by column
+# Function to validate sort by column
+def validate_sort_by(sort_by):
+    valid_sort_columns = ['Event ID', 'Time Generated', 'Source Name', 'Message', '']
+    while True:
+        if sort_by == '':
+            return sort_by
+        elif sort_by not in valid_sort_columns:
+            print("Invalid column to sort by. Please enter one of the following: {}, or leave blank.".format(', '.join(valid_sort_columns)))
+            sort_by = input("Enter 'Event ID', 'Time Generated', 'Source Name', 'Message', or leave blank: ").strip()
+        else:
+            return sort_by.strip()
+
+# Function to validate file path
+def validate_file_path(file_path):
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"File not found: {file_path}")
+    return file_path
+
+# Function to prompt for mode selection
+def prompt_mode_selection():
+    while True:
+        mode = input("Select mode (1 for local computer, 2 for log file, or 'exit' to quit): ")
+        if mode in ['1', '2', 'exit']:
+            return mode
+        print("Invalid mode selected. Please enter '1', '2', or 'exit'.")
+
+# Function to prompt for log name or file path
+def prompt_log_information(mode):
+    if mode == '1':
+        while True:
+            log_name = input("Enter the name of the Windows Event Log to analyze (e.g., 'Security'): ")
+            try:
+                log_name = validate_log_name(log_name)
+                return log_name
+            except ValueError as e:
+                print(e)
+    elif mode == '2':
+        log_file_path = input("Enter the path to the log file to analyze: ")
+        log_file_path = validate_file_path(log_file_path)
+        return log_file_path
+
+# Function to prompt for additional analysis or exit
+def prompt_additional_analysis():
+    while True:
+        choice = input("Do you want to analyze another log? (yes/no): ").lower()
+        if choice in ['yes', 'no']:
+            return choice == 'yes'
+        print("Invalid choice. Please enter 'yes' or 'no'.")
+
+# Main loop
+while True:
+    mode = prompt_mode_selection()
+
+    if mode == 'exit':
+        break
+
+    log_info = prompt_log_information(mode)
+    
+    while True:
+        output_file = input("Enter the path to save the CSV file (e.g., 'event_logs.csv'): ")
+        try:
+            output_file = validate_output_file(output_file)
+            break
+        except ValueError as e:
+            print(e)
+
+    sort_by = input("Do you want to sort the CSV file by a specific column? (Enter 'Event ID', 'Time Generated', 'Source Name', 'Message', or leave blank): ").strip()
+    sort_by = validate_sort_by(sort_by)
+
+    if mode == '1':
+        analyze_windows_event_logs(log_info, output_file, sort_by)
+
+    if not prompt_additional_analysis():
+        break
+
+            </pre>
+        </article>
+    </main>
+    <footer>
+        <p>&copy; 2024 Sample Projects. All rights reserved.</p>
+    </footer>
+</body>
+</html>
