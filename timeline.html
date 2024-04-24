@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive Timeline</title>
   <style>
+    /* CSS styles for the timeline and form */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f9f9f9;
@@ -110,6 +111,26 @@
       text-decoration: none;
       font-size: 14px;
     }
+
+    .back-to-index {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .back-to-index a {
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      border: 2px solid #5bc0de;
+      padding: 10px 20px;
+      border-radius: 4px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .back-to-index a:hover {
+      background-color: #5bc0de;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
@@ -126,6 +147,10 @@
   <ul class="timeline">
     <!-- Existing timeline events will be added here -->
   </ul>
+
+  <div class="back-to-index">
+    <a href="index.html">Back to Index</a>
+  </div>
 </div>
 
 <script>
