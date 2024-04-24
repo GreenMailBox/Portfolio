@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Days Projects</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Professional styles with refined typography and polished color scheme */
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9; /* Light gray background */
+            color: #333; /* Dark text color */
+            overflow-x: hidden; /* Hide horizontal scrollbar */
+        }
+        header {
+            background-color: #451f72; /* Dark purple header background */
+            padding: 20px;
+            text-align: center;
+            color: #fff; /* White text color */
+        }
+        nav {
+            background-color: #6a0dad; /* Purple navigation background */
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 16px;
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+        }
+        nav a:hover {
+            color: #ffdb58; /* Yellow hover color */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            position: relative; /* Position for border elements */
+            display: flex;
+            flex-direction: column;
+        }
+        .main-content {
+            flex: 1;
+        }
+        .sidebar {
+            background-color: #451f72; /* Dark purple sidebar background */
+            padding: 20px;
+            border-radius: 10px; /* Rounded corners */
+            color: #fff; /* White text color */
+            position: relative; /* Position for border elements */
+            margin-top: 20px;
+        }
+        .sidebar:before,
+        .sidebar:after {
+            content: '';
+            position: absolute;
+            background-color: #6a0dad; /* Purple border color */
+            width: 10px;
+            top: 0;
+            bottom: 0;
+            z-index: -1; /* Behind other elements */
+        }
+        .sidebar:before {
+            left: -10px; /* Left border */
+        }
+        .sidebar:after {
+            right: -10px; /* Right border */
+        }
+        .sidebar h3 {
+            color: #ffdb58; /* Yellow heading color */
+            margin-top: 0; /* Remove default margin */
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .sidebar ul {
+            padding: 0;
+            list-style-type: none; /* Remove default list styles */
+        }
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+        }
+        .sidebar ul li a:hover {
+            color: #ffdb58; /* Yellow hover color */
+        }
+        footer {
+            background-color: #451f72; /* Dark purple footer background */
+            text-align: center;
+            padding: 20px 0;
+            color: #fff; /* White text color */
+        }
+        article {
+            background-color: #fff; /* White background for projects */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px; /* Rounded corners for projects */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+        }
+        h2, h3 {
+            color: #451f72; /* Purple headings */
+            margin-top: 0; /* Remove default margin */
+        }
+        p {
+            margin-bottom: 20px;
+            line-height: 1.6; /* Slightly increased line height for readability */
+        }
+        article a {
+            color: #6a0dad; /* Purple link color */
+            text-decoration: none;
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+        }
+        article a:hover {
+            color: #ffdb58; /* Yellow hover color */
+        }
+        .toggle-sidebar {
+            background-color: #6a0dad; /* Purple button background */
+            color: #fff; /* White button text color */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Smooth background color transition on hover */
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .toggle-sidebar:hover {
+            background-color: #451f72; /* Dark purple hover color */
+        }
+        @media only screen and (min-width: 768px) {
+            /* Styles for tablets and desktops */
+            .container {
+                flex-direction: row;
+            }
+            .main-content {
+                flex: 3;
+                margin-right: 20px;
+            }
+            .sidebar {
+                flex: 1;
+                margin-top: 0;
+            }
+        }
+        /* Additional styles for enhanced interactivity */
+        .project-preview {
+            cursor: pointer;
+            transition: transform 0.3s ease; /* Smooth transformation on hover */
+        }
+        .project-preview:hover {
+            transform: scale(1.05); /* Scale up on hover */
+        }
+        .error-message {
+            color: red;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>100 Days Projects</h1>
+    </header>
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+    <div class="container">
+        <div class="main-content">
+            <!-- Daily projects section -->
+            <section class="daily-projects">
+                <!-- JavaScript will dynamically generate projects here -->
+            </section>
+        </div>
+        <div class="sidebar" id="sidebar">
+            <h3>Categories</h3>
+            <ul>
+                <li><a href="#">Category 1</a></li>
+                <li><a href="#">Category 2</a></li>
+                <li><a href="#">Category 3</a></li>
+            </ul>
+            <h3>HTML Projects</h3>
+            <!-- You can add recent projects dynamically using server-side scripting or JavaScript -->
+            <ul>
+                <li><a href="task.html">Task Manager</a></li>
+                <li><a href="#">Recent Project 2</a></li>
+                <li><a href="#">Recent Project 3</a></li>
+            </ul>
+            <h3>Games</h3>
+            <ul>
+                <li><a href="FloopyBIRB.html">FloopyBIRB</a></li>
+                <li><a href="maze.html">aMAZEing Game</a></li>
+                <li><a href="horror.html">horror</a></li>
+                <li><a href="flashlight.html">flashLight</a></li>
+            </ul>
+        </div>
+    </div>
+    <button class="toggle-sidebar" onclick="toggleSidebar()">Toggle Sidebar</button>
+    <footer>
+        <p>&copy; 2024 100 Days Projects. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("active");
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var dailyProjects = document.querySelector(".daily-projects");
+            var projectIndex = 1;
+            var consecutiveErrors = 0;
+            var maxConsecutiveErrors = 3; // Maximum consecutive file not found errors allowed
+
+            // Generate projects until no more files are found
+            function generateProjects() {
+                if (consecutiveErrors >= maxConsecutiveErrors) {
+                    console.error(`Stopped generating projects due to ${maxConsecutiveErrors} consecutive file not found errors.`);
+                    return; // Stop generating projects
+                }
+
+                fetch(`project${projectIndex}.html`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`File not found: project${projectIndex}.html`);
+                        }
+                        return response.text();
+                    })
+                    .then(html => {
+                        var parser = new DOMParser();
+                        var doc = parser.parseFromString(html, 'text/html');
+                        var projectTitleElement = doc.querySelector('title');
+                        var projectSummaryElement = doc.querySelector('#summary');
+
+                        if (projectTitleElement && projectSummaryElement) {
+                            var projectTitle = projectTitleElement.innerText;
+                            var projectSummary = projectSummaryElement.innerText;
+
+                            var article = document.createElement("article");
+                            article.innerHTML = `
+                                <h2><a href="project${projectIndex}.html">${projectTitle}</a></h2>
+                                <p>${projectSummary}</p>
+                            `;
+                            dailyProjects.appendChild(article);
+                            projectIndex++;
+                            consecutiveErrors = 0; // Reset consecutive errors count
+                            generateProjects(); // Continue generating projects recursively
+                        } else {
+                            var errorMessage = document.createElement("p");
+                            errorMessage.classList.add("error-message");
+                            errorMessage.textContent = `Project ${projectIndex} title or summary not found`;
+                            dailyProjects.appendChild(errorMessage);
+                            projectIndex++;
+                            consecutiveErrors++; // Increment consecutive errors count
+                            generateProjects(); // Continue generating projects recursively
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error.message);
+                        var errorMessage = document.createElement("p");
+                        errorMessage.classList.add("error-message");
+                        errorMessage.textContent = error.message;
+                        dailyProjects.appendChild(errorMessage);
+                        projectIndex++;
+                        consecutiveErrors++; // Increment consecutive errors count
+                        generateProjects(); // Continue generating projects recursively
+                    });
+            }
+
+            generateProjects(); // Start generating projects
+        });
+    </script>
+</body>
+</html>
