@@ -5,81 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive Timeline</title>
   <style>
-    /* CSS styles for the timeline and form */
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-    }
-
-    .timeline {
-      list-style: none;
-      padding: 20px 0;
-      position: relative;
-    }
-
-    .timeline li {
-      width: 50%;
-      float: left;
-      padding: 30px;
-      position: relative;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .timeline li:hover {
-      background-color: #eaeaea;
-    }
-
-    .timeline li:nth-child(odd) {
-      background: #f9f9f9;
-      border-right: 4px solid #5bc0de;
-      text-align: right;
-    }
-
-    .timeline li:nth-child(even) {
-      background: #f9f9f9;
-      border-left: 4px solid #5bc0de;
-    }
-
-    .timeline li:after {
-      content: "";
-      position: absolute;
-      width: 25px;
-      height: 25px;
-      background-color: #5bc0de;
-      border-radius: 50%;
-      top: 50%;
-      transform: translateY(-50%);
-      right: -14px;
-    }
-
-    .timeline li:nth-child(even):after {
-      left: -14px;
-      right: auto;
-    }
-
-    .timeline li:last-child {
-      padding-bottom: 0;
-    }
-
-    .timeline h3 {
-      margin-top: 0;
-      color: #5bc0de;
-    }
-
-    .timeline p {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
       margin: 0;
+      padding: 0;
     }
 
-    .event-details {
-      display: none;
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
       padding: 20px;
       background-color: #fff;
-      border: 1px solid #ccc;
-      position: absolute;
-      top: 0;
-      left: 100%;
-      z-index: 999;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
     }
 
     .add-event-form {
@@ -90,27 +29,107 @@
     .add-event-form input[type="submit"] {
       padding: 10px;
       margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .add-event-form input[type="text"] {
+      width: 200px;
+    }
+
+    .add-event-form input[type="submit"] {
+      background-color: #5bc0de;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .add-event-form input[type="submit"]:hover {
+      background-color: #4ca8d4;
+    }
+
+    .timeline {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .timeline li {
+      position: relative;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-left: 4px solid #5bc0de;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+
+    .timeline li:hover {
+      background-color: #eaeaea;
+    }
+
+    .timeline li h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 20px;
+      color: #5bc0de;
+    }
+
+    .timeline li p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .timeline li .event-details {
+      display: none;
+      padding: 20px;
+      margin-top: 10px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 999;
+      width: calc(100% - 24px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+    }
+
+    .timeline li .event-details p {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .timeline li .show-details {
+      color: #5bc0de;
+      text-decoration: none;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
 
-<!-- Form for adding new events -->
-<div class="add-event-form">
-  <form id="event-form">
-    <input type="text" id="event-title" placeholder="Event Title" required>
-    <input type="text" id="event-description" placeholder="Event Description" required>
-    <input type="submit" value="Add Event">
-  </form>
+<div class="container">
+  <div class="add-event-form">
+    <form id="event-form">
+      <input type="text" id="event-title" placeholder="Event Title" required>
+      <input type="text" id="event-description" placeholder="Event Description" required>
+      <input type="submit" value="Add Event">
+    </form>
+  </div>
+
+  <ul class="timeline">
+    <!-- Existing timeline events will be added here -->
+  </ul>
 </div>
 
-<!-- Timeline -->
-<ul class="timeline">
-  <!-- Existing timeline events will be added here -->
-</ul>
-
 <script>
-  // Add event listener to the form for adding new events
+  // JavaScript code for adding new events and toggling event details visibility
   document.getElementById('event-form').addEventListener('submit', function(e) {
     e.preventDefault(); // Prevent form submission
 
@@ -138,7 +157,6 @@
     document.getElementById('event-description').value = '';
   });
 
-  // Add event listener to each timeline event for toggling details visibility
   document.addEventListener('click', function(event) {
     if (event.target.classList.contains('show-details')) {
       event.preventDefault(); // Prevent link default action
