@@ -3,280 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>100 Days Projects</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title id="title">Sample Project Title</title>
     <style>
-        /* Professional styles with refined typography and polished color scheme */
+        /* Modern styles with purple background */
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: Arial, sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9; /* Light gray background */
+            background-color: #f0f0f0; /* Light gray background */
             color: #333; /* Dark text color */
-            overflow-x: hidden; /* Hide horizontal scrollbar */
         }
         header {
-            background-color: #451f72; /* Dark purple header background */
+            background-color: #6a0dad; /* Purple header background */
+            color: #fff; /* White text color */
             padding: 20px;
             text-align: center;
-            color: #fff; /* White text color */
         }
-        nav {
-            background-color: #6a0dad; /* Purple navigation background */
-            padding: 10px 0;
-            text-align: center;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 20px;
-            font-size: 16px;
-            transition: color 0.3s ease; /* Smooth color transition on hover */
-        }
-        nav a:hover {
-            color: #ffdb58; /* Yellow hover color */
-        }
-        .container {
-            max-width: 1200px;
+        main {
+            max-width: 800px;
             margin: 20px auto;
             padding: 0 20px;
-            position: relative; /* Position for border elements */
-            display: flex;
-            flex-direction: column;
-        }
-        .main-content {
-            flex: 1;
-        }
-        .sidebar {
-            background-color: #451f72; /* Dark purple sidebar background */
-            padding: 20px;
+            background-color: #fff; /* White background for main content */
             border-radius: 10px; /* Rounded corners */
-            color: #fff; /* White text color */
-            position: relative; /* Position for border elements */
-            margin-top: 20px;
-        }
-        .sidebar:before,
-        .sidebar:after {
-            content: '';
-            position: absolute;
-            background-color: #6a0dad; /* Purple border color */
-            width: 10px;
-            top: 0;
-            bottom: 0;
-            z-index: -1; /* Behind other elements */
-        }
-        .sidebar:before {
-            left: -10px; /* Left border */
-        }
-        .sidebar:after {
-            right: -10px; /* Right border */
-        }
-        .sidebar h3 {
-            color: #ffdb58; /* Yellow heading color */
-            margin-top: 0; /* Remove default margin */
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-        .sidebar ul {
-            padding: 0;
-            list-style-type: none; /* Remove default list styles */
-        }
-        .sidebar ul li {
-            margin-bottom: 10px;
-        }
-        .sidebar ul li a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.3s ease; /* Smooth color transition on hover */
-        }
-        .sidebar ul li a:hover {
-            color: #ffdb58; /* Yellow hover color */
-        }
-        footer {
-            background-color: #451f72; /* Dark purple footer background */
-            text-align: center;
-            padding: 20px 0;
-            color: #fff; /* White text color */
-        }
-        article {
-            background-color: #fff; /* White background for projects */
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 10px; /* Rounded corners for projects */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
         }
-        h2, h3 {
-            color: #451f72; /* Purple headings */
-            margin-top: 0; /* Remove default margin */
+        article {
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #6a0dad; /* Purple headings */
         }
         p {
             margin-bottom: 20px;
-            line-height: 1.6; /* Slightly increased line height for readability */
+            line-height: 1.8; /* Slightly increased line height for readability */
         }
-        article a {
-            color: #6a0dad; /* Purple link color */
-            text-decoration: none;
-            transition: color 0.3s ease; /* Smooth color transition on hover */
+        footer {
+            background-color: #6a0dad; /* Purple footer background */
+            color: #fff; /* White text color */
+            text-align: center;
+            padding: 20px 0;
         }
-        article a:hover {
-            color: #ffdb58; /* Yellow hover color */
-        }
-        .toggle-sidebar {
-            background-color: #6a0dad; /* Purple button background */
-            color: #fff; /* White button text color */
-            border: none;
-            padding: 10px 20px;
+        pre {
+            background-color: #f9f9f9; /* Light gray background for code box */
+            padding: 10px;
             border-radius: 5px; /* Rounded corners */
-            cursor: pointer;
-            transition: background-color 0.3s ease; /* Smooth background color transition on hover */
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-        .toggle-sidebar:hover {
-            background-color: #451f72; /* Dark purple hover color */
-        }
-        @media only screen and (min-width: 768px) {
-            /* Styles for tablets and desktops */
-            .container {
-                flex-direction: row;
-            }
-            .main-content {
-                flex: 3;
-                margin-right: 20px;
-            }
-            .sidebar {
-                flex: 1;
-                margin-top: 0;
-            }
-        }
-        /* Additional styles for enhanced interactivity */
-        .project-preview {
-            cursor: pointer;
-            transition: transform 0.3s ease; /* Smooth transformation on hover */
-        }
-        .project-preview:hover {
-            transform: scale(1.05); /* Scale up on hover */
-        }
-        .error-message {
-            color: red;
-            margin-top: 20px;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            font-size: 14px; /* Adjust font size */
+            line-height: 1.4; /* Adjust line height */
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>100 Days Projects</h1>
+        <h1 id="title">Sample Project Title</h1>
+        <p>Date: April 23, 2024</p>
     </header>
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-    </nav>
-    <div class="container">
-        <div class="main-content">
-            <!-- Daily projects section -->
-            <section class="daily-projects">
-                <!-- JavaScript will dynamically generate projects here -->
-            </section>
-        </div>
-        <div class="sidebar" id="sidebar">
-            <h3>Categories</h3>
-            <ul>
-                <li><a href="#">Category 1</a></li>
-                <li><a href="#">Category 2</a></li>
-                <li><a href="#">Category 3</a></li>
-            </ul>
-            <h3>HTML Projects</h3>
-            <!-- You can add recent projects dynamically using server-side scripting or JavaScript -->
-            <ul>
-                <li><a href="task.html">Task Manager</a></li>
-                <li><a href="#">Recent Project 2</a></li>
-                <li><a href="#">Recent Project 3</a></li>
-            </ul>
-            <h3>Games</h3>
-            <ul>
-                <li><a href="FloopyBIRB.html">FloopyBIRB</a></li>
-                <li><a href="maze.html">aMAZEing Game</a></li>
-                <li><a href="horror.html">horror</a></li>
-                <li><a href="flashlight.html">flashLight</a></li>
-            </ul>
-        </div>
-    </div>
-    <button class="toggle-sidebar" onclick="toggleSidebar()">Toggle Sidebar</button>
+    <main>
+        <article>
+            <h2 id="title">Sample Project Title</h2>
+            <p id="summary">This is a sample project summary. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum urna a risus varius, at eleifend est tempor. Nulla facilisi.</p>
+            <!-- Code Box for Project -->
+
+            <pre>
+import csv
+import win32evtlog
+import os.path
+
+# Function to analyze Windows event logs
+def analyze_windows_event_logs(log_name, output_file, sort_by=None):
+    # Connect to the Windows Event Log
+    handle = win32evtlog.OpenEventLog(None, log_name)
+
+    # Set the starting record number to read from
+    flags = win32evtlog.EVENTLOG_BACKWARDS_READ | win32evtlog.EVENTLOG_SEQUENTIAL_READ
+    read_from_record = 0  # Set to 0 to read from the beginning
+
+    # Open a CSV file for writing
+    with open(output_file, 'w', newline='') as csvfile:
+        fieldnames = ['Event ID', 'Time Generated', 'Source Name', 'Message']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        # Write the header row
+        writer.writeheader()
+
+        # Read events from the event log
+        events = win32evtlog.ReadEventLog(handle, flags, read_from_record)
+
+        # Process each event
+        for event in events:
+            # Extract relevant information from the event
+            event_id = event.EventID
+            event_time = event.TimeGenerated.Format()
+            event_source = event.SourceName
+            event_message = event.StringInserts
+
+            # Write the event information to the CSV file
+            writer.writerow({'Event ID': event_id,
+                             'Time Generated': event_time,
+                             'Source Name': event_source,
+                             'Message': event_message})
+
+    # Close the event log handle
+    win32evtlog.CloseEventLog(handle)
+
+    # Sort the CSV file if specified
+    if sort_by:
+        sort_csv_file(output_file, sort_by)
+
+# Function to sort CSV file by a specific column
+def sort_csv_file(csv_file, sort_by):
+    # Read the CSV file into a list of dictionaries
+    rows = []
+    with open(csv_file, 'r', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            rows.append(row)
+
+    # Sort the rows by the specified column
+    sorted_rows = sorted(rows, key=lambda x: x.get(sort_by))
+
+    # Write the sorted rows back to the CSV file
+    with open(csv_file, 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=rows[0].keys())
+        writer.writeheader()
+        writer.writerows(sorted_rows)
+
+# Function to validate log name
+def validate_log_name(log_name):
+    valid_log_names = ['Application', 'System', 'Security']
+    if log_name not in valid_log_names:
+        raise ValueError(f"Invalid log name. Please enter one of the following: {', '.join(valid_log_names)}")
+    return log_name
+
+# Function to validate output file path
+def validate_output_file(output_file):
+    if not output_file.endswith('.csv'):
+        raise ValueError("Output file must be a CSV file with a .csv extension")
+    return output_file
+
+# Function to validate sort by column
+# Function to validate sort by column
+def validate_sort_by(sort_by):
+    valid_sort_columns = ['Event ID', 'Time Generated', 'Source Name', 'Message', '']
+    while True:
+        if sort_by == '':
+            return sort_by
+        elif sort_by not in valid_sort_columns:
+            print("Invalid column to sort by. Please enter one of the following: {}, or leave blank.".format(', '.join(valid_sort_columns)))
+            sort_by = input("Enter 'Event ID', 'Time Generated', 'Source Name', 'Message', or leave blank: ").strip()
+        else:
+            return sort_by.strip()
+
+# Function to validate file path
+def validate_file_path(file_path):
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"File not found: {file_path}")
+    return file_path
+
+# Function to prompt for mode selection
+def prompt_mode_selection():
+    while True:
+        mode = input("Select mode (1 for local computer, 2 for log file, or 'exit' to quit): ")
+        if mode in ['1', '2', 'exit']:
+            return mode
+        print("Invalid mode selected. Please enter '1', '2', or 'exit'.")
+
+# Function to prompt for log name or file path
+def prompt_log_information(mode):
+    if mode == '1':
+        while True:
+            log_name = input("Enter the name of the Windows Event Log to analyze (e.g., 'Security'): ")
+            try:
+                log_name = validate_log_name(log_name)
+                return log_name
+            except ValueError as e:
+                print(e)
+    elif mode == '2':
+        log_file_path = input("Enter the path to the log file to analyze: ")
+        log_file_path = validate_file_path(log_file_path)
+        return log_file_path
+
+# Function to prompt for additional analysis or exit
+def prompt_additional_analysis():
+    while True:
+        choice = input("Do you want to analyze another log? (yes/no): ").lower()
+        if choice in ['yes', 'no']:
+            return choice == 'yes'
+        print("Invalid choice. Please enter 'yes' or 'no'.")
+
+# Main loop
+while True:
+    mode = prompt_mode_selection()
+
+    if mode == 'exit':
+        break
+
+    log_info = prompt_log_information(mode)
+    
+    while True:
+        output_file = input("Enter the path to save the CSV file (e.g., 'event_logs.csv'): ")
+        try:
+            output_file = validate_output_file(output_file)
+            break
+        except ValueError as e:
+            print(e)
+
+    sort_by = input("Do you want to sort the CSV file by a specific column? (Enter 'Event ID', 'Time Generated', 'Source Name', 'Message', or leave blank): ").strip()
+    sort_by = validate_sort_by(sort_by)
+
+    if mode == '1':
+        analyze_windows_event_logs(log_info, output_file, sort_by)
+
+    if not prompt_additional_analysis():
+        break
+
+            </pre>
+        </article>
+    </main>
     <footer>
-        <p>&copy; 2024 100 Days Projects. All rights reserved.</p>
+        <p>&copy; 2024 Sample Projects. All rights reserved.</p>
     </footer>
-
-    <script>
-        function toggleSidebar() {
-            var sidebar = document.getElementById("sidebar");
-            sidebar.classList.toggle("active");
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var dailyProjects = document.querySelector(".daily-projects");
-            var projectIndex = 1;
-            var consecutiveErrors = 0;
-            var maxConsecutiveErrors = 3; // Maximum consecutive file not found errors allowed
-
-            // Generate projects until no more files are found
-            function generateProjects() {
-                if (consecutiveErrors >= maxConsecutiveErrors) {
-                    console.error(`Stopped generating projects due to ${maxConsecutiveErrors} consecutive file not found errors.`);
-                    return; // Stop generating projects
-                }
-
-                fetch(`project${projectIndex}.html`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`File not found: project${projectIndex}.html`);
-                        }
-                        return response.text();
-                    })
-                    .then(html => {
-                        var parser = new DOMParser();
-                        var doc = parser.parseFromString(html, 'text/html');
-                        var projectTitleElement = doc.querySelector('title');
-                        var projectSummaryElement = doc.querySelector('#summary');
-
-                        if (projectTitleElement && projectSummaryElement) {
-                            var projectTitle = projectTitleElement.innerText;
-                            var projectSummary = projectSummaryElement.innerText;
-
-                            var article = document.createElement("article");
-                            article.innerHTML = `
-                                <h2><a href="project${projectIndex}.html">${projectTitle}</a></h2>
-                                <p>${projectSummary}</p>
-                            `;
-                            dailyProjects.appendChild(article);
-                            projectIndex++;
-                            consecutiveErrors = 0; // Reset consecutive errors count
-                            generateProjects(); // Continue generating projects recursively
-                        } else {
-                            var errorMessage = document.createElement("p");
-                            errorMessage.classList.add("error-message");
-                            errorMessage.textContent = `Project ${projectIndex} title or summary not found`;
-                            dailyProjects.appendChild(errorMessage);
-                            projectIndex++;
-                            consecutiveErrors++; // Increment consecutive errors count
-                            generateProjects(); // Continue generating projects recursively
-                        }
-                    })
-                    .catch(error => {
-                        console.error(error.message);
-                        var errorMessage = document.createElement("p");
-                        errorMessage.classList.add("error-message");
-                        errorMessage.textContent = error.message;
-                        dailyProjects.appendChild(errorMessage);
-                        projectIndex++;
-                        consecutiveErrors++; // Increment consecutive errors count
-                        generateProjects(); // Continue generating projects recursively
-                    });
-            }
-
-            generateProjects(); // Start generating projects
-        });
-    </script>
 </body>
 </html>
