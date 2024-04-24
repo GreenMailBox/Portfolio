@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Timeline</title>
+  <style>
+    /* CSS styles for the timeline and form */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    .timeline {
+      list-style: none;
+      padding: 20px 0;
+      position: relative;
+    }
+
+    .timeline li {
+      width: 50%;
+      float: left;
+      padding: 30px;
+      position: relative;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .timeline li:hover {
+      background-color: #eaeaea;
+    }
+
+    .timeline li:nth-child(odd) {
+      background: #f9f9f9;
+      border-right: 4px solid #5bc0de;
+      text-align: right;
+    }
+
+    .timeline li:nth-child(even) {
+      background: #f9f9f9;
+      border-left: 4px solid #5bc0de;
+    }
+
+    .timeline li:after {
+      content: "";
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background-color: #5bc0de;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      right: -14px;
+    }
+
+    .timeline li:nth-child(even):after {
+      left: -14px;
+      right: auto;
+    }
+
+    .timeline li:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline h3 {
+      margin-top: 0;
+      color: #5bc0de;
+    }
+
+    .timeline p {
+      margin: 0;
+    }
+
+    .event-details {
+      display: none;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      z-index: 999;
+    }
+
+    .add-event-form {
+      margin-bottom: 20px;
+    }
+
+    .add-event-form input[type="text"],
+    .add-event-form input[type="submit"] {
+      padding: 10px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Form for adding new events -->
+<div class="add-event-form">
+  <form id="event-form">
+    <input type="text" id="event-title" placeholder="Event Title" required>
+    <input type="text" id="event-description" placeholder="Event Description" required>
+    <input type="submit" value="Add Event">
+  </form>
+</div>
+
+<!-- Timeline -->
+<ul class="timeline">
+  <!-- Existing timeline events will be added here -->
+</ul>
+
+<script>
+  // Add event listener to the form for adding new events
+  document.getElementById('event-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent form submission
+
+    // Get the values from the form
+    var title = document.getElementById('event-title').value;
+    var description = document.getElementById('event-description').value;
+
+    // Create a new list item for the timeline
+    var listItem = document.createElement('li');
+
+    // Populate the list item with event details
+    listItem.innerHTML = `
+      <h3>${title}</h3>
+      <p>${description} <a href="#" class="show-details">Details</a></p>
+      <div class="event-details">
+        <p>${description}</p>
+      </div>
+    `;
+
+    // Add the new list item to the timeline
+    document.querySelector('.timeline').appendChild(listItem);
+
+    // Clear the form fields
+    document.getElementById('event-title').value = '';
+    document.getElementById('event-description').value = '';
+  });
+
+  // Add event listener to each timeline event for toggling details visibility
+  document.addEventListener('click', function(event) {
+    if (event.target.classList.contains('show-details')) {
+      event.preventDefault(); // Prevent link default action
+      var details = event.target.parentElement.nextElementSibling;
+      details.style.display = details.style.display === 'block' ? 'none' : 'block';
+    }
+  });
+</script>
+
+</body>
+</html>
