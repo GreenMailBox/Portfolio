@@ -57,6 +57,9 @@
             border-top: 1px solid #ccc;
             padding-top: 20px;
         }
+        #filterInput {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -103,7 +106,9 @@
         <button onclick="saveNotes()">Save Notes</button>
     </div>
 
-    <div id="savedNotes"></div>
+    <div id="savedNotes">
+        <input type="text" id="filterInput" placeholder="Filter Notes" onkeyup="filterNotes()">
+    </div>
 
     <button onclick="clearSavedNotes()">Clear Saved Notes</button>
 
@@ -172,6 +177,21 @@
                     savedNotesDiv.appendChild(noteElement);
                 }
             }
+        }
+
+        function filterNotes() {
+            var filterText = document.getElementById('filterInput').value.toLowerCase();
+            var savedNotes = JSON.parse(localStorage.getItem('ethical_hacking_notes'));
+            var filteredNotes = {};
+
+            for (var key in savedNotes) {
+                var decryptedValue = CryptoJS.AES.decrypt(savedNotes[key], secretKey).toString(CryptoJS.enc.Utf8);
+                if (decryptedValue.toLowerCase().includes(filterText)) {
+                    filteredNotes[key] = savedNotes[key];
+                }
+            }
+
+            displayNotes(filteredNotes);
         }
 
         function clearSavedNotes() {
