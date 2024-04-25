@@ -82,6 +82,7 @@
 
     <div id="savedNotes"></div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
         function saveNotes() {
             var target = document.getElementById('target').value;
@@ -95,16 +96,25 @@
             var screenshot = document.getElementById('screenshot').files[0];
             var comments = document.getElementById('comments').value;
 
+            // Hash sensitive fields
+            var hashedTarget = CryptoJS.SHA256(target).toString(CryptoJS.enc.Base64);
+            var hashedService = CryptoJS.SHA256(service).toString(CryptoJS.enc.Base64);
+            var hashedVulnerability = CryptoJS.SHA256(vulnerability).toString(CryptoJS.enc.Base64);
+            var hashedExploit = CryptoJS.SHA256(exploit).toString(CryptoJS.enc.Base64);
+            var hashedUsername = CryptoJS.SHA256(username).toString(CryptoJS.enc.Base64);
+            var hashedPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Base64);
+            var hashedComments = CryptoJS.SHA256(comments).toString(CryptoJS.enc.Base64);
+
             var notes = {
-                target: target,
+                target: hashedTarget,
                 port: port,
-                service: service,
+                service: hashedService,
                 protocol: protocol,
-                vulnerability: vulnerability,
-                exploit: exploit,
-                username: username,
-                password: password,
-                comments: comments
+                vulnerability: hashedVulnerability,
+                exploit: hashedExploit,
+                username: hashedUsername,
+                password: hashedPassword,
+                comments: hashedComments
             };
 
             // Save notes to localStorage
