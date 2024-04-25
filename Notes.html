@@ -88,22 +88,39 @@
             var screenshot = document.getElementById('screenshot').files[0];
             var comments = document.getElementById('comments').value;
 
-            // Construct FormData object to handle file upload
-            var formData = new FormData();
-            formData.append('target', target);
-            formData.append('port', port);
-            formData.append('service', service);
-            formData.append('protocol', protocol);
-            formData.append('vulnerability', vulnerability);
-            formData.append('exploit', exploit);
-            formData.append('username', username);
-            formData.append('password', password);
-            formData.append('screenshot', screenshot);
-            formData.append('comments', comments);
+            var notes = {
+                target: target,
+                port: port,
+                service: service,
+                protocol: protocol,
+                vulnerability: vulnerability,
+                exploit: exploit,
+                username: username,
+                password: password,
+                comments: comments
+            };
 
-            // Here, you can handle the form data as needed, such as sending it via AJAX to a server
+            // Save notes to localStorage
+            localStorage.setItem('ethical_hacking_notes', JSON.stringify(notes));
 
             alert('Notes saved successfully!');
+        }
+
+        // Function to load saved notes when the page loads
+        window.onload = function() {
+            var savedNotes = localStorage.getItem('ethical_hacking_notes');
+            if (savedNotes) {
+                var notes = JSON.parse(savedNotes);
+                document.getElementById('target').value = notes.target || '';
+                document.getElementById('port').value = notes.port || '';
+                document.getElementById('service').value = notes.service || '';
+                document.getElementById('protocol').value = notes.protocol || '';
+                document.getElementById('vulnerability').value = notes.vulnerability || '';
+                document.getElementById('exploit').value = notes.exploit || '';
+                document.getElementById('username').value = notes.username || '';
+                document.getElementById('password').value = notes.password || '';
+                document.getElementById('comments').value = notes.comments || '';
+            }
         }
     </script>
 
