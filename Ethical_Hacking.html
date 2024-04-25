@@ -87,7 +87,48 @@ Credential Stuffing and Password Spraying: Discusses credential stuffing and pas
 
     <h2>Active Directory (AD) Attack Vectors:</h2>
     <pre id="ad-attack-vectors">
-Paste information about AD attack vectors here...
+
+IPv6 Attacks:
+While IPv6 adoption is growing, many networks still lack proper IPv6 security controls. Attackers leverage misconfigured IPv6 networks to bypass traditional security measures, such as firewalls and intrusion detection systems (IDS). By exploiting vulnerabilities in IPv6 implementations, attackers can launch reconnaissance, infiltration, and exfiltration attacks within AD environments.
+IPv6 Address Enumeration:
+netsh interface ipv6 show addresses
+        
+IPv6 Port Scanning with Nmap:
+nmap -6 [target_ipv6_address]
+
+LLmNR Poisoning:
+Link-Local Multicast Name Resolution (LLmNR) is a protocol used to resolve the names of neighboring computers in the absence of a DNS server. Attackers exploit this protocol through poisoning techniques, tricking victim machines into resolving hostnames to malicious IP addresses controlled by the attacker. By intercepting name resolution requests, attackers can redirect traffic and execute man-in-the-middle (MitM) attacks to capture sensitive information or propagate malware within the AD network.
+responder -I eth0 -wb
+responder -I eth0 -wrf
+
+        
+SMB Relay Attacks:
+Server Message Block (SMB) relay attacks exploit trust relationships between machines within the AD environment. Attackers intercept SMB authentication requests and relay them to target machines, impersonating legitimate users or systems. By exploiting weak authentication protocols and insecure configurations, attackers can gain unauthorized access to sensitive resources, escalate privileges, and execute malicious commands on compromised systems.
+
+Using Impacket's SMBRelayX to Relay Authentication:
+python smbrelayx.py -h
+        
+Executing Commands on Target with Impacket's Psexec:
+psexec.py [target_ip] -hashes :[NTLM_hash] [command]
+        
+Exploiting SMB Vulnerability with Metasploit:
+msfconsole
+use exploit/windows/smb/ms17_010_eternalblue
+set RHOSTS [target_ip]
+exploit
+        
+Gaining Shell Access:
+Once initial access is established, attackers seek to gain shell access to target systems within the AD environment. They exploit vulnerabilities in operating systems, services, or applications to execute arbitrary code and establish command and control over compromised systems. Techniques such as remote code execution (RCE), command injection, and exploit payloads are commonly used to achieve this objective.
+
+Passback Attacks:
+Passback attacks leverage compromised credentials or authentication tokens to escalate privileges within the AD environment. Attackers capture credentials from compromised systems and reuse them to authenticate to other systems or services, bypassing traditional authentication mechanisms. By impersonating legitimate users, attackers can access sensitive data, escalate privileges, and move laterally within the network to achieve their objectives.
+Capturing Credentials with Mimikatz:
+mimikatz.exe
+sekurlsa::logonpasswords
+        
+Passing Captured Credentials to Access Other Machines:
+wmic /node:[target_machine] /user:[username] /password:[password] process call
+    
     </pre>
 
     <h2>Post-Domain Attack Strategies:</h2>
