@@ -37,6 +37,11 @@
         button:hover {
             background-color: #0056b3;
         }
+        #savedNotes {
+            margin-top: 30px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -75,6 +80,8 @@
 
     <button onclick="saveNotes()">Save Notes</button>
 
+    <div id="savedNotes"></div>
+
     <script>
         function saveNotes() {
             var target = document.getElementById('target').value;
@@ -103,7 +110,21 @@
             // Save notes to localStorage
             localStorage.setItem('ethical_hacking_notes', JSON.stringify(notes));
 
-            alert('Notes saved successfully!');
+            // Display saved notes
+            displayNotes(notes);
+        }
+
+        function displayNotes(notes) {
+            var savedNotesDiv = document.getElementById('savedNotes');
+            var notesHTML = '<h2>Saved Notes</h2>';
+            notesHTML += '<ul>';
+            for (var key in notes) {
+                if (notes[key]) {
+                    notesHTML += '<li><strong>' + key + ':</strong> ' + notes[key] + '</li>';
+                }
+            }
+            notesHTML += '</ul>';
+            savedNotesDiv.innerHTML = notesHTML;
         }
 
         // Function to load saved notes when the page loads
@@ -111,15 +132,7 @@
             var savedNotes = localStorage.getItem('ethical_hacking_notes');
             if (savedNotes) {
                 var notes = JSON.parse(savedNotes);
-                document.getElementById('target').value = notes.target || '';
-                document.getElementById('port').value = notes.port || '';
-                document.getElementById('service').value = notes.service || '';
-                document.getElementById('protocol').value = notes.protocol || '';
-                document.getElementById('vulnerability').value = notes.vulnerability || '';
-                document.getElementById('exploit').value = notes.exploit || '';
-                document.getElementById('username').value = notes.username || '';
-                document.getElementById('password').value = notes.password || '';
-                document.getElementById('comments').value = notes.comments || '';
+                displayNotes(notes);
             }
         }
     </script>
