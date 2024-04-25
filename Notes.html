@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethical Hacking Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"], input[type="number"], input[type="file"], textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 200px;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Ethical Hacking Notes</h1>
+
+    <label for="target">Target:</label>
+    <input type="text" id="target" placeholder="Enter Target Name or IP Address">
+
+    <label for="port">Port:</label>
+    <input type="number" id="port" placeholder="Enter Port Number">
+
+    <label for="service">Service:</label>
+    <input type="text" id="service" placeholder="Enter Service Information">
+
+    <label for="protocol">Protocol:</label>
+    <input type="text" id="protocol" placeholder="Enter Protocol">
+
+    <label for="vulnerability">Vulnerability:</label>
+    <input type="text" id="vulnerability" placeholder="Enter Vulnerability">
+
+    <label for="exploit">Exploit:</label>
+    <input type="text" id="exploit" placeholder="Enter Exploit Information">
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" placeholder="Enter Username (if applicable)">
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter Password (if applicable)">
+
+    <label for="screenshot">Upload Screenshot:</label>
+    <input type="file" id="screenshot" accept="image/*">
+
+    <label for="comments">Comments:</label>
+    <textarea id="comments" placeholder="Enter Comments"></textarea>
+
+    <button onclick="saveNotes()">Save Notes</button>
+
+    <script>
+        function saveNotes() {
+            var target = document.getElementById('target').value;
+            var port = document.getElementById('port').value;
+            var service = document.getElementById('service').value;
+            var protocol = document.getElementById('protocol').value;
+            var vulnerability = document.getElementById('vulnerability').value;
+            var exploit = document.getElementById('exploit').value;
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var screenshot = document.getElementById('screenshot').files[0];
+            var comments = document.getElementById('comments').value;
+
+            // Construct FormData object to handle file upload
+            var formData = new FormData();
+            formData.append('target', target);
+            formData.append('port', port);
+            formData.append('service', service);
+            formData.append('protocol', protocol);
+            formData.append('vulnerability', vulnerability);
+            formData.append('exploit', exploit);
+            formData.append('username', username);
+            formData.append('password', password);
+            formData.append('screenshot', screenshot);
+            formData.append('comments', comments);
+
+            // Here, you can handle the form data as needed, such as sending it via AJAX to a server
+
+            alert('Notes saved successfully!');
+        }
+    </script>
+
+</body>
+</html>
