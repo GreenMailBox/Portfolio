@@ -112,6 +112,8 @@
 
     <button onclick="clearSavedNotes()">Clear Saved Notes</button>
 
+    <button onclick="goToIndex()">Back to Index</button>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
         var secretKey;
@@ -204,6 +206,10 @@
             delete savedNotes[key];
             localStorage.setItem('ethical_hacking_notes', JSON.stringify(savedNotes));
             displayNotes(savedNotes);
+        }
+
+        function goToIndex() {
+            window.location.href = "index.html";
         }
 
         // Prompt for security key when the page loads
