@@ -26,8 +26,8 @@
         }
         button {
             display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
+            margin: 10px auto;
+            padding: 5px 10px;
             background-color: #007bff;
             color: #fff;
             border: none;
@@ -36,6 +36,21 @@
         }
         button:hover {
             background-color: #0056b3;
+        }
+        .note {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .note-content {
+            display: inline-block;
+            width: calc(100% - 60px);
+            vertical-align: middle;
+        }
+        .delete-button {
+            float: right;
+            margin-left: 10px;
         }
         #savedNotes {
             margin-top: 30px;
@@ -90,6 +105,8 @@
 
     <div id="savedNotes"></div>
 
+    <button onclick="clearSavedNotes()">Clear Saved Notes</button>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
         var secretKey;
@@ -142,17 +159,31 @@
 
         function displayNotes(notes) {
             var savedNotesDiv = document.getElementById('savedNotes');
-            var notesHTML = '<h2>Saved Notes</h2>';
-            notesHTML += '<ul>';
+            savedNotesDiv.innerHTML = '';
+
             for (var key in notes) {
                 if (notes[key]) {
                     // Decrypt sensitive fields for display
                     var decryptedValue = CryptoJS.AES.decrypt(notes[key], secretKey).toString(CryptoJS.enc.Utf8);
-                    notesHTML += '<li><strong>' + key + ':</strong> ' + decryptedValue + '</li>';
+                    var noteElement = document.createElement('div');
+                    noteElement.classList.add('note');
+                    noteElement.innerHTML = '<span class="note-content"><strong>' + key + ':</strong> ' + decryptedValue + '</span>' +
+                                            '<button class="delete-button" onclick="deleteNote(\'' + key + '\')">Delete</button>';
+                    savedNotesDiv.appendChild(noteElement);
                 }
             }
-            notesHTML += '</ul>';
-            savedNotesDiv.innerHTML = notesHTML;
+        }
+
+        function clearSavedNotes() {
+            localStorage.removeItem('ethical_hacking_notes');
+            document.getElementById('savedNotes').innerHTML = '';
+        }
+
+        function deleteNote(key) {
+            var savedNotes = JSON.parse(localStorage.getItem('ethical_hacking_notes'));
+            delete savedNotes[key];
+            localStorage.setItem('ethical_hacking_notes', JSON.stringify(savedNotes));
+            displayNotes(savedNotes);
         }
 
         // Prompt for security key when the page loads
