@@ -120,45 +120,5 @@ Paste information about post-exploitation here...
 Paste information about web application enumeration here...
     </pre>
 
-    <script>
-        // JavaScript to save user input to local storage
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load saved data if available
-            document.getElementById('arp-scan-netdiscover').innerText = localStorage.getItem('arp-scan-netdiscover') || 'Paste information about arp-scan and netdiscover here...';
-            document.getElementById('nmap-scan').innerText = localStorage.getItem('nmap-scan') || 'Paste information about basic nmap scan here...';
-            document.getElementById('nikto').innerText = localStorage.getItem('nikto') || 'Paste information about Nikto here...';
-            document.getElementById('smb-enumeration').innerText = localStorage.getItem('smb-enumeration') || 'Paste information about SMB Enumeration here...';
-            document.getElementById('ssh-enumeration').innerText = localStorage.getItem('ssh-enumeration') || 'Paste information about SSH Enumeration here...';
-            document.getElementById('nessus-scan').innerText = localStorage.getItem('nessus-scan') || 'Paste information about Nessus Scan here...';
-            document.getElementById('exploitation-basics').innerText = localStorage.getItem('exploitation-basics') || 'Paste information about exploitation basics and shells here...';
-            document.getElementById('exploitation-tools').innerText = localStorage.getItem('exploitation-tools') || 'Paste information about exploitation tools here...';
-            document.getElementById('ad-attack-vectors').innerText = localStorage.getItem('ad-attack-vectors') || 'Paste information about AD attack vectors here...';
-            document.getElementById('post-domain-attack-strategies').innerText = localStorage.getItem('post-domain-attack-strategies') || 'Paste information about post-domain attack strategies here...';
-            document.getElementById('post-compromise-ad-enumeration').innerText = localStorage.getItem('post-compromise-ad-enumeration') || 'Paste information about post-compromise AD enumeration here...';
-            document.getElementById('ad-post-compromise-attacks').innerText = localStorage.getItem('ad-post-compromise-attacks') || 'Paste information about AD post-compromise attacks here...';
-            document.getElementById('additional-ad-attacks').innerText = localStorage.getItem('additional-ad-attacks') || 'Paste information about additional AD attacks here...';
-            document.getElementById('post-exploitation').innerText = localStorage.getItem('post-exploitation') || 'Paste information about post-exploitation here...';
-            document.getElementById('web-application-enumeration').innerText = localStorage.getItem('web-application-enumeration') || 'Paste information about web application enumeration here...';
-
-            // Save data when user leaves the page
-            window.addEventListener('beforeunload', function() {
-                localStorage.setItem('arp-scan-netdiscover', document.getElementById('arp-scan-netdiscover').innerText);
-                localStorage.setItem('nmap-scan', document.getElementById('nmap-scan').innerText);
-                localStorage.setItem('nikto', document.getElementById('nikto').innerText);
-                localStorage.setItem('smb-enumeration', document.getElementById('smb-enumeration').innerText);
-                localStorage.setItem('ssh-enumeration', document.getElementById('ssh-enumeration').innerText);
-                localStorage.setItem('nessus-scan', document.getElementById('nessus-scan').innerText);
-                localStorage.setItem('exploitation-basics', document.getElementById('exploitation-basics').innerText);
-                localStorage.setItem('exploitation-tools', document.getElementById('exploitation-tools').innerText);
-                localStorage.setItem('ad-attack-vectors', document.getElementById('ad-attack-vectors').innerText);
-                localStorage.setItem('post-domain-attack-strategies', document.getElementById('post-domain-attack-strategies').innerText);
-                localStorage.setItem('post-compromise-ad-enumeration', document.getElementById('post-compromise-ad-enumeration').innerText);
-                localStorage.setItem('ad-post-compromise-attacks', document.getElementById('ad-post-compromise-attacks').innerText);
-                localStorage.setItem('additional-ad-attacks', document.getElementById('additional-ad-attacks').innerText);
-                localStorage.setItem('post-exploitation', document.getElementById('post-exploitation').innerText);
-                localStorage.setItem('web-application-enumeration', document.getElementById('web-application-enumeration').innerText);
-            });
-        });
-    </script>
 </body>
 </html>
