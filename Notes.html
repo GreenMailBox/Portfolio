@@ -16,7 +16,7 @@
             display: block;
             margin-top: 10px;
         }
-        input[type="text"], input[type="number"], input[type="file"], textarea {
+        input[type="text"], input[type="number"], input[type="file"], textarea, input[type="password"] {
             width: 100%;
             padding: 10px;
             box-sizing: border-box;
@@ -48,42 +48,58 @@
 
     <h1>Ethical Hacking Notes</h1>
 
-    <label for="target">Target:</label>
-    <input type="text" id="target" placeholder="Enter Target Name or IP Address">
+    <div id="securityKeyPrompt" style="display: none;">
+        <label for="securityKey">Enter Security Key:</label>
+        <input type="password" id="securityKey" placeholder="Enter Security Key">
+        <button onclick="setSecurityKey()">Submit</button>
+    </div>
 
-    <label for="port">Port:</label>
-    <input type="number" id="port" placeholder="Enter Port Number">
+    <div id="noteForm">
+        <label for="target">Target:</label>
+        <input type="text" id="target" placeholder="Enter Target Name or IP Address">
 
-    <label for="service">Service:</label>
-    <input type="text" id="service" placeholder="Enter Service Information">
+        <label for="port">Port:</label>
+        <input type="number" id="port" placeholder="Enter Port Number">
 
-    <label for="protocol">Protocol:</label>
-    <input type="text" id="protocol" placeholder="Enter Protocol">
+        <label for="service">Service:</label>
+        <input type="text" id="service" placeholder="Enter Service Information">
 
-    <label for="vulnerability">Vulnerability:</label>
-    <input type="text" id="vulnerability" placeholder="Enter Vulnerability">
+        <label for="protocol">Protocol:</label>
+        <input type="text" id="protocol" placeholder="Enter Protocol">
 
-    <label for="exploit">Exploit:</label>
-    <input type="text" id="exploit" placeholder="Enter Exploit Information">
+        <label for="vulnerability">Vulnerability:</label>
+        <input type="text" id="vulnerability" placeholder="Enter Vulnerability">
 
-    <label for="username">Username:</label>
-    <input type="text" id="username" placeholder="Enter Username (if applicable)">
+        <label for="exploit">Exploit:</label>
+        <input type="text" id="exploit" placeholder="Enter Exploit Information">
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" placeholder="Enter Password (if applicable)">
+        <label for="username">Username:</label>
+        <input type="text" id="username" placeholder="Enter Username (if applicable)">
 
-    <label for="screenshot">Upload Screenshot:</label>
-    <input type="file" id="screenshot" accept="image/*">
+        <label for="password">Password:</label>
+        <input type="password" id="password" placeholder="Enter Password (if applicable)">
 
-    <label for="comments">Comments:</label>
-    <textarea id="comments" placeholder="Enter Comments"></textarea>
+        <label for="screenshot">Upload Screenshot:</label>
+        <input type="file" id="screenshot" accept="image/*">
 
-    <button onclick="saveNotes()">Save Notes</button>
+        <label for="comments">Comments:</label>
+        <textarea id="comments" placeholder="Enter Comments"></textarea>
+
+        <button onclick="saveNotes()">Save Notes</button>
+    </div>
 
     <div id="savedNotes"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script>
+        var secretKey;
+
+        function setSecurityKey() {
+            secretKey = document.getElementById('securityKey').value;
+            document.getElementById('securityKeyPrompt').style.display = 'none';
+            document.getElementById('noteForm').style.display = 'block';
+        }
+
         function saveNotes() {
             var target = document.getElementById('target').value;
             var port = document.getElementById('port').value;
@@ -96,25 +112,25 @@
             var screenshot = document.getElementById('screenshot').files[0];
             var comments = document.getElementById('comments').value;
 
-            // Hash sensitive fields
-            var hashedTarget = CryptoJS.SHA256(target).toString(CryptoJS.enc.Base64);
-            var hashedService = CryptoJS.SHA256(service).toString(CryptoJS.enc.Base64);
-            var hashedVulnerability = CryptoJS.SHA256(vulnerability).toString(CryptoJS.enc.Base64);
-            var hashedExploit = CryptoJS.SHA256(exploit).toString(CryptoJS.enc.Base64);
-            var hashedUsername = CryptoJS.SHA256(username).toString(CryptoJS.enc.Base64);
-            var hashedPassword = CryptoJS.SHA256(password).toString(CryptoJS.enc.Base64);
-            var hashedComments = CryptoJS.SHA256(comments).toString(CryptoJS.enc.Base64);
+            // Encrypt sensitive fields
+            var encryptedTarget = CryptoJS.AES.encrypt(target, secretKey).toString();
+            var encryptedService = CryptoJS.AES.encrypt(service, secretKey).toString();
+            var encryptedVulnerability = CryptoJS.AES.encrypt(vulnerability, secretKey).toString();
+            var encryptedExploit = CryptoJS.AES.encrypt(exploit, secretKey).toString();
+            var encryptedUsername = CryptoJS.AES.encrypt(username, secretKey).toString();
+            var encryptedPassword = CryptoJS.AES.encrypt(password, secretKey).toString();
+            var encryptedComments = CryptoJS.AES.encrypt(comments, secretKey).toString();
 
             var notes = {
-                target: hashedTarget,
+                target: encryptedTarget,
                 port: port,
-                service: hashedService,
+                service: encryptedService,
                 protocol: protocol,
-                vulnerability: hashedVulnerability,
-                exploit: hashedExploit,
-                username: hashedUsername,
-                password: hashedPassword,
-                comments: hashedComments
+                vulnerability: encryptedVulnerability,
+                exploit: encryptedExploit,
+                username: encryptedUsername,
+                password: encryptedPassword,
+                comments: encryptedComments
             };
 
             // Save notes to localStorage
@@ -130,19 +146,30 @@
             notesHTML += '<ul>';
             for (var key in notes) {
                 if (notes[key]) {
-                    notesHTML += '<li><strong>' + key + ':</strong> ' + notes[key] + '</li>';
+                    // Decrypt sensitive fields for display
+                    var decryptedValue = CryptoJS.AES.decrypt(notes[key], secretKey).toString(CryptoJS.enc.Utf8);
+                    notesHTML += '<li><strong>' + key + ':</strong> ' + decryptedValue + '</li>';
                 }
             }
             notesHTML += '</ul>';
             savedNotesDiv.innerHTML = notesHTML;
         }
 
-        // Function to load saved notes when the page loads
+        // Prompt for security key when the page loads
         window.onload = function() {
-            var savedNotes = localStorage.getItem('ethical_hacking_notes');
-            if (savedNotes) {
-                var notes = JSON.parse(savedNotes);
-                displayNotes(notes);
+            secretKey = prompt("Enter Security Key:");
+            if (!secretKey) {
+                document.getElementById('securityKeyPrompt').style.display = 'block';
+                document.getElementById('noteForm').style.display = 'none';
+            } else {
+                document.getElementById('securityKeyPrompt').style.display = 'none';
+                document.getElementById('noteForm').style.display = 'block';
+
+                var savedNotes = localStorage.getItem('ethical_hacking_notes');
+                if (savedNotes) {
+                    var notes = JSON.parse(savedNotes);
+                    displayNotes(notes);
+                }
             }
         }
     </script>
