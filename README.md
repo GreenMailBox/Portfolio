@@ -1,17 +1,10 @@
-#Porfolio Project
-
-![Project Image](https://via.placeholder.com/150) <!-- Replace this with your project image -->
+# Web Development Projects
+This repository contains a collection of web development projects showcasing various creations. From articles to HTML projects and games, explore the diverse range of projects below.
 
 ## Table of Contents
-- [About](#about)
 - [Articles](#articles)
 - [HTML Projects](#html-projects)
 - [Games](#games)
-- [Toggle Sidebar](#toggle-sidebar)
-- [Footer](#footer)
-
-## About
-
 
 ## Articles
 - [Active Note Taking](Notes.html)
@@ -21,18 +14,16 @@
 ## HTML Projects
 - [Task Manager](task.html)
 - [Timeline](timeline.html)
-- Recent Project 3
+- Recent Project 3 (Link TBD)
 
 ## Games
 - [FloopyBIRB](FloopyBIRB.html)
 - [aMAZEing Game](maze.html)
-- [horror](horror.html)
-- [flashLight](flashlight.html)
+- [Horror](horror.html)
+- [Flashlight](flashlight.html)
 
-## Toggle Sidebar
-Click the button below to toggle the sidebar:
+## About
+Welcome to the Web Development Projects repository! Here, you'll find a curated collection of web development projects showcasing various creations. These projects cover a wide range of topics, providing insights into different aspects of web development.
 
-<button class="toggle-sidebar" onclick="toggleSidebar()">Toggle Sidebar</button>
-
-## Footer
-&copy; 2024 100 Days Projects. All rights reserved.
+## Contact
+If you have any questions or suggestions, feel free to contact us.
