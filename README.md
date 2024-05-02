@@ -1,4 +1,4 @@
-# 100 Days Projects
+#Porfolio Project
 
 ![Project Image](https://via.placeholder.com/150) <!-- Replace this with your project image -->
 
@@ -11,7 +11,7 @@
 - [Footer](#footer)
 
 ## About
-This repository contains a collection of 100 Days Projects, showcasing various web development projects created over a span of 100 days.
+
 
 ## Articles
 - [Active Note Taking](Notes.html)
