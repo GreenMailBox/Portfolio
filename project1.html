@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HTML</title>
+<title>CSV to HTML</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <style>
   body {
@@ -112,39 +112,11 @@
   .search-button:hover {
     background-color: #0056b3;
   }
-  .pagination {
-    margin-top: 20px;
-    text-align: center;
-  }
-  .page-button {
-    margin: 0 5px;
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-  }
-  .page-button:hover {
-    background-color: #0056b3;
-  }
-  .page-input {
-    margin: 0 5px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: 60px;
-    box-sizing: border-box;
-    font-size: 14px;
-  }
 </style>
 </head>
 <body>
 
-<h1 id="title">Horror Movie Recommendation</h1>
-<p id="summary">This is a sample project summary. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum urna a risus varius, at eleifend est tempor. Nulla facilisi.</p>
+<h1>Horror Movie Recommendation</h1>
 
 <div>
   <label for="filterTitle" class="filter-label">Title:</label>
@@ -181,23 +153,16 @@
   <!-- Table content will be inserted here -->
 </table>
 
-<div class="pagination" id="pagination"></div>
-
 <script>
 // Declare headers array outside of fetch block
 let headers;
 let parsedData; // Declare parsedData variable globally
-let currentPage = 1;
-const moviesPerPage = 10;
 
-// Function to render movies for the current page
+// Function to render movies based on filtered data
 function renderMovies(filteredData) {
   const table = document.getElementById('csvTable');
   table.innerHTML = ''; // Clear existing table content
-  const startIndex = (currentPage - 1) * moviesPerPage;
-  const endIndex = Math.min(startIndex + moviesPerPage, filteredData.length);
-  for (let i = startIndex; i < endIndex; i++) {
-    const rowData = filteredData[i];
+  filteredData.forEach(rowData => {
     const row = document.createElement('tr');
     headers.forEach(header => {
       const cell = document.createElement('td');
@@ -206,63 +171,7 @@ function renderMovies(filteredData) {
       row.appendChild(cell);
     });
     table.appendChild(row);
-  }
-}
-
-// Function to render pagination buttons
-function renderPagination(totalPages) {
-  const paginationContainer = document.getElementById('pagination');
-  paginationContainer.innerHTML = ''; // Clear existing pagination buttons
-  if (totalPages > 1) {
-    const firstButton = document.createElement('button');
-    firstButton.textContent = 'First';
-    firstButton.classList.add('page-button');
-    firstButton.disabled = currentPage === 1;
-    firstButton.addEventListener('click', () => {
-      if (currentPage > 1) {
-        currentPage = 1;
-        renderMovies(parsedData);
-        renderPagination(totalPages);
-      }
-    });
-    paginationContainer.appendChild(firstButton);
-
-    const lastButton = document.createElement('button');
-    lastButton.textContent = 'Last';
-    lastButton.classList.add('page-button');
-    lastButton.disabled = currentPage === totalPages;
-    lastButton.addEventListener('click', () => {
-      if (currentPage < totalPages) {
-        currentPage = totalPages;
-        renderMovies(parsedData);
-        renderPagination(totalPages);
-      }
-    });
-    paginationContainer.appendChild(lastButton);
-
-    const pageInput = document.createElement('input');
-    pageInput.type = 'number';
-    pageInput.min = 1;
-    pageInput.max = totalPages;
-    pageInput.value = currentPage;
-    pageInput.classList.add('page-input');
-    paginationContainer.appendChild(pageInput);
-
-    const goButton = document.createElement('button');
-    goButton.textContent = 'Go';
-    goButton.classList.add('page-button');
-    goButton.addEventListener('click', () => {
-      const pageNumber = parseInt(pageInput.value, 10);
-      if (pageNumber >= 1 && pageNumber <= totalPages) {
-        currentPage = pageNumber;
-        renderMovies(parsedData);
-        renderPagination(totalPages);
-      } else {
-        alert('Invalid page number.');
-      }
-    });
-    paginationContainer.appendChild(goButton);
-  }
+  });
 }
 
 // Function to filter movies based on input criteria
@@ -293,12 +202,8 @@ function filterMovies() {
 const searchButton = document.getElementById('searchButton');
 searchButton.addEventListener('click', () => {
   try {
-    console.log('Search button clicked');
     const filteredData = filterMovies();
-    console.log('Filtered data:', filteredData);
-    const totalPagesAfterFiltering = Math.ceil(filteredData.length / moviesPerPage);
     renderMovies(filteredData);
-    renderPagination(totalPagesAfterFiltering);
   } catch (error) {
     console.error('Error filtering movies:', error);
     alert('An error occurred while filtering movies. Please try again.');
@@ -311,11 +216,7 @@ fetch('data.csv')
   .then(data => {
     // Parse CSV
     parsedData = Papa.parse(data, { header: true }).data;
-
-    // Initial render
-    const totalPages = Math.ceil(parsedData.length / moviesPerPage);
-    renderMovies(parsedData);
-    renderPagination(totalPages);
+    headers = Object.keys(parsedData[0]);
   })
   .catch(error => {
     console.error('Error fetching CSV:', error);
