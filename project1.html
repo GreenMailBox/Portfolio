@@ -1,14 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSV to HTML</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+  }
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  th, td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  th {
+    background: linear-gradient(45deg, #4CAF50, #64B5F6);
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  td {
+    font-size: 14px;
+    color: #555;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  tr:hover {
+    background-color: #f0f0f0;
+  }
+  @media only screen and (max-width: 600px) {
+    table {
+      border: 0;
+    }
+    table thead {
+      display: none;
+    }
+    table tr {
+      border-bottom: 2px solid #ddd;
+      display: block;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    table td {
+      border-bottom: none;
+      display: block;
+      text-align: right;
+      background-color: transparent;
+      padding-left: 40%;
+      position: relative;
+    }
+    table td:before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 40%;
+      padding-left: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+  .filter-input {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: calc(100% - 120px);
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  .filter-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .filter-input,
+  .random-button {
+    margin-right: 10px;
+  }
+  .random-button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  .random-button:hover {
+    background-color: #0056b3;
+  }
+  .pagination {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .page-button {
+    margin: 0 5px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  .page-button:hover {
+    background-color: #0056b3;
+  }
+</style>
+</head>
+<body>
+
+<h1 id="title">Horror Movie Recommendation</h1>
+<p id="summary">This is a sample project summary. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum urna a risus varius, at eleifend est tempor. Nulla facilisi.</p>
+
+<div>
+  <label for="filterTitle" class="filter-label">Title:</label>
+  <input type="text" id="filterTitle" class="filter-input" placeholder="Filter by Title">
+  
+  <label for="filterIMDBRating" class="filter-label">IMDB Rating (Above):</label>
+  <input type="number" id="filterIMDBRating" class="filter-input" placeholder="Filter by IMDB Rating">
+
+  <label for="filterIMDBVotes" class="filter-label">IMDB Votes (Above):</label>
+  <input type="number" id="filterIMDBVotes" class="filter-input" placeholder="Filter by IMDB Votes">
+
+  <label for="filterGenres" class="filter-label">Genres:</label>
+  <input type="text" id="filterGenres" class="filter-input" placeholder="Filter by Genres">
+
+  <label for="filterAudienceScore" class="filter-label">Audience Score (Above):</label>
+  <input type="number" id="filterAudienceScore" class="filter-input" placeholder="Filter by Audience Score">
+
+  <label for="filterCriticScore" class="filter-label">Critic Score (Above):</label>
+  <input type="number" id="filterCriticScore" class="filter-input" placeholder="Filter by Critic Score">
+
+  <label for="filterCriticsReviews" class="filter-label">Critics Reviews (Above):</label>
+  <input type="number" id="filterCriticsReviews" class="filter-input" placeholder="Filter by Critics Reviews">
+
+  <label for="filterAudienceReviews" class="filter-label">Audience Reviews (Above):</label>
+  <input type="number" id="filterAudienceReviews" class="filter-input" placeholder="Filter by Audience Reviews">
+
+  <label for="filterStreamingPlatforms" class="filter-label">Streaming Platforms:</label>
+  <input type="text" id="filterStreamingPlatforms" class="filter-input" placeholder="Filter by Streaming Platforms">
+  
+  <button id="randomButton" class="random-button">Random Movie</button>
+  <button id="randomFilteredButton" class="random-button">Random Filtered Movie</button>
+</div>
+
+<table id="csvTable">
+  <!-- Table content will be inserted here -->
+</table>
+
+<div class="pagination" id="pagination"></div>
+
 <script>
 // Declare headers array outside of fetch block
 let headers;
 let parsedData; // Declare parsedData variable globally
-let filteredData; // Declare filteredData variable globally
-
-// Function to get a random movie title
-function getRandomMovieTitle() {
-  const randomIndex = Math.floor(Math.random() * filteredData.length);
-  return filteredData[randomIndex].Title; // Return random movie title from filtered data
-}
+let currentPage = 1;
+const moviesPerPage = 10;
 
 // Fetch the CSV file
 fetch('data.csv')
@@ -17,89 +189,96 @@ fetch('data.csv')
     // Parse CSV
     parsedData = Papa.parse(data, { header: true }).data;
 
-    // Build HTML table
-    const table = document.getElementById('csvTable');
-    headers = Object.keys(parsedData[0]); // Assign headers here
-    const headerRow = document.createElement('tr');
-    headers.forEach(header => {
-      const th = document.createElement('th');
-      th.textContent = header;
-      headerRow.appendChild(th);
-    });
-    table.appendChild(headerRow);
+    // Calculate total number of pages
+    const totalPages = Math.ceil(parsedData.length / moviesPerPage);
 
-    parsedData.forEach(rowData => {
-      const row = document.createElement('tr');
-      headers.forEach(header => {
-        const cell = document.createElement('td');
-        cell.textContent = rowData[header];
-        cell.setAttribute('data-label', header);
-        row.appendChild(cell);
-      });
-      table.appendChild(row);
-    });
+    // Render movies for the current page
+    renderMovies();
 
-    // Add filtering functionality
-    const filterTitle = document.getElementById('filterTitle');
-    const filterIMDBRating = document.getElementById('filterIMDBRating');
-    const filterIMDBVotes = document.getElementById('filterIMDBVotes');
-    const filterGenres = document.getElementById('filterGenres');
-    const filterAudienceScore = document.getElementById('filterAudienceScore');
-    const filterCriticScore = document.getElementById('filterCriticScore');
-    const filterCriticsReviews = document.getElementById('filterCriticsReviews');
-    const filterAudienceReviews = document.getElementById('filterAudienceReviews');
-    const filterStreamingPlatforms = document.getElementById('filterStreamingPlatforms');
+    // Render pagination buttons
+    renderPagination(totalPages);
 
-    const filterInputs = [filterTitle, filterIMDBRating, filterIMDBVotes, filterGenres, filterAudienceScore, filterCriticScore, filterCriticsReviews, filterAudienceReviews, filterStreamingPlatforms];
-
-    function applyFilters() {
-      filteredData = parsedData.filter(movie => {
-        return filterInputs.every((input, index) => {
-          if (input.value && (index === 1 || index === 2 || index === 4 || index === 5 || index === 6)) {
-            return parseFloat(movie[headers[index]]) >= parseFloat(input.value);
-          } else if (input.value && index !== 3 && index !== 7 && index !== 8) {
-            return movie[headers[index]].toLowerCase().includes(input.value.toLowerCase());
-          }
-          return true;
+    // Function to render movies for the current page
+    function renderMovies() {
+      const table = document.getElementById('csvTable');
+      table.innerHTML = ''; // Clear existing table content
+      headers = Object.keys(parsedData[0]); // Assign headers here
+      const startIndex = (currentPage - 1) * moviesPerPage;
+      const endIndex = Math.min(startIndex + moviesPerPage, parsedData.length);
+      for (let i = startIndex; i < endIndex; i++) {
+        const rowData = parsedData[i];
+        const row = document.createElement('tr');
+        headers.forEach(header => {
+          const cell = document.createElement('td');
+          cell.textContent = rowData[header];
+          cell.setAttribute('data-label', header);
+          row.appendChild(cell);
         });
-      });
+        table.appendChild(row);
+      }
     }
 
-    filterInputs.forEach(input => {
-      input.addEventListener('input', function() {
-        applyFilters();
-        const rows = table.querySelectorAll('tr');
-        rows.forEach(row => {
-          const cells = row.querySelectorAll('td');
-          let found = true;
-          cells.forEach((cell, index) => {
-            if (filterInputs[index].value && !cell.textContent.toLowerCase().includes(filterInputs[index].value.toLowerCase())) {
-              found = false;
-            }
-          });
-          if (found) {
-            row.style.display = '';
-          } else {
-            row.style.display = 'none';
+    // Function to render pagination buttons
+    function renderPagination(totalPages) {
+      const paginationContainer = document.getElementById('pagination');
+      paginationContainer.innerHTML = ''; // Clear existing pagination buttons
+      if (totalPages > 1) {
+        const prevButton = document.createElement('button');
+        prevButton.textContent = 'Previous';
+        prevButton.classList.add('page-button');
+        prevButton.disabled = currentPage === 1;
+        prevButton.addEventListener('click', () => {
+          if (currentPage > 1) {
+            currentPage--;
+            renderMovies();
+            renderPagination(totalPages);
           }
         });
-      });
-    });
+        paginationContainer.appendChild(prevButton);
 
+        for (let i = 1; i <= totalPages; i++) {
+          const pageButton = document.createElement('button');
+          pageButton.textContent = i;
+          pageButton.classList.add('page-button');
+          pageButton.classList.toggle('active', i === currentPage);
+          pageButton.addEventListener('click', () => {
+            currentPage = i;
+            renderMovies();
+            renderPagination(totalPages);
+          });
+          paginationContainer.appendChild(pageButton);
+        }
+
+        const nextButton = document.createElement('button');
+        nextButton.textContent = 'Next';
+        nextButton.classList.add('page-button');
+        nextButton.disabled = currentPage === totalPages;
+        nextButton.addEventListener('click', () => {
+          if (currentPage < totalPages) {
+            currentPage++;
+            renderMovies();
+            renderPagination(totalPages);
+          }
+        });
+        paginationContainer.appendChild(nextButton);
+      }
+    }
+    
     // Add random button functionality
     const randomButton = document.getElementById('randomButton');
     randomButton.addEventListener('click', function() {
-      if (filteredData && filteredData.length > 0) {
-        alert('Random Movie Title: ' + getRandomMovieTitle()); // Alert with random movie title
-      } else {
-        alert('No movies match the filter criteria.');
-      }
+      const randomIndex = Math.floor(Math.random() * parsedData.length);
+      const randomMovie = parsedData[randomIndex];
+      alert('Random Movie:\n\nTitle: ' + randomMovie.Title + '\nIMDB Rating: ' + randomMovie['IMDB rating'] + '\nIMDB Votes: ' + randomMovie['IMDB votes']);
     });
 
     // Add random filtered button functionality
     const randomFilteredButton = document.getElementById('randomFilteredButton');
     randomFilteredButton.addEventListener('click', function() {
-      applyFilters();
+      // First, filter the data based on the current filter inputs
+      const filterTitle = document.getElementById('filterTitle').value.toLowerCase();
+      const filteredData = parsedData.filter(movie => movie.Title.toLowerCase().includes(filterTitle));
+
       if (filteredData.length > 0) {
         const randomIndex = Math.floor(Math.random() * filteredData.length);
         const randomMovie = filteredData[randomIndex];
@@ -115,3 +294,6 @@ fetch('data.csv')
   })
   .catch(error => console.error('Error fetching CSV:', error));
 </script>
+
+</body>
+</html>
