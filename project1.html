@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSV to HTML</title>
+<title>Horror Movie Searcher</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <style>
   body {
-    font-family: 'Roboto', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f8f9fa;
+    color: #333;
   }
   h1 {
     text-align: center;
     margin-top: 20px;
-    color: #333;
   }
   table {
     width: 100%;
@@ -27,33 +27,25 @@
     overflow: hidden;
   }
   th, td {
-    padding: 16px;
+    padding: 12px;
     text-align: left;
     border-bottom: 1px solid #f0f0f0;
   }
   th {
-    background: linear-gradient(45deg, #4CAF50, #64B5F6);
+    background-color: #007bff;
     color: white;
     text-transform: uppercase;
-    font-size: 14px;
-    font-weight: 700;
-  }
-  td {
-    font-size: 14px;
-    color: #555;
+    font-weight: bold;
   }
   tr:nth-child(even) {
     background-color: #f2f2f2;
   }
   tr:hover {
-    background-color: #f0f0f0;
+    background-color: #e2e2e2;
   }
   @media only screen and (max-width: 600px) {
-    table {
-      border: 0;
-    }
     table thead {
-      display: block;
+      display: none;
     }
     table tbody, table tr, table th, table td {
       display: block;
@@ -101,10 +93,6 @@
     font-size: 14px;
     font-weight: bold;
   }
-  .filter-input,
-  .search-button {
-    margin-right: 10px;
-  }
   .search-button {
     padding: 12px 20px;
     background-color: #007bff;
@@ -118,24 +106,6 @@
   .search-button:hover {
     background-color: #0056b3;
   }
-  .pagination {
-    text-align: center;
-    margin-top: 20px;
-  }
-  .pagination button {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 8px 16px;
-    margin: 0 5px;
-    transition: background-color 0.3s;
-  }
-  .pagination button:hover {
-    background-color: #0056b3;
-  }
 </style>
 </head>
 <body>
@@ -143,6 +113,7 @@
 <h1>Horror Movie Recommendation</h1>
 
 <div>
+  <!-- Filter inputs -->
   <label for="filterTitle" class="filter-label">Title:</label>
   <input type="text" id="filterTitle" class="filter-input" placeholder="Filter by Title">
   
@@ -170,13 +141,16 @@
   <label for="filterStreamingPlatforms" class="filter-label">Streaming Platforms:</label>
   <input type="text" id="filterStreamingPlatforms" class="filter-input" placeholder="Filter by Streaming Platforms">
   
+  <!-- Search button -->
   <button id="searchButton" class="search-button">Search</button>
 </div>
 
+<!-- Table for displaying movies -->
 <table id="csvTable">
   <!-- Table content will be inserted here -->
 </table>
 
+<!-- Pagination section -->
 <div id="pagination" class="pagination"></div>
 
 <script>
@@ -208,7 +182,8 @@ function renderMovies() {
     const row = document.createElement('tr');
     Object.entries(rowData).forEach(([key, value]) => {
       const cell = document.createElement('td');
-      cell.textContent = `${key}: ${value}`;
+      cell.textContent = value;
+      cell.setAttribute('data-label', key);
       row.appendChild(cell);
     });
     table.appendChild(row);
