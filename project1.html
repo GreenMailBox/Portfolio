@@ -139,6 +139,19 @@
     box-sizing: border-box;
     font-size: 14px;
   }
+  .search-button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  .search-button:hover {
+    background-color: #0056b3;
+  }
 </style>
 </head>
 <body>
@@ -173,6 +186,8 @@
 
   <label for="filterStreamingPlatforms" class="filter-label">Streaming Platforms:</label>
   <input type="text" id="filterStreamingPlatforms" class="filter-input" placeholder="Filter by Streaming Platforms">
+  
+  <button id="searchButton" class="search-button">Search</button>
 </div>
 
 <table id="csvTable">
@@ -279,6 +294,20 @@ fetch('data.csv')
         paginationContainer.appendChild(goButton);
       }
     }
+
+    // Add search button functionality
+    const searchButton = document.getElementById('searchButton');
+    searchButton.addEventListener('click', function() {
+      renderMovies();
+    });
+
+    // Add filtering functionality
+    const filterInputs = document.querySelectorAll('.filter-input');
+    filterInputs.forEach(input => {
+      input.addEventListener('input', function() {
+        renderMovies();
+      });
+    });
   })
   .catch(error => console.error('Error fetching CSV:', error));
 </script>
