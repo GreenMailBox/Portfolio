@@ -147,6 +147,7 @@
   <input type="text" id="filterStreamingPlatforms" class="filter-input" placeholder="Filter by Streaming Platforms">
   
   <button id="randomButton" class="random-button">Random Movie</button>
+  <button id="randomFilteredButton" class="random-button">Random Filtered Movie</button>
 </div>
 
 <table id="csvTable">
@@ -223,6 +224,24 @@ fetch('data.csv')
       const randomIndex = Math.floor(Math.random() * parsedData.length);
       const randomMovie = parsedData[randomIndex];
       alert('Random Movie:\n\nTitle: ' + randomMovie.Title + '\nIMDB Rating: ' + randomMovie['IMDB rating'] + '\nIMDB Votes: ' + randomMovie['IMDB votes']);
+    });
+
+    // Add random filtered button functionality
+    const randomFilteredButton = document.getElementById('randomFilteredButton');
+    randomFilteredButton.addEventListener('click', function() {
+      const filteredData = parsedData.filter(movie => {
+        return filterInputs.every((input, index) => {
+          return !input.value || movie[headers[index]].toLowerCase().includes(input.value.toLowerCase());
+        });
+      });
+
+      if (filteredData.length > 0) {
+        const randomIndex = Math.floor(Math.random() * filteredData.length);
+        const randomMovie = filteredData[randomIndex];
+        alert('Random Filtered Movie:\n\nTitle: ' + randomMovie.Title + '\nIMDB Rating: ' + randomMovie['IMDB rating'] + '\nIMDB Votes: ' + randomMovie['IMDB votes']);
+      } else {
+        alert('No movies match the filter criteria.');
+      }
     });
   })
   .catch(error => console.error('Error fetching CSV:', error));
