@@ -85,13 +85,21 @@
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    width: calc(100% - 260px);
+    width: calc(100% - 120px);
     box-sizing: border-box;
     font-size: 14px;
   }
+  .filter-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .filter-input,
   .random-button {
-    display: inline-block;
-    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .random-button {
     padding: 12px 20px;
     background-color: #007bff;
     color: #fff;
@@ -111,7 +119,33 @@
 <h1>CSV to HTML Example</h1>
 
 <div>
-  <input type="text" id="filterInput" class="filter-input" placeholder="Filter by Title">
+  <label for="filterTitle" class="filter-label">Title:</label>
+  <input type="text" id="filterTitle" class="filter-input" placeholder="Filter by Title">
+  
+  <label for="filterIMDBRating" class="filter-label">IMDB Rating:</label>
+  <input type="text" id="filterIMDBRating" class="filter-input" placeholder="Filter by IMDB Rating">
+
+  <label for="filterIMDBVotes" class="filter-label">IMDB Votes:</label>
+  <input type="text" id="filterIMDBVotes" class="filter-input" placeholder="Filter by IMDB Votes">
+
+  <label for="filterGenres" class="filter-label">Genres:</label>
+  <input type="text" id="filterGenres" class="filter-input" placeholder="Filter by Genres">
+
+  <label for="filterAudienceScore" class="filter-label">Audience Score:</label>
+  <input type="text" id="filterAudienceScore" class="filter-input" placeholder="Filter by Audience Score">
+
+  <label for="filterCriticScore" class="filter-label">Critic Score:</label>
+  <input type="text" id="filterCriticScore" class="filter-input" placeholder="Filter by Critic Score">
+
+  <label for="filterCriticsReviews" class="filter-label">Critics Reviews:</label>
+  <input type="text" id="filterCriticsReviews" class="filter-input" placeholder="Filter by Critics Reviews">
+
+  <label for="filterAudienceReviews" class="filter-label">Audience Reviews:</label>
+  <input type="text" id="filterAudienceReviews" class="filter-input" placeholder="Filter by Audience Reviews">
+
+  <label for="filterStreamingPlatforms" class="filter-label">Streaming Platforms:</label>
+  <input type="text" id="filterStreamingPlatforms" class="filter-input" placeholder="Filter by Streaming Platforms">
+  
   <button id="randomButton" class="random-button">Random Movie</button>
 </div>
 
@@ -150,23 +184,36 @@ fetch('data.csv')
     });
 
     // Add filtering functionality
-    const filterInput = document.getElementById('filterInput');
-    filterInput.addEventListener('input', function() {
-      const filterValue = this.value.toLowerCase();
-      const rows = table.querySelectorAll('tr');
-      rows.forEach(row => {
-        const cells = row.querySelectorAll('td');
-        let found = false;
-        cells.forEach(cell => {
-          if (cell.textContent.toLowerCase().includes(filterValue)) {
-            found = true;
+    const filterTitle = document.getElementById('filterTitle');
+    const filterIMDBRating = document.getElementById('filterIMDBRating');
+    const filterIMDBVotes = document.getElementById('filterIMDBVotes');
+    const filterGenres = document.getElementById('filterGenres');
+    const filterAudienceScore = document.getElementById('filterAudienceScore');
+    const filterCriticScore = document.getElementById('filterCriticScore');
+    const filterCriticsReviews = document.getElementById('filterCriticsReviews');
+    const filterAudienceReviews = document.getElementById('filterAudienceReviews');
+    const filterStreamingPlatforms = document.getElementById('filterStreamingPlatforms');
+
+    const filterInputs = [filterTitle, filterIMDBRating, filterIMDBVotes, filterGenres, filterAudienceScore, filterCriticScore, filterCriticsReviews, filterAudienceReviews, filterStreamingPlatforms];
+
+    filterInputs.forEach(input => {
+      input.addEventListener('input', function() {
+        const filterValues = filterInputs.map(input => input.value.toLowerCase());
+        const rows = table.querySelectorAll('tr');
+        rows.forEach(row => {
+          const cells = row.querySelectorAll('td');
+          let found = true;
+          cells.forEach((cell, index) => {
+            if (filterValues[index] && !cell.textContent.toLowerCase().includes(filterValues[index])) {
+              found = false;
+            }
+          });
+          if (found) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
           }
         });
-        if (found) {
-          row.style.display = '';
-        } else {
-          row.style.display = 'none';
-        }
       });
     });
 
