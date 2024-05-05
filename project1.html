@@ -85,13 +85,13 @@
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    width: 100%;
+    width: calc(100% - 260px);
     box-sizing: border-box;
     font-size: 14px;
   }
   .random-button {
-    display: block;
-    margin: 20px auto;
+    display: inline-block;
+    margin-left: 10px;
     padding: 12px 20px;
     background-color: #007bff;
     color: #fff;
@@ -110,13 +110,14 @@
 
 <h1>CSV to HTML Example</h1>
 
-<input type="text" id="filterInput" class="filter-input" placeholder="Filter by Title">
+<div>
+  <input type="text" id="filterInput" class="filter-input" placeholder="Filter by Title">
+  <button id="randomButton" class="random-button">Random Movie</button>
+</div>
 
 <table id="csvTable">
   <!-- Table content will be inserted here -->
 </table>
-
-<button id="randomButton" class="random-button">Random Movie</button>
 
 <script>
 // Fetch the CSV file
