@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSV</title>
+<title>CSV to HTML</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <style>
   body {
@@ -96,10 +96,10 @@
     font-weight: bold;
   }
   .filter-input,
-  .random-button {
+  .search-button {
     margin-right: 10px;
   }
-  .random-button {
+  .search-button {
     padding: 12px 20px;
     background-color: #007bff;
     color: #fff;
@@ -109,7 +109,7 @@
     font-size: 16px;
     transition: background-color 0.3s;
   }
-  .random-button:hover {
+  .search-button:hover {
     background-color: #0056b3;
   }
   .pagination {
@@ -138,19 +138,6 @@
     width: 60px;
     box-sizing: border-box;
     font-size: 14px;
-  }
-  .search-button {
-    padding: 12px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-  }
-  .search-button:hover {
-    background-color: #0056b3;
   }
 </style>
 </head>
@@ -278,6 +265,46 @@ function renderPagination(totalPages) {
   }
 }
 
+// Function to filter movies based on input criteria
+function filterMovies() {
+  const filterTitle = document.getElementById('filterTitle').value.toLowerCase();
+  const filterIMDBRating = document.getElementById('filterIMDBRating').value;
+  const filterIMDBVotes = document.getElementById('filterIMDBVotes').value;
+  const filterGenres = document.getElementById('filterGenres').value.toLowerCase();
+  const filterAudienceScore = document.getElementById('filterAudienceScore').value;
+  const filterCriticScore = document.getElementById('filterCriticScore').value;
+  const filterCriticsReviews = document.getElementById('filterCriticsReviews').value;
+  const filterAudienceReviews = document.getElementById('filterAudienceReviews').value;
+  const filterStreamingPlatforms = document.getElementById('filterStreamingPlatforms').value.toLowerCase();
+  return parsedData.filter(movie => (
+    (filterTitle === '' || movie['Title'].toLowerCase().includes(filterTitle)) &&
+    (filterIMDBRating === '' || parseFloat(movie['IMDB rating']) >= parseFloat(filterIMDBRating)) &&
+    (filterIMDBVotes === '' || parseFloat(movie['IMDB votes']) >= parseFloat(filterIMDBVotes)) &&
+    (filterGenres === '' || movie['Genres'].toLowerCase().includes(filterGenres)) &&
+    (filterAudienceScore === '' || parseFloat(movie['Audience Score']) >= parseFloat(filterAudienceScore)) &&
+    (filterCriticScore === '' || parseFloat(movie['Critic Score']) >= parseFloat(filterCriticScore)) &&
+    (filterCriticsReviews === '' || parseFloat(movie['Critics Reviews']) >= parseFloat(filterCriticsReviews)) &&
+    (filterAudienceReviews === '' || parseFloat(movie['Audience Reviews']) >= parseFloat(filterAudienceReviews)) &&
+    (filterStreamingPlatforms === '' || movie['Streaming Platforms'].toLowerCase().includes(filterStreamingPlatforms))
+  ));
+}
+
+// Function to handle search button click
+const searchButton = document.getElementById('searchButton');
+searchButton.addEventListener('click', () => {
+  try {
+    console.log('Search button clicked');
+    const filteredData = filterMovies();
+    console.log('Filtered data:', filteredData);
+    const totalPagesAfterFiltering = Math.ceil(filteredData.length / moviesPerPage);
+    renderMovies(filteredData);
+    renderPagination(totalPagesAfterFiltering);
+  } catch (error) {
+    console.error('Error filtering movies:', error);
+    alert('An error occurred while filtering movies. Please try again.');
+  }
+});
+
 // Fetch the CSV file
 fetch('data.csv')
   .then(response => response.text())
@@ -285,52 +312,15 @@ fetch('data.csv')
     // Parse CSV
     parsedData = Papa.parse(data, { header: true }).data;
 
-    // Function to filter movies based on input criteria
-    function filterMovies() {
-      const filterTitle = document.getElementById('filterTitle').value.toLowerCase();
-      const filterIMDBRating = document.getElementById('filterIMDBRating').value;
-      const filterIMDBVotes = document.getElementById('filterIMDBVotes').value;
-      const filterGenres = document.getElementById('filterGenres').value.toLowerCase();
-      const filterAudienceScore = document.getElementById('filterAudienceScore').value;
-      const filterCriticScore = document.getElementById('filterCriticScore').value;
-      const filterCriticsReviews = document.getElementById('filterCriticsReviews').value;
-      const filterAudienceReviews = document.getElementById('filterAudienceReviews').value;
-      const filterStreamingPlatforms = document.getElementById('filterStreamingPlatforms').value.toLowerCase();
-      return parsedData.filter(movie => (
-        (filterTitle === '' || movie['Title'].toLowerCase().includes(filterTitle)) &&
-        (filterIMDBRating === '' || parseFloat(movie['IMDB rating']) >= parseFloat(filterIMDBRating)) &&
-        (filterIMDBVotes === '' || parseFloat(movie['IMDB votes']) >= parseFloat(filterIMDBVotes)) &&
-        (filterGenres === '' || movie['Genres'].toLowerCase().includes(filterGenres)) &&
-        (filterAudienceScore === '' || parseFloat(movie['Audience Score']) >= parseFloat(filterAudienceScore)) &&
-        (filterCriticScore === '' || parseFloat(movie['Critic Score']) >= parseFloat(filterCriticScore)) &&
-        (filterCriticsReviews === '' || parseFloat(movie['Critics Reviews']) >= parseFloat(filterCriticsReviews)) &&
-        (filterAudienceReviews === '' || parseFloat(movie['Audience Reviews']) >= parseFloat(filterAudienceReviews)) &&
-        (filterStreamingPlatforms === '' || movie['Streaming Platforms'].toLowerCase().includes(filterStreamingPlatforms))
-      ));
-    }
-
-    // Function to handle search button click
-    const searchButton = document.getElementById('searchButton');
-    searchButton.addEventListener('click', () => {
-      try {
-        console.log('Search button clicked');
-        const filteredData = filterMovies();
-        console.log('Filtered data:', filteredData);
-        const totalPagesAfterFiltering = Math.ceil(filteredData.length / moviesPerPage);
-        renderMovies(filteredData);
-        renderPagination(totalPagesAfterFiltering);
-      } catch (error) {
-        console.error('Error filtering movies:', error);
-        alert('An error occurred while filtering movies. Please try again.');
-      }
-    });
-
     // Initial render
     const totalPages = Math.ceil(parsedData.length / moviesPerPage);
     renderMovies(parsedData);
     renderPagination(totalPages);
   })
-  .catch(error => console.error('Error fetching CSV:', error));
+  .catch(error => {
+    console.error('Error fetching CSV:', error);
+    alert('An error occurred while fetching the CSV file. Please try again.');
+  });
 </script>
 
 </body>
