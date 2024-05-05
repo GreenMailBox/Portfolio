@@ -226,9 +226,8 @@ fetch('data.csv')
       headers = Object.keys(parsedData[0]); // Assign headers here
       const startIndex = (currentPage - 1) * moviesPerPage;
       const endIndex = Math.min(startIndex + moviesPerPage, parsedData.length);
-      const filteredData = getFilteredData();
-      for (let i = startIndex; i < endIndex && i < filteredData.length; i++) {
-        const rowData = filteredData[i];
+      for (let i = startIndex; i < endIndex; i++) {
+        const rowData = parsedData[i];
         const row = document.createElement('tr');
         headers.forEach(header => {
           const cell = document.createElement('td');
@@ -296,54 +295,11 @@ fetch('data.csv')
       }
     }
 
-    // Function to get filtered data based on user input
-    function getFilteredData() {
-      const filterTitle = document.getElementById('filterTitle').value.toLowerCase();
-      const filterIMDBRating = parseFloat(document.getElementById('filterIMDBRating').value);
-      const filterIMDBVotes = parseFloat(document.getElementById('filterIMDBVotes').value);
-      const filterGenres = document.getElementById('filterGenres').value.toLowerCase();
-      const filterAudienceScore = parseFloat(document.getElementById('filterAudienceScore').value);
-      const filterCriticScore = parseFloat(document.getElementById('filterCriticScore').value);
-      const filterCriticsReviews = parseFloat(document.getElementById('filterCriticsReviews').value);
-      const filterAudienceReviews = parseFloat(document.getElementById('filterAudienceReviews').value);
-      const filterStreamingPlatforms = document.getElementById('filterStreamingPlatforms').value.toLowerCase();
-
-      return parsedData.filter(movie => {
-        const title = movie['Title'].toLowerCase();
-        const imdbRating = parseFloat(movie['IMDB rating']);
-        const imdbVotes = parseFloat(movie['IMDB votes']);
-        const genres = movie['Genres'].toLowerCase();
-        const audienceScore = parseFloat(movie['Audience Score']);
-        const criticScore = parseFloat(movie['Critic Score']);
-        const criticsReviews = parseFloat(movie['Critics Reviews']);
-        const audienceReviews = parseFloat(movie['Audience Reviews']);
-        const streamingPlatforms = movie['Streaming Platforms'].toLowerCase();
-
-        return title.includes(filterTitle)
-          && (isNaN(filterIMDBRating) || imdbRating >= filterIMDBRating)
-          && (isNaN(filterIMDBVotes) || imdbVotes >= filterIMDBVotes)
-          && genres.includes(filterGenres)
-          && (isNaN(filterAudienceScore) || audienceScore >= filterAudienceScore)
-          && (isNaN(filterCriticScore) || criticScore >= filterCriticScore)
-          && (isNaN(filterCriticsReviews) || criticsReviews >= filterCriticsReviews)
-          && (isNaN(filterAudienceReviews) || audienceReviews >= filterAudienceReviews)
-          && streamingPlatforms.includes(filterStreamingPlatforms);
-      });
-    }
-
     // Add search button functionality
     const searchButton = document.getElementById('searchButton');
     searchButton.addEventListener('click', function() {
       renderMovies();
-      renderPagination(Math.ceil(getFilteredData().length / moviesPerPage));
-    });
-
-    // Add filtering functionality for input fields
-    const filterInputs = document.querySelectorAll('.filter-input');
-    filterInputs.forEach(input => {
-      input.addEventListener('input', function() {
-        renderPagination(Math.ceil(getFilteredData().length / moviesPerPage));
-      });
+      renderPagination(totalPages);
     });
   })
   .catch(error => console.error('Error fetching CSV:', error));
