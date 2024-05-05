@@ -221,7 +221,7 @@ function renderPagination(totalPages) {
     firstButton.addEventListener('click', () => {
       if (currentPage > 1) {
         currentPage = 1;
-        renderMovies(filteredData);
+        renderMovies(parsedData);
         renderPagination(totalPages);
       }
     });
@@ -234,7 +234,7 @@ function renderPagination(totalPages) {
     lastButton.addEventListener('click', () => {
       if (currentPage < totalPages) {
         currentPage = totalPages;
-        renderMovies(filteredData);
+        renderMovies(parsedData);
         renderPagination(totalPages);
       }
     });
@@ -255,7 +255,7 @@ function renderPagination(totalPages) {
       const pageNumber = parseInt(pageInput.value, 10);
       if (pageNumber >= 1 && pageNumber <= totalPages) {
         currentPage = pageNumber;
-        renderMovies(filteredData);
+        renderMovies(parsedData);
         renderPagination(totalPages);
       } else {
         alert('Invalid page number.');
