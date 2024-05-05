@@ -156,6 +156,9 @@
 </table>
 
 <script>
+// Declare headers array outside of fetch block
+let headers;
+
 // Fetch the CSV file
 fetch('data.csv')
   .then(response => response.text())
@@ -165,7 +168,7 @@ fetch('data.csv')
 
     // Build HTML table
     const table = document.getElementById('csvTable');
-    const headers = Object.keys(parsedData[0]);
+    headers = Object.keys(parsedData[0]); // Assign headers here
     const headerRow = document.createElement('tr');
     headers.forEach(header => {
       const th = document.createElement('th');
@@ -239,7 +242,11 @@ fetch('data.csv')
       if (filteredData.length > 0) {
         const randomIndex = Math.floor(Math.random() * filteredData.length);
         const randomMovie = filteredData[randomIndex];
-        alert('Random Filtered Movie:\n\nTitle: ' + randomMovie.Title + '\nIMDB Rating: ' + randomMovie['IMDB rating'] + '\nIMDB Votes: ' + randomMovie['IMDB votes']);
+        let movieInfo = 'Random Filtered Movie:\n\n';
+        headers.forEach(header => {
+          movieInfo += `${header}: ${randomMovie[header]}\n`;
+        });
+        alert(movieInfo);
       } else {
         alert('No movies match the filter criteria.');
       }
