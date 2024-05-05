@@ -244,19 +244,34 @@ fetch('data.csv')
         });
       });
 
-      if (filteredData.length > 0) {
-        const randomIndex = Math.floor(Math.random() * filteredData.length);
-        const randomMovie = filteredData[randomIndex];
-        let movieInfo = 'Random Filtered Movie:\n\n';
-        headers.forEach(header => {
-          movieInfo += `${header}: ${randomMovie[header]}\n`;
-        });
-        alert(movieInfo);
-      } else {
-        alert('No movies match the filter criteria.');
+      // Add random filtered button functionality
+const randomFilteredButton = document.getElementById('randomFilteredButton');
+randomFilteredButton.addEventListener('click', function() {
+  const filteredData = parsedData.filter(movie => {
+    return filterInputs.every((input, index) => {
+      if (input.value && (index === 1 || index === 2 || index === 4 || index === 5 || index === 6)) {
+        return parseFloat(movie[headers[index]]) >= parseFloat(input.value);
+      } else if (input.value && index !== 3 && index !== 7 && index !== 8) {
+        return movie[headers[index]].toLowerCase().includes(input.value.toLowerCase());
+      } else if (input.value && (index === 3 || index === 7 || index === 8)) {
+        return movie[headers[index]].toLowerCase() === input.value.toLowerCase();
       }
+      return true;
     });
-  })
+  });
+
+  if (filteredData.length > 0) {
+    const randomIndex = Math.floor(Math.random() * filteredData.length);
+    const randomMovie = filteredData[randomIndex];
+    let movieInfo = 'Random Filtered Movie:\n\n';
+    headers.forEach(header => {
+      movieInfo += `${header}: ${randomMovie[header]}\n`;
+    });
+    alert(movieInfo);
+  } else {
+    alert('No movies match the filter criteria.');
+  }
+});
   .catch(error => console.error('Error fetching CSV:', error));
 </script>
 
