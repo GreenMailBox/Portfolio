@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSV to HTML</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body>
+
+<h1>CSV to HTML Example</h1>
+
+<table id="csvTable">
+  <!-- Table content will be inserted here -->
+</table>
+
+<script>
+// Fetch the CSV file
+fetch('data.csv')
+  .then(response => response.text())
+  .then(data => {
+    // Parse CSV
+    const parsedData = Papa.parse(data, { header: true }).data;
+
+    // Build HTML table
+    const table = document.getElementById('csvTable');
+    const headers = Object.keys(parsedData[0]);
+    const headerRow = document.createElement('tr');
+    headers.forEach(header => {
+      const th = document.createElement('th');
+      th.textContent = header;
+      headerRow.appendChild(th);
+    });
+    table.appendChild(headerRow);
+
+    parsedData.forEach(rowData => {
+      const row = document.createElement('tr');
+      headers.forEach(header => {
+        const cell = document.createElement('td');
+        cell.textContent = rowData[header];
+        row.appendChild(cell);
+      });
+      table.appendChild(row);
+    });
+  })
+  .catch(error => console.error('Error fetching CSV:', error));
+</script>
+
+</body>
+</html>
