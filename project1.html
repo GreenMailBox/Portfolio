@@ -1,169 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSV to HTML</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-<style>
-  body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f8f9fa;
-  }
-  h1 {
-    text-align: center;
-    margin-top: 20px;
-    color: #333;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-  th, td {
-    padding: 16px;
-    text-align: left;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  th {
-    background: linear-gradient(45deg, #4CAF50, #64B5F6);
-    color: white;
-    text-transform: uppercase;
-    font-size: 14px;
-    font-weight: 700;
-  }
-  td {
-    font-size: 14px;
-    color: #555;
-  }
-  tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  tr:hover {
-    background-color: #f0f0f0;
-  }
-  @media only screen and (max-width: 600px) {
-    table {
-      border: 0;
-    }
-    table thead {
-      display: none;
-    }
-    table tr {
-      border-bottom: 2px solid #ddd;
-      display: block;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    table td {
-      border-bottom: none;
-      display: block;
-      text-align: right;
-      background-color: transparent;
-      padding-left: 40%;
-      position: relative;
-    }
-    table td:before {
-      content: attr(data-label);
-      position: absolute;
-      left: 0;
-      width: 40%;
-      padding-left: 16px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-  }
-  .filter-input {
-    margin-bottom: 10px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    width: calc(100% - 120px);
-    box-sizing: border-box;
-    font-size: 14px;
-  }
-  .filter-label {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
-    font-weight: bold;
-  }
-  .filter-input,
-  .random-button {
-    margin-right: 10px;
-  }
-  .random-button {
-    padding: 12px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-  }
-  .random-button:hover {
-    background-color: #0056b3;
-  }
-</style>
-</head>
-<body>
-
-<h1 id="title">Horror Movie Recommendation</h1>
-<p id="summary">This is a sample project summary. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum urna a risus varius, at eleifend est tempor. Nulla facilisi.</p>
-
-<div>
-  <label for="filterTitle" class="filter-label">Title:</label>
-  <input type="text" id="filterTitle" class="filter-input" placeholder="Filter by Title">
-  
-  <label for="filterIMDBRating" class="filter-label">IMDB Rating (Above):</label>
-  <input type="number" id="filterIMDBRating" class="filter-input" placeholder="Filter by IMDB Rating">
-
-  <label for="filterIMDBVotes" class="filter-label">IMDB Votes (Above):</label>
-  <input type="number" id="filterIMDBVotes" class="filter-input" placeholder="Filter by IMDB Votes">
-
-  <label for="filterGenres" class="filter-label">Genres:</label>
-  <input type="text" id="filterGenres" class="filter-input" placeholder="Filter by Genres">
-
-  <label for="filterAudienceScore" class="filter-label">Audience Score (Above):</label>
-  <input type="number" id="filterAudienceScore" class="filter-input" placeholder="Filter by Audience Score">
-
-  <label for="filterCriticScore" class="filter-label">Critic Score (Above):</label>
-  <input type="number" id="filterCriticScore" class="filter-input" placeholder="Filter by Critic Score">
-
-  <label for="filterCriticsReviews" class="filter-label">Critics Reviews (Above):</label>
-  <input type="number" id="filterCriticsReviews" class="filter-input" placeholder="Filter by Critics Reviews">
-
-  <label for="filterAudienceReviews" class="filter-label">Audience Reviews (Above):</label>
-  <input type="number" id="filterAudienceReviews" class="filter-input" placeholder="Filter by Audience Reviews">
-
-  <label for="filterStreamingPlatforms" class="filter-label">Streaming Platforms:</label>
-  <input type="text" id="filterStreamingPlatforms" class="filter-input" placeholder="Filter by Streaming Platforms">
-  
-  <button id="randomButton" class="random-button">Random Movie</button>
-  <button id="randomFilteredButton" class="random-button">Random Filtered Movie</button>
-</div>
-
-<table id="csvTable">
-  <!-- Table content will be inserted here -->
-</table>
-
 <script>
 // Declare headers array outside of fetch block
 let headers;
 let parsedData; // Declare parsedData variable globally
+let filteredData; // Declare filteredData variable globally
 
 // Function to get a random movie title
 function getRandomMovieTitle() {
-  const randomIndex = Math.floor(Math.random() * parsedData.length);
-  return parsedData[randomIndex].Title; // Return random movie title
+  const randomIndex = Math.floor(Math.random() * filteredData.length);
+  return filteredData[randomIndex].Title; // Return random movie title from filtered data
 }
 
 // Fetch the CSV file
@@ -208,15 +52,28 @@ fetch('data.csv')
 
     const filterInputs = [filterTitle, filterIMDBRating, filterIMDBVotes, filterGenres, filterAudienceScore, filterCriticScore, filterCriticsReviews, filterAudienceReviews, filterStreamingPlatforms];
 
+    function applyFilters() {
+      filteredData = parsedData.filter(movie => {
+        return filterInputs.every((input, index) => {
+          if (input.value && (index === 1 || index === 2 || index === 4 || index === 5 || index === 6)) {
+            return parseFloat(movie[headers[index]]) >= parseFloat(input.value);
+          } else if (input.value && index !== 3 && index !== 7 && index !== 8) {
+            return movie[headers[index]].toLowerCase().includes(input.value.toLowerCase());
+          }
+          return true;
+        });
+      });
+    }
+
     filterInputs.forEach(input => {
       input.addEventListener('input', function() {
-        const filterValues = filterInputs.map(input => input.value.toLowerCase());
+        applyFilters();
         const rows = table.querySelectorAll('tr');
         rows.forEach(row => {
           const cells = row.querySelectorAll('td');
           let found = true;
           cells.forEach((cell, index) => {
-            if (filterValues[index] && !cell.textContent.toLowerCase().includes(filterValues[index])) {
+            if (filterInputs[index].value && !cell.textContent.toLowerCase().includes(filterInputs[index].value.toLowerCase())) {
               found = false;
             }
           });
@@ -232,23 +89,17 @@ fetch('data.csv')
     // Add random button functionality
     const randomButton = document.getElementById('randomButton');
     randomButton.addEventListener('click', function() {
-      alert('Random Movie Title: ' + getRandomMovieTitle()); // Alert with random movie title
+      if (filteredData && filteredData.length > 0) {
+        alert('Random Movie Title: ' + getRandomMovieTitle()); // Alert with random movie title
+      } else {
+        alert('No movies match the filter criteria.');
+      }
     });
 
     // Add random filtered button functionality
     const randomFilteredButton = document.getElementById('randomFilteredButton');
     randomFilteredButton.addEventListener('click', function() {
-      const filteredData = parsedData.filter(movie => {
-        return filterInputs.every((input, index) => {
-          if (input.value && (index === 1 || index === 2 || index === 4 || index === 5 || index === 6)) {
-            return parseFloat(movie[headers[index]]) >= parseFloat(input.value);
-          } else if (input.value && index !== 3 && index !== 7 && index !== 8) {
-            return movie[headers[index]].toLowerCase().includes(input.value.toLowerCase());
-          }
-          return true;
-        });
-      });
-
+      applyFilters();
       if (filteredData.length > 0) {
         const randomIndex = Math.floor(Math.random() * filteredData.length);
         const randomMovie = filteredData[randomIndex];
@@ -264,6 +115,3 @@ fetch('data.csv')
   })
   .catch(error => console.error('Error fetching CSV:', error));
 </script>
-
-</body>
-</html>
