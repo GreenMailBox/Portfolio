@@ -173,9 +173,6 @@
 
   <label for="filterStreamingPlatforms" class="filter-label">Streaming Platforms:</label>
   <input type="text" id="filterStreamingPlatforms" class="filter-input" placeholder="Filter by Streaming Platforms">
-  
-  <button id="randomButton" class="random-button">Random Movie</button>
-  <button id="randomFilteredButton" class="random-button">Random Filtered Movie</button>
 </div>
 
 <table id="csvTable">
@@ -282,55 +279,6 @@ fetch('data.csv')
         paginationContainer.appendChild(goButton);
       }
     }
-    
-    // Add random button functionality
-    const randomButton = document.getElementById('randomButton');
-    randomButton.addEventListener('click', function() {
-      const randomIndex = Math.floor(Math.random() * parsedData.length);
-      const randomMovie = parsedData[randomIndex];
-      alert('Random Movie:\n\nTitle: ' + randomMovie.Title + '\nIMDB Rating: ' + randomMovie['IMDB rating'] + '\nIMDB Votes: ' + randomMovie['IMDB votes']);
-    });
-
-    // Add random filtered button functionality
-    const randomFilteredButton = document.getElementById('randomFilteredButton');
-    randomFilteredButton.addEventListener('click', function() {
-      // First, filter the data based on the current filter inputs
-      const filterTitle = document.getElementById('filterTitle').value.toLowerCase();
-      const filterIMDBRating = document.getElementById('filterIMDBRating').value.toLowerCase();
-      const filterIMDBVotes = document.getElementById('filterIMDBVotes').value.toLowerCase();
-      const filterGenres = document.getElementById('filterGenres').value.toLowerCase();
-      const filterAudienceScore = document.getElementById('filterAudienceScore').value.toLowerCase();
-      const filterCriticScore = document.getElementById('filterCriticScore').value.toLowerCase();
-      const filterCriticsReviews = document.getElementById('filterCriticsReviews').value.toLowerCase();
-      const filterAudienceReviews = document.getElementById('filterAudienceReviews').value.toLowerCase();
-      const filterStreamingPlatforms = document.getElementById('filterStreamingPlatforms').value.toLowerCase();
-
-      const filteredData = parsedData.filter(movie => {
-        return (
-          movie.Title.toLowerCase().includes(filterTitle) &&
-          (filterIMDBRating === '' || movie['IMDB rating'].toLowerCase().includes(filterIMDBRating)) &&
-          (filterIMDBVotes === '' || movie['IMDB votes'].toLowerCase().includes(filterIMDBVotes)) &&
-          movie.Genres.toLowerCase().includes(filterGenres) &&
-          (filterAudienceScore === '' || movie['Audience score %'].toLowerCase().includes(filterAudienceScore)) &&
-          (filterCriticScore === '' || movie['Critic score %'].toLowerCase().includes(filterCriticScore)) &&
-          (filterCriticsReviews === '' || movie['Critic reviews'].toLowerCase().includes(filterCriticsReviews)) &&
-          (filterAudienceReviews === '' || movie['Audience reviews'].toLowerCase().includes(filterAudienceReviews)) &&
-          movie['Streaming platforms'].toLowerCase().includes(filterStreamingPlatforms)
-        );
-      });
-
-      if (filteredData.length > 0) {
-        const randomIndex = Math.floor(Math.random() * filteredData.length);
-        const randomMovie = filteredData[randomIndex];
-        let movieInfo = 'Random Filtered Movie:\n\n';
-        headers.forEach(header => {
-          movieInfo += `${header}: ${randomMovie[header]}\n`;
-        });
-        alert(movieInfo);
-      } else {
-        alert('No movies match the filter criteria.');
-      }
-    });
   })
   .catch(error => console.error('Error fetching CSV:', error));
 </script>
