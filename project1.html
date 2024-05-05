@@ -123,26 +123,26 @@
   <label for="filterTitle" class="filter-label">Title:</label>
   <input type="text" id="filterTitle" class="filter-input" placeholder="Filter by Title">
   
-  <label for="filterIMDBRating" class="filter-label">IMDB Rating:</label>
-  <input type="text" id="filterIMDBRating" class="filter-input" placeholder="Filter by IMDB Rating">
+  <label for="filterIMDBRating" class="filter-label">IMDB Rating (Above):</label>
+  <input type="number" id="filterIMDBRating" class="filter-input" placeholder="Filter by IMDB Rating">
 
-  <label for="filterIMDBVotes" class="filter-label">IMDB Votes:</label>
-  <input type="text" id="filterIMDBVotes" class="filter-input" placeholder="Filter by IMDB Votes">
+  <label for="filterIMDBVotes" class="filter-label">IMDB Votes (Above):</label>
+  <input type="number" id="filterIMDBVotes" class="filter-input" placeholder="Filter by IMDB Votes">
 
   <label for="filterGenres" class="filter-label">Genres:</label>
   <input type="text" id="filterGenres" class="filter-input" placeholder="Filter by Genres">
 
-  <label for="filterAudienceScore" class="filter-label">Audience Score:</label>
-  <input type="text" id="filterAudienceScore" class="filter-input" placeholder="Filter by Audience Score">
+  <label for="filterAudienceScore" class="filter-label">Audience Score (Above):</label>
+  <input type="number" id="filterAudienceScore" class="filter-input" placeholder="Filter by Audience Score">
 
-  <label for="filterCriticScore" class="filter-label">Critic Score:</label>
-  <input type="text" id="filterCriticScore" class="filter-input" placeholder="Filter by Critic Score">
+  <label for="filterCriticScore" class="filter-label">Critic Score (Above):</label>
+  <input type="number" id="filterCriticScore" class="filter-input" placeholder="Filter by Critic Score">
 
-  <label for="filterCriticsReviews" class="filter-label">Critics Reviews:</label>
-  <input type="text" id="filterCriticsReviews" class="filter-input" placeholder="Filter by Critics Reviews">
+  <label for="filterCriticsReviews" class="filter-label">Critics Reviews (Above):</label>
+  <input type="number" id="filterCriticsReviews" class="filter-input" placeholder="Filter by Critics Reviews">
 
-  <label for="filterAudienceReviews" class="filter-label">Audience Reviews:</label>
-  <input type="text" id="filterAudienceReviews" class="filter-input" placeholder="Filter by Audience Reviews">
+  <label for="filterAudienceReviews" class="filter-label">Audience Reviews (Above):</label>
+  <input type="number" id="filterAudienceReviews" class="filter-input" placeholder="Filter by Audience Reviews">
 
   <label for="filterStreamingPlatforms" class="filter-label">Streaming Platforms:</label>
   <input type="text" id="filterStreamingPlatforms" class="filter-input" placeholder="Filter by Streaming Platforms">
@@ -234,8 +234,13 @@ fetch('data.csv')
     const randomFilteredButton = document.getElementById('randomFilteredButton');
     randomFilteredButton.addEventListener('click', function() {
       const filteredData = parsedData.filter(movie => {
-        return filterInputs.some((input, index) => {
-          return input.value && movie[headers[index]].toLowerCase().includes(input.value.toLowerCase());
+        return filterInputs.every((input, index) => {
+          if (input.value && (index === 1 || index === 2 || index === 4 || index === 5 || index === 6)) {
+            return parseFloat(movie[headers[index]]) >= parseFloat(input.value);
+          } else if (input.value && index !== 3 && index !== 7 && index !== 8) {
+            return movie[headers[index]].toLowerCase().includes(input.value.toLowerCase());
+          }
+          return true;
         });
       });
 
