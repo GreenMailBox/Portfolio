@@ -5,6 +5,82 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CSV to HTML</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+  }
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #333;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  th, td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  th {
+    background: linear-gradient(45deg, #4CAF50, #64B5F6);
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  td {
+    font-size: 14px;
+    color: #555;
+  }
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  tr:hover {
+    background-color: #f0f0f0;
+  }
+  @media only screen and (max-width: 600px) {
+    table {
+      border: 0;
+    }
+    table thead {
+      display: none;
+    }
+    table tr {
+      border-bottom: 2px solid #ddd;
+      display: block;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    table td {
+      border-bottom: none;
+      display: block;
+      text-align: right;
+      background-color: transparent;
+      padding-left: 40%;
+      position: relative;
+    }
+    table td:before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 40%;
+      padding-left: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+  }
+</style>
 </head>
 <body>
 
@@ -38,6 +114,7 @@ fetch('data.csv')
       headers.forEach(header => {
         const cell = document.createElement('td');
         cell.textContent = rowData[header];
+        cell.setAttribute('data-label', header);
         row.appendChild(cell);
       });
       table.appendChild(row);
