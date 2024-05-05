@@ -294,53 +294,52 @@ fetch('data.csv')
         paginationContainer.appendChild(goButton);
       }
     }
-
     // Add search button functionality
-    const searchButton = document.getElementById('searchButton');
-    searchButton.addEventListener('click', function() {
-      try {
-        console.log('Search button clicked');
-        // Filter movies based on input criteria
-        const filteredData = parsedData.filter(movie => {
-          const filterTitle = document.getElementById('filterTitle').value.toLowerCase();
-          const filterIMDBRating = document.getElementById('filterIMDBRating').value;
-          const filterIMDBVotes = document.getElementById('filterIMDBVotes').value;
-          const filterGenres = document.getElementById('filterGenres').value.toLowerCase();
-          const filterAudienceScore = document.getElementById('filterAudienceScore').value;
-          const filterCriticScore = document.getElementById('filterCriticScore').value;
-          const filterCriticsReviews = document.getElementById('filterCriticsReviews').value;
-          const filterAudienceReviews = document.getElementById('filterAudienceReviews').value;
-          const filterStreamingPlatforms = document.getElementById('filterStreamingPlatforms').value.toLowerCase();
-
-          return (movie['Title'].toLowerCase().includes(filterTitle) ||
-                  movie['IMDB rating'] >= filterIMDBRating ||
-                  movie['IMDB votes'] >= filterIMDBVotes ||
-                  movie['Genres'].toLowerCase().includes(filterGenres) ||
-                  movie['Audience Score'] >= filterAudienceScore ||
-                  movie['Critic Score'] >= filterCriticScore ||
-                  movie['Critics Reviews'] >= filterCriticsReviews ||
-                  movie['Audience Reviews'] >= filterAudienceReviews ||
-                  movie['Streaming Platforms'].toLowerCase().includes(filterStreamingPlatforms));
-        });
-
-        console.log('Filtered data:', filteredData);
-
-        // Calculate total number of pages after filtering
-        const totalPagesAfterFiltering = Math.ceil(filteredData.length / moviesPerPage);
-
-        // Render movies for the current page after filtering
-        renderMovies();
-
-        // Render pagination buttons after filtering
-        renderPagination(totalPagesAfterFiltering);
-      } catch (error) {
-        console.error('Error filtering movies:', error);
-        alert('An error occurred while filtering movies. Please try again.');
-      }
+const searchButton = document.getElementById('searchButton');
+searchButton.addEventListener('click', function() {
+  try {
+    console.log('Search button clicked');
+    // Log filter values
+    const filterTitle = document.getElementById('filterTitle').value.toLowerCase();
+    const filterIMDBRating = document.getElementById('filterIMDBRating').value;
+    const filterIMDBVotes = document.getElementById('filterIMDBVotes').value;
+    const filterGenres = document.getElementById('filterGenres').value.toLowerCase();
+    const filterAudienceScore = document.getElementById('filterAudienceScore').value;
+    const filterCriticScore = document.getElementById('filterCriticScore').value;
+    const filterCriticsReviews = document.getElementById('filterCriticsReviews').value;
+    const filterAudienceReviews = document.getElementById('filterAudienceReviews').value;
+    const filterStreamingPlatforms = document.getElementById('filterStreamingPlatforms').value.toLowerCase();
+    console.log('Filter values:', filterTitle, filterIMDBRating, filterIMDBVotes, filterGenres, filterAudienceScore, filterCriticScore, filterCriticsReviews, filterAudienceReviews, filterStreamingPlatforms);
+    
+    // Filter movies based on input criteria
+    const filteredData = parsedData.filter(movie => {
+      return (movie['Title'].toLowerCase().includes(filterTitle) ||
+              movie['IMDB rating'] >= filterIMDBRating ||
+              movie['IMDB votes'] >= filterIMDBVotes ||
+              movie['Genres'].toLowerCase().includes(filterGenres) ||
+              movie['Audience Score'] >= filterAudienceScore ||
+              movie['Critic Score'] >= filterCriticScore ||
+              movie['Critics Reviews'] >= filterCriticsReviews ||
+              movie['Audience Reviews'] >= filterAudienceReviews ||
+              movie['Streaming Platforms'].toLowerCase().includes(filterStreamingPlatforms));
     });
-  })
-  .catch(error => console.error('Error fetching CSV:', error));
-</script>
+
+    console.log('Filtered data:', filteredData);
+
+    // Calculate total number of pages after filtering
+    const totalPagesAfterFiltering = Math.ceil(filteredData.length / moviesPerPage);
+
+    // Render movies for the current page after filtering
+    renderMovies();
+
+    // Render pagination buttons after filtering
+    renderPagination(totalPagesAfterFiltering);
+  } catch (error) {
+    console.error('Error filtering movies:', error);
+    alert('An error occurred while filtering movies. Please try again.');
+  }
+});
+
 
 </body>
 </html>
