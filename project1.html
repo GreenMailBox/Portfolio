@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CSV to HTML</title>
+<title>JOSH'S Horror Script</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <style>
   body {
@@ -134,7 +134,7 @@
 </head>
 <body>
 
-<h1>Horror Movie Recommendation</h1>
+<h1>Horror Movie Test</h1>
 
 <div>
   <label for="filterTitle" class="filter-label">Title:</label>
@@ -253,12 +253,12 @@ function filterMovies() {
       (filterTitle === '' || movie.Title.toLowerCase().includes(filterTitle)) &&
       (isNaN(filterIMDBRating) || parseFloat(movie['IMDB rating']) >= filterIMDBRating) &&
       (isNaN(filterIMDBVotes) || parseFloat(movie['IMDB votes']) >= filterIMDBVotes) &&
-      (filterGenres === '' || movie.Genres.toLowerCase().includes(filterGenres)) &&
+      (filterGenres === '' || (movie.Genres && movie.Genres.toLowerCase().includes(filterGenres))) &&
       (isNaN(filterAudienceScore) || parseFloat(movie['Audience Score']) >= filterAudienceScore) &&
       (isNaN(filterCriticScore) || parseFloat(movie['Critic Score']) >= filterCriticScore) &&
       (isNaN(filterCriticsReviews) || parseFloat(movie['Critics Reviews']) >= filterCriticsReviews) &&
       (isNaN(filterAudienceReviews) || parseFloat(movie['Audience Reviews']) >= filterAudienceReviews) &&
-      (filterStreamingPlatforms === '' || movie['Streaming Platforms'].toLowerCase().includes(filterStreamingPlatforms))
+      (filterStreamingPlatforms === '' || (movie['Streaming Platforms'] && movie['Streaming Platforms'].toLowerCase().includes(filterStreamingPlatforms)))
     );
   });
 
