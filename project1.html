@@ -308,13 +308,13 @@ fetch('data.csv')
       const filteredData = parsedData.filter(movie => {
         return (
           movie.Title.toLowerCase().includes(filterTitle) &&
-          movie['IMDB rating'].toLowerCase().includes(filterIMDBRating) &&
-          movie['IMDB votes'].toLowerCase().includes(filterIMDBVotes) &&
+          (filterIMDBRating === '' || movie['IMDB rating'].toLowerCase().includes(filterIMDBRating)) &&
+          (filterIMDBVotes === '' || movie['IMDB votes'].toLowerCase().includes(filterIMDBVotes)) &&
           movie.Genres.toLowerCase().includes(filterGenres) &&
-          movie['Audience score %'].toLowerCase().includes(filterAudienceScore) &&
-          movie['Critic score %'].toLowerCase().includes(filterCriticScore) &&
-          movie['Critic reviews'].toLowerCase().includes(filterCriticsReviews) &&
-          movie['Audience reviews'].toLowerCase().includes(filterAudienceReviews) &&
+          (filterAudienceScore === '' || movie['Audience score %'].toLowerCase().includes(filterAudienceScore)) &&
+          (filterCriticScore === '' || movie['Critic score %'].toLowerCase().includes(filterCriticScore)) &&
+          (filterCriticsReviews === '' || movie['Critic reviews'].toLowerCase().includes(filterCriticsReviews)) &&
+          (filterAudienceReviews === '' || movie['Audience reviews'].toLowerCase().includes(filterAudienceReviews)) &&
           movie['Streaming platforms'].toLowerCase().includes(filterStreamingPlatforms)
         );
       });
