@@ -80,15 +80,43 @@
       text-transform: uppercase;
     }
   }
+  .filter-input {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  .random-button {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  .random-button:hover {
+    background-color: #0056b3;
+  }
 </style>
 </head>
 <body>
 
 <h1>CSV to HTML Example</h1>
 
+<input type="text" id="filterInput" class="filter-input" placeholder="Filter by Title">
+
 <table id="csvTable">
   <!-- Table content will be inserted here -->
 </table>
+
+<button id="randomButton" class="random-button">Random Movie</button>
 
 <script>
 // Fetch the CSV file
@@ -118,6 +146,35 @@ fetch('data.csv')
         row.appendChild(cell);
       });
       table.appendChild(row);
+    });
+
+    // Add filtering functionality
+    const filterInput = document.getElementById('filterInput');
+    filterInput.addEventListener('input', function() {
+      const filterValue = this.value.toLowerCase();
+      const rows = table.querySelectorAll('tr');
+      rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        let found = false;
+        cells.forEach(cell => {
+          if (cell.textContent.toLowerCase().includes(filterValue)) {
+            found = true;
+          }
+        });
+        if (found) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+
+    // Add random button functionality
+    const randomButton = document.getElementById('randomButton');
+    randomButton.addEventListener('click', function() {
+      const randomIndex = Math.floor(Math.random() * parsedData.length);
+      const randomMovie = parsedData[randomIndex];
+      alert('Random Movie:\n\nTitle: ' + randomMovie.Title + '\nIMDB Rating: ' + randomMovie['IMDB rating'] + '\nIMDB Votes: ' + randomMovie['IMDB votes']);
     });
   })
   .catch(error => console.error('Error fetching CSV:', error));
