@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JOSH'S Horror Script</title>
+<title>Horror Movie Searcher</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <style>
   body {
@@ -134,7 +134,7 @@
 </head>
 <body>
 
-<h1>Horror Movie Test</h1>
+<h1>Horror Movie Recommendation</h1>
 
 <div>
   <label for="filterTitle" class="filter-label">Title:</label>
@@ -171,15 +171,13 @@
   <!-- Table content will be inserted here -->
 </table>
 
-<div class="pagination" id="pagination">
-  <!-- Pagination buttons will be inserted here -->
-</div>
+<div id="pagination" class="pagination"></div>
 
 <script>
-// Declare variables for pagination
-let currentPage = 1;
-const resultsPerPage = 10; // Change this value as needed
-let filteredData = [];
+const resultsPerPage = 10; // Number of results per page
+let currentPage = 1; // Current page number
+let parsedData; // Parsed CSV data
+let filteredData; // Filtered data based on user input
 
 // Function to render movies based on filtered data and current page
 function renderMovies() {
@@ -189,6 +187,17 @@ function renderMovies() {
 
   const table = document.getElementById('csvTable');
   table.innerHTML = ''; // Clear existing table content
+  
+  // Create header row
+  const headerRow = document.createElement('tr');
+  Object.keys(paginatedData[0]).forEach(header => {
+    const th = document.createElement('th');
+    th.textContent = header;
+    headerRow.appendChild(th);
+  });
+  table.appendChild(headerRow);
+
+  // Populate data rows
   paginatedData.forEach(rowData => {
     const row = document.createElement('tr');
     Object.values(rowData).forEach(value => {
@@ -271,7 +280,6 @@ const searchButton = document.getElementById('searchButton');
 searchButton.addEventListener('click', filterMovies);
 
 // Fetch the CSV file
-let parsedData;
 fetch('data.csv')
   .then(response => response.text())
   .then(data => {
