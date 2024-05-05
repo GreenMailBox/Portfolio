@@ -203,6 +203,81 @@ let parsedData; // Declare parsedData variable globally
 let currentPage = 1;
 const moviesPerPage = 10;
 
+// Function to render movies for the current page
+function renderMovies(filteredData) {
+  const table = document.getElementById('csvTable');
+  table.innerHTML = ''; // Clear existing table content
+  const startIndex = (currentPage - 1) * moviesPerPage;
+  const endIndex = Math.min(startIndex + moviesPerPage, filteredData.length);
+  for (let i = startIndex; i < endIndex; i++) {
+    const rowData = filteredData[i];
+    const row = document.createElement('tr');
+    headers.forEach(header => {
+      const cell = document.createElement('td');
+      cell.textContent = rowData[header];
+      cell.setAttribute('data-label', header);
+      row.appendChild(cell);
+    });
+    table.appendChild(row);
+  }
+}
+
+// Function to render pagination buttons
+function renderPagination(totalPages) {
+  const paginationContainer = document.getElementById('pagination');
+  paginationContainer.innerHTML = ''; // Clear existing pagination buttons
+  if (totalPages > 1) {
+    const firstButton = document.createElement('button');
+    firstButton.textContent = 'First';
+    firstButton.classList.add('page-button');
+    firstButton.disabled = currentPage === 1;
+    firstButton.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage = 1;
+        renderMovies(filteredData);
+        renderPagination(totalPages);
+      }
+    });
+    paginationContainer.appendChild(firstButton);
+
+    const lastButton = document.createElement('button');
+    lastButton.textContent = 'Last';
+    lastButton.classList.add('page-button');
+    lastButton.disabled = currentPage === totalPages;
+    lastButton.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage = totalPages;
+        renderMovies(filteredData);
+        renderPagination(totalPages);
+      }
+    });
+    paginationContainer.appendChild(lastButton);
+
+    const pageInput = document.createElement('input');
+    pageInput.type = 'number';
+    pageInput.min = 1;
+    pageInput.max = totalPages;
+    pageInput.value = currentPage;
+    pageInput.classList.add('page-input');
+    paginationContainer.appendChild(pageInput);
+
+    const goButton = document.createElement('button');
+    goButton.textContent = 'Go';
+    goButton.classList.add('page-button');
+    goButton.addEventListener('click', () => {
+      const pageNumber = parseInt(pageInput.value, 10);
+      if (pageNumber >= 1 && pageNumber <= totalPages) {
+        currentPage = pageNumber;
+        renderMovies(filteredData);
+        renderPagination(totalPages);
+      } else {
+        alert('Invalid page number.');
+      }
+    });
+    paginationContainer.appendChild(goButton);
+  }
+}
+
 // Fetch the CSV file
 fetch('data.csv')
   .then(response => response.text())
@@ -210,138 +285,50 @@ fetch('data.csv')
     // Parse CSV
     parsedData = Papa.parse(data, { header: true }).data;
 
-    // Calculate total number of pages
-    const totalPages = Math.ceil(parsedData.length / moviesPerPage);
-
-    // Render movies for the current page
-    renderMovies();
-
-    // Render pagination buttons
-    renderPagination(totalPages);
-
-    // Function to render movies for the current page
-    function renderMovies() {
-      const table = document.getElementById('csvTable');
-      table.innerHTML = ''; // Clear existing table content
-      headers = Object.keys(parsedData[0]); // Assign headers here
-      const startIndex = (currentPage - 1) * moviesPerPage;
-      const endIndex = Math.min(startIndex + moviesPerPage, parsedData.length);
-      for (let i = startIndex; i < endIndex; i++) {
-        const rowData = parsedData[i];
-        const row = document.createElement('tr');
-        headers.forEach(header => {
-          const cell = document.createElement('td');
-          cell.textContent = rowData[header];
-          cell.setAttribute('data-label', header);
-          row.appendChild(cell);
-        });
-        table.appendChild(row);
-      }
+    // Function to filter movies based on input criteria
+    function filterMovies() {
+      const filterTitle = document.getElementById('filterTitle').value.toLowerCase();
+      const filterIMDBRating = document.getElementById('filterIMDBRating').value;
+      const filterIMDBVotes = document.getElementById('filterIMDBVotes').value;
+      const filterGenres = document.getElementById('filterGenres').value.toLowerCase();
+      const filterAudienceScore = document.getElementById('filterAudienceScore').value;
+      const filterCriticScore = document.getElementById('filterCriticScore').value;
+      const filterCriticsReviews = document.getElementById('filterCriticsReviews').value;
+      const filterAudienceReviews = document.getElementById('filterAudienceReviews').value;
+      const filterStreamingPlatforms = document.getElementById('filterStreamingPlatforms').value.toLowerCase();
+      return parsedData.filter(movie => (
+        (filterTitle === '' || movie['Title'].toLowerCase().includes(filterTitle)) &&
+        (filterIMDBRating === '' || parseFloat(movie['IMDB rating']) >= parseFloat(filterIMDBRating)) &&
+        (filterIMDBVotes === '' || parseFloat(movie['IMDB votes']) >= parseFloat(filterIMDBVotes)) &&
+        (filterGenres === '' || movie['Genres'].toLowerCase().includes(filterGenres)) &&
+        (filterAudienceScore === '' || parseFloat(movie['Audience Score']) >= parseFloat(filterAudienceScore)) &&
+        (filterCriticScore === '' || parseFloat(movie['Critic Score']) >= parseFloat(filterCriticScore)) &&
+        (filterCriticsReviews === '' || parseFloat(movie['Critics Reviews']) >= parseFloat(filterCriticsReviews)) &&
+        (filterAudienceReviews === '' || parseFloat(movie['Audience Reviews']) >= parseFloat(filterAudienceReviews)) &&
+        (filterStreamingPlatforms === '' || movie['Streaming Platforms'].toLowerCase().includes(filterStreamingPlatforms))
+      ));
     }
 
-    // Function to render pagination buttons
-    function renderPagination(totalPages) {
-      const paginationContainer = document.getElementById('pagination');
-      paginationContainer.innerHTML = ''; // Clear existing pagination buttons
-      if (totalPages > 1) {
-        const firstButton = document.createElement('button');
-        firstButton.textContent = 'First';
-        firstButton.classList.add('page-button');
-        firstButton.disabled = currentPage === 1;
-        firstButton.addEventListener('click', () => {
-          if (currentPage > 1) {
-            currentPage = 1;
-            renderMovies();
-            renderPagination(totalPages);
-          }
-        });
-        paginationContainer.appendChild(firstButton);
-
-        const lastButton = document.createElement('button');
-        lastButton.textContent = 'Last';
-        lastButton.classList.add('page-button');
-        lastButton.disabled = currentPage === totalPages;
-        lastButton.addEventListener('click', () => {
-          if (currentPage < totalPages) {
-            currentPage = totalPages;
-            renderMovies();
-            renderPagination(totalPages);
-          }
-        });
-        paginationContainer.appendChild(lastButton);
-
-        const pageInput = document.createElement('input');
-        pageInput.type = 'number';
-        pageInput.min = 1;
-        pageInput.max = totalPages;
-        pageInput.value = currentPage;
-        pageInput.classList.add('page-input');
-        paginationContainer.appendChild(pageInput);
-
-        const goButton = document.createElement('button');
-        goButton.textContent = 'Go';
-        goButton.classList.add('page-button');
-        goButton.addEventListener('click', () => {
-          const pageNumber = parseInt(pageInput.value, 10);
-          if (pageNumber >= 1 && pageNumber <= totalPages) {
-            currentPage = pageNumber;
-            renderMovies();
-            renderPagination(totalPages);
-          } else {
-            alert('Invalid page number.');
-          }
-        });
-        paginationContainer.appendChild(goButton);
-      }
-    }
-
-    // Add search button functionality
+    // Function to handle search button click
     const searchButton = document.getElementById('searchButton');
-    searchButton.addEventListener('click', function() {
+    searchButton.addEventListener('click', () => {
       try {
         console.log('Search button clicked');
-        // Log filter values
-        const filterTitle = document.getElementById('filterTitle').value.toLowerCase();
-        const filterIMDBRating = document.getElementById('filterIMDBRating').value;
-        const filterIMDBVotes = document.getElementById('filterIMDBVotes').value;
-        const filterGenres = document.getElementById('filterGenres').value.toLowerCase();
-        const filterAudienceScore = document.getElementById('filterAudienceScore').value;
-        const filterCriticScore = document.getElementById('filterCriticScore').value;
-        const filterCriticsReviews = document.getElementById('filterCriticsReviews').value;
-        const filterAudienceReviews = document.getElementById('filterAudienceReviews').value;
-        const filterStreamingPlatforms = document.getElementById('filterStreamingPlatforms').value.toLowerCase();
-        console.log('Filter values:', filterTitle, filterIMDBRating, filterIMDBVotes, filterGenres, filterAudienceScore, filterCriticScore, filterCriticsReviews, filterAudienceReviews, filterStreamingPlatforms);
-        
-        // Filter movies based on input criteria
-        const filteredData = parsedData.filter(movie => {
-          return (
-            (filterTitle === '' || movie['Title'].toLowerCase().includes(filterTitle)) &&
-            (filterIMDBRating === '' || movie['IMDB rating'] >= parseFloat(filterIMDBRating)) &&
-            (filterIMDBVotes === '' || movie['IMDB votes'] >= parseFloat(filterIMDBVotes)) &&
-            (filterGenres === '' || movie['Genres'].toLowerCase().includes(filterGenres)) &&
-            (filterAudienceScore === '' || movie['Audience Score'] >= parseFloat(filterAudienceScore)) &&
-            (filterCriticScore === '' || movie['Critic Score'] >= parseFloat(filterCriticScore)) &&
-            (filterCriticsReviews === '' || movie['Critics Reviews'] >= parseFloat(filterCriticsReviews)) &&
-            (filterAudienceReviews === '' || movie['Audience Reviews'] >= parseFloat(filterAudienceReviews)) &&
-            (filterStreamingPlatforms === '' || movie['Streaming Platforms'].toLowerCase().includes(filterStreamingPlatforms))
-          );
-        });
-
+        const filteredData = filterMovies();
         console.log('Filtered data:', filteredData);
-
-        // Calculate total number of pages after filtering
         const totalPagesAfterFiltering = Math.ceil(filteredData.length / moviesPerPage);
-
-        // Render movies for the current page after filtering
-        renderMovies();
-
-        // Render pagination buttons after filtering
+        renderMovies(filteredData);
         renderPagination(totalPagesAfterFiltering);
       } catch (error) {
         console.error('Error filtering movies:', error);
         alert('An error occurred while filtering movies. Please try again.');
       }
     });
+
+    // Initial render
+    const totalPages = Math.ceil(parsedData.length / moviesPerPage);
+    renderMovies(parsedData);
+    renderPagination(totalPages);
   })
   .catch(error => console.error('Error fetching CSV:', error));
 </script>
