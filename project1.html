@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NUT</title>
+<title>CSV to HTML</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <style>
   body {
@@ -299,6 +299,7 @@ fetch('data.csv')
     const searchButton = document.getElementById('searchButton');
     searchButton.addEventListener('click', function() {
       try {
+        console.log('Search button clicked');
         // Filter movies based on input criteria
         const filteredData = parsedData.filter(movie => {
           const filterTitle = document.getElementById('filterTitle').value.toLowerCase();
@@ -321,6 +322,8 @@ fetch('data.csv')
                   movie['Audience Reviews'] >= filterAudienceReviews ||
                   movie['Streaming Platforms'].toLowerCase().includes(filterStreamingPlatforms));
         });
+
+        console.log('Filtered data:', filteredData);
 
         // Calculate total number of pages after filtering
         const totalPagesAfterFiltering = Math.ceil(filteredData.length / moviesPerPage);
