@@ -314,15 +314,17 @@ fetch('data.csv')
         
         // Filter movies based on input criteria
         const filteredData = parsedData.filter(movie => {
-          return (movie['Title'].toLowerCase().includes(filterTitle) ||
-                  movie['IMDB rating'] >= filterIMDBRating ||
-                  movie['IMDB votes'] >= filterIMDBVotes ||
-                  movie['Genres'].toLowerCase().includes(filterGenres) ||
-                  movie['Audience Score'] >= filterAudienceScore ||
-                  movie['Critic Score'] >= filterCriticScore ||
-                  movie['Critics Reviews'] >= filterCriticsReviews ||
-                  movie['Audience Reviews'] >= filterAudienceReviews ||
-                  movie['Streaming Platforms'].toLowerCase().includes(filterStreamingPlatforms));
+          return (
+            (filterTitle === '' || movie['Title'].toLowerCase().includes(filterTitle)) &&
+            (filterIMDBRating === '' || movie['IMDB rating'] >= parseFloat(filterIMDBRating)) &&
+            (filterIMDBVotes === '' || movie['IMDB votes'] >= parseFloat(filterIMDBVotes)) &&
+            (filterGenres === '' || movie['Genres'].toLowerCase().includes(filterGenres)) &&
+            (filterAudienceScore === '' || movie['Audience Score'] >= parseFloat(filterAudienceScore)) &&
+            (filterCriticScore === '' || movie['Critic Score'] >= parseFloat(filterCriticScore)) &&
+            (filterCriticsReviews === '' || movie['Critics Reviews'] >= parseFloat(filterCriticsReviews)) &&
+            (filterAudienceReviews === '' || movie['Audience Reviews'] >= parseFloat(filterAudienceReviews)) &&
+            (filterStreamingPlatforms === '' || movie['Streaming Platforms'].toLowerCase().includes(filterStreamingPlatforms))
+          );
         });
 
         console.log('Filtered data:', filteredData);
