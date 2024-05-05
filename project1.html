@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Horror Movie Searcher</title>
+<title>Horror Movie Recommendation</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 <style>
   body {
@@ -60,22 +60,21 @@
       border-radius: 8px;
       overflow: hidden;
     }
-    table tbody td {
-      border-bottom: none;
+    table tbody th, table tbody td {
       display: block;
-      text-align: right;
-      background-color: transparent;
-      padding-left: 40%;
-      position: relative;
+      text-align: left;
+      background-color: #007bff;
+      color: white;
+      padding: 8px;
+    }
+    table tbody th {
+      font-weight: bold;
     }
     table tbody td:before {
       content: attr(data-label);
-      position: absolute;
-      left: 0;
-      width: 40%;
-      padding-left: 16px;
       font-weight: bold;
       text-transform: uppercase;
+      margin-right: 5px;
     }
   }
   .filter-input {
@@ -168,22 +167,12 @@ function renderMovies() {
   const table = document.getElementById('csvTable');
   table.innerHTML = ''; // Clear existing table content
   
-  // Create header row
-  const headerRow = document.createElement('tr');
-  Object.keys(paginatedData[0]).forEach(header => {
-    const th = document.createElement('th');
-    th.textContent = header;
-    headerRow.appendChild(th);
-  });
-  table.appendChild(headerRow);
-
   // Populate data rows
   paginatedData.forEach(rowData => {
     const row = document.createElement('tr');
     Object.entries(rowData).forEach(([key, value]) => {
       const cell = document.createElement('td');
-      cell.textContent = value;
-      cell.setAttribute('data-label', key);
+      cell.textContent = `${key}: ${value}`;
       row.appendChild(cell);
     });
     table.appendChild(row);
