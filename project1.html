@@ -296,7 +296,28 @@ fetch('data.csv')
     randomFilteredButton.addEventListener('click', function() {
       // First, filter the data based on the current filter inputs
       const filterTitle = document.getElementById('filterTitle').value.toLowerCase();
-      const filteredData = parsedData.filter(movie => movie.Title.toLowerCase().includes(filterTitle));
+      const filterIMDBRating = document.getElementById('filterIMDBRating').value.toLowerCase();
+      const filterIMDBVotes = document.getElementById('filterIMDBVotes').value.toLowerCase();
+      const filterGenres = document.getElementById('filterGenres').value.toLowerCase();
+      const filterAudienceScore = document.getElementById('filterAudienceScore').value.toLowerCase();
+      const filterCriticScore = document.getElementById('filterCriticScore').value.toLowerCase();
+      const filterCriticsReviews = document.getElementById('filterCriticsReviews').value.toLowerCase();
+      const filterAudienceReviews = document.getElementById('filterAudienceReviews').value.toLowerCase();
+      const filterStreamingPlatforms = document.getElementById('filterStreamingPlatforms').value.toLowerCase();
+
+      const filteredData = parsedData.filter(movie => {
+        return (
+          movie.Title.toLowerCase().includes(filterTitle) &&
+          movie['IMDB rating'].toLowerCase().includes(filterIMDBRating) &&
+          movie['IMDB votes'].toLowerCase().includes(filterIMDBVotes) &&
+          movie.Genres.toLowerCase().includes(filterGenres) &&
+          movie['Audience score %'].toLowerCase().includes(filterAudienceScore) &&
+          movie['Critic score %'].toLowerCase().includes(filterCriticScore) &&
+          movie['Critic reviews'].toLowerCase().includes(filterCriticsReviews) &&
+          movie['Audience reviews'].toLowerCase().includes(filterAudienceReviews) &&
+          movie['Streaming platforms'].toLowerCase().includes(filterStreamingPlatforms)
+        );
+      });
 
       if (filteredData.length > 0) {
         const randomIndex = Math.floor(Math.random() * filteredData.length);
