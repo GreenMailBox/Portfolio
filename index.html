@@ -3,142 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>web development projects</title>
+    <title>Web Development Projects</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Professional styles with refined typography and polished color scheme */
+        /* General styles */
         body {
             font-family: 'Roboto', sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9; /* Light gray background */
-            color: #333; /* Dark text color */
-    
-            overflow-x: hidden; /* Hide horizontal scrollbar */
+            background-color: #f9f9f9;
+            color: #333;
+            overflow-x: hidden;
         }
+        h1, h2, h3 {
+            margin: 0;
+            color: #451f72;
+        }
+        p {
+            margin: 0;
+            line-height: 1.6;
+        }
+        a {
+            color: #6a0dad;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #ffdb58;
+        }
+        /* Header styles */
         header {
-            background-color: #451f72; /* Dark purple header background */
-            padding: 20px;
+            background-color: #451f72;
+            padding: 20px 0;
             text-align: center;
-            color: #fff; /* White text color */
+            color: #fff;
         }
+        /* Navigation styles */
         nav {
-            background-color: #6a0dad; /* Purple navigation background */
+            background-color: #6a0dad;
             padding: 10px 0;
             text-align: center;
         }
         nav a {
             color: #fff;
-            text-decoration: none;
             margin: 0 20px;
             font-size: 16px;
-            transition: color 0.3s ease; /* Smooth color transition on hover */
         }
-        nav a:hover {
-            color: #ffdb58; /* Yellow hover color */
-        }
+        /* Main content container */
         .container {
             max-width: 1200px;
             margin: 20px auto;
             padding: 0 20px;
-            position: relative; /* Position for border elements */
             display: flex;
             flex-direction: column;
         }
+        /* Main content area */
         .main-content {
             flex: 1;
+            margin-bottom: 20px;
         }
-        .sidebar {
-            background-color: #451f72; /* Dark purple sidebar background */
+        article {
+            background-color: #fff;
             padding: 20px;
-            border-radius: 10px; /* Rounded corners */
-            color: #fff; /* White text color */
-            position: relative; /* Position for border elements */
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        article h2 {
+            margin-bottom: 10px;
+        }
+        article p {
+            margin-bottom: 20px;
+        }
+        /* Sidebar styles */
+        .sidebar {
+            background-color: #451f72;
+            padding: 20px;
+            border-radius: 10px;
+            color: #fff;
             margin-top: 20px;
         }
-        .sidebar:before,
-        .sidebar:after {
-            content: '';
-            position: absolute;
-            background-color: #6a0dad; /* Purple border color */
-            width: 10px;
-            top: 0;
-            bottom: 0;
-            z-index: -1; /* Behind other elements */
-        }
-        .sidebar:before {
-            left: -10px; /* Left border */
-        }
-        .sidebar:after {
-            right: -10px; /* Right border */
-        }
         .sidebar h3 {
-            color: #ffdb58; /* Yellow heading color */
-            margin-top: 0; /* Remove default margin */
-            font-size: 20px;
+            margin-top: 0;
             margin-bottom: 10px;
+            font-size: 20px;
+            color: #ffdb58;
         }
         .sidebar ul {
             padding: 0;
-            list-style-type: none; /* Remove default list styles */
+            list-style-type: none;
         }
         .sidebar ul li {
             margin-bottom: 10px;
         }
         .sidebar ul li a {
             color: #fff;
-            text-decoration: none;
-            transition: color 0.3s ease; /* Smooth color transition on hover */
+            transition: color 0.3s ease;
         }
         .sidebar ul li a:hover {
-            color: #ffdb58; /* Yellow hover color */
+            color: #ffdb58;
         }
+        /* Footer styles */
         footer {
-            background-color: #451f72; /* Dark purple footer background */
+            background-color: #451f72;
             text-align: center;
             padding: 20px 0;
-            color: #fff; /* White text color */
+            color: #fff;
         }
-        article {
-            background-color: #fff; /* White background for projects */
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 10px; /* Rounded corners for projects */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
-        }
-        h2, h3 {
-            color: #451f72; /* Purple headings */
-            margin-top: 0; /* Remove default margin */
-        }
-        p {
-            margin-bottom: 20px;
-            line-height: 1.6; /* Slightly increased line height for readability */
-        }
-        article a {
-            color: #6a0dad; /* Purple link color */
-            text-decoration: none;
-            transition: color 0.3s ease; /* Smooth color transition on hover */
-        }
-        article a:hover {
-            color: #ffdb58; /* Yellow hover color */
-        }
+        /* Toggle sidebar button styles */
         .toggle-sidebar {
-            background-color: #6a0dad; /* Purple button background */
-            color: #fff; /* White button text color */
+            background-color: #6a0dad;
+            color: #fff;
             border: none;
             padding: 10px 20px;
-            border-radius: 5px; /* Rounded corners */
+            border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease; /* Smooth background color transition on hover */
+            transition: background-color 0.3s ease;
             font-size: 16px;
             margin-bottom: 20px;
         }
         .toggle-sidebar:hover {
-            background-color: #451f72; /* Dark purple hover color */
+            background-color: #451f72;
         }
         @media only screen and (min-width: 768px) {
-            /* Styles for tablets and desktops */
             .container {
                 flex-direction: row;
             }
@@ -151,23 +139,11 @@
                 margin-top: 0;
             }
         }
-        /* Additional styles for enhanced interactivity */
-        .project-preview {
-            cursor: pointer;
-            transition: transform 0.3s ease; /* Smooth transformation on hover */
-        }
-        .project-preview:hover {
-            transform: scale(1.05); /* Scale up on hover */
-        }
-        .error-message {
-            color: red;
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
     <header>
-        <h1>web development projects</h1>
+        <h1>Web Development Projects</h1>
     </header>
     <nav>
         <a href="#">Home</a>
@@ -233,25 +209,4 @@
                 <li><a href="timeline.html">Timeline</a></li>
                 <li><a href="#">Recent Project 3</a></li>
             </ul>
-            <h3>Games</h3>
-            <ul>
-                <li><a href="FloopyBIRB.html">FloopyBIRB</a></li>
-                <li><a href="maze.html">aMAZEing Game</a></li>
-                <li><a href="horror.html">horror</a></li>
-                <li><a href="flashlight.html">flashLight</a></li>
-            </ul>
-        </div>
-    </div>
-    <button class="toggle-sidebar" onclick="toggleSidebar()">Toggle Sidebar</button>
-    <footer>
-        <p>&copy; . All rights reserved.</p>
-    </footer>
-
-    <script>
-        function toggleSidebar() {
-            var sidebar = document.getElementById("sidebar");
-            sidebar.classList.toggle("active");
-        }
-    </script>
-</body>
-</html>
+            <h3
