@@ -178,7 +178,46 @@
         <div class="main-content">
             <!-- Daily projects section -->
             <section class="daily-projects">
-                <!-- JavaScript will dynamically generate projects here -->
+                <article>
+                    <h2><a href="Notes.html">Active Note Taking</a></h2>
+                    <p>...</p>
+                </article>
+                <article>
+                    <h2><a href="Ethical_Hacking.html">Ethical Hacking Article</a></h2>
+                    <p>...</p>
+                </article>
+                <article>
+                    <h2><a href="cheatsheet.html">Hacking CheatSheet</a></h2>
+                    <p>...</p>
+                </article>
+                <article>
+                    <h2><a href="task.html">Task Manager</a></h2>
+                    <p>...</p>
+                </article>
+                <article>
+                    <h2><a href="timeline.html">Timeline</a></h2>
+                    <p>...</p>
+                </article>
+                <article>
+                    <h2><a href="#">Recent Project 3</a></h2>
+                    <p>...</p>
+                </article>
+                <article>
+                    <h2><a href="FloopyBIRB.html">FloopyBIRB</a></h2>
+                    <p>...</p>
+                </article>
+                <article>
+                    <h2><a href="maze.html">aMAZEing Game</a></h2>
+                    <p>...</p>
+                </article>
+                <article>
+                    <h2><a href="horror.html">horror</a></h2>
+                    <p>...</p>
+                </article>
+                <article>
+                    <h2><a href="flashlight.html">flashLight</a></h2>
+                    <p>...</p>
+                </article>
             </section>
         </div>
         <div class="sidebar" id="sidebar">
@@ -189,7 +228,6 @@
                 <li><a href="cheatsheet.html">Hacking CheatSheet</a></li>
             </ul>
             <h3>HTML Projects</h3>
-            <!-- You can add recent projects dynamically using server-side scripting or JavaScript -->
             <ul>
                 <li><a href="task.html">Task Manager</a></li>
                 <li><a href="timeline.html">Timeline</a></li>
@@ -214,71 +252,6 @@
             var sidebar = document.getElementById("sidebar");
             sidebar.classList.toggle("active");
         }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var dailyProjects = document.querySelector(".daily-projects");
-            var projectIndex = 1;
-            var consecutiveErrors = 0;
-            var maxConsecutiveErrors = 3; // Maximum consecutive file not found errors allowed
-
-            // Generate projects until no more files are found
-            function generateProjects() {
-                if (consecutiveErrors >= maxConsecutiveErrors) {
-                    console.error(`Stopped generating projects due to ${maxConsecutiveErrors} consecutive file not found errors.`);
-                    return; // Stop generating projects
-                }
-
-                fetch(`project${projectIndex}.html`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`File not found: project${projectIndex}.html`);
-                        }
-                        return response.text();
-                    })
-                    .then(html => {
-                        var parser = new DOMParser();
-                        var doc = parser.parseFromString(html, 'text/html');
-                        var projectTitleElement = doc.querySelector('title');
-                        var projectSummaryElement = doc.querySelector('#summary');
-
-                        if (projectTitleElement && projectSummaryElement) {
-                            var projectTitle = projectTitleElement.innerText;
-                            var projectSummary = projectSummaryElement.innerText;
-
-                            var article = document.createElement("article");
-                            article.innerHTML = `
-                                <h2><a href="project${projectIndex}.html">${projectTitle}</a></h2>
-                                <p>${projectSummary}</p>
-                            `;
-                            dailyProjects.appendChild(article);
-                            projectIndex++;
-                            consecutiveErrors = 0; // Reset consecutive errors count
-                            generateProjects(); // Continue generating projects recursively
-                        } else {
-                            var errorMessage = document.createElement("p");
-                            errorMessage.classList.add("error-message");
-                            errorMessage.textContent = `Project ${projectIndex} title or summary not found`;
-                            dailyProjects.appendChild(errorMessage);
-                            projectIndex++;
-                            consecutiveErrors++; // Increment consecutive errors count
-                            generateProjects(); // Continue generating projects recursively
-                        }
-                    })
-                    .catch(error => {
-                        console.error(error.message);
-                        var errorMessage = document.createElement("p");
-                        errorMessage.classList.add("error-message");
-                        errorMessage.textContent = error.message;
-                        dailyProjects.appendChild(errorMessage);
-                        projectIndex++;
-                        consecutiveErrors++; // Increment consecutive errors count
-                        generateProjects(); // Continue generating projects recursively
-                    });
-            }
-
-            generateProjects(); // Start generating projects
-        });
     </script>
 </body>
 </html>
-
